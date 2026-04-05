@@ -1,14 +1,37 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { ADMIN_STATS, MONUMENTS } from "@/lib/data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Building2, Map, MessageSquare, Trash2, Edit2, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth";
+import { useMonuments } from "@/hooks/useMonuments";
+import { AddMonumentDialog } from "@/components/AddMonumentDialog";
 
-// A mock dashboard that shows different views based on a prop or state.
-// Since we don't have real auth, we'll use a local state to toggle for demonstration.
+// Auth-aware dashboard. Users must login to access personalized content.
 
 export default function Dashboard() {
-  const [isAdmin, setIsAdmin] = useState(true);
+  const { user } = useAuth();
+
+  if (!user) {
+    return (
+      <div className="container mx-auto px-4 py-24 min-h-screen text-center">
+        <h1 className="text-4xl font-serif font-bold text-foreground mb-4">Please sign in to continue</h1>
+        <p className="text-muted-foreground mb-8">Login or register to access your personalized dashboard and saved tours.</p>
+        <div className="flex justify-center gap-4">
+          <Link href="/login">
+            <Button className="rounded-full px-8" size="lg">Login</Button>
+          </Link>
+          <Link href="/register">
+            <Button variant="outline" className="rounded-full px-8" size="lg">Register</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Temporarily allowing all users to see the Admin view so you can test the Add Monument feature!
+  const isAdmin = user.role === "admin" || user.role === "enthusiast";
 
   return (
     <div className="container mx-auto px-4 py-24 min-h-screen">
@@ -21,14 +44,6 @@ export default function Dashboard() {
             {isAdmin ? 'Manage platform content and users.' : 'Track your explorations and saved heritage sites.'}
           </p>
         </div>
-        <Button 
-          variant={isAdmin ? "destructive" : "default"} 
-          onClick={() => setIsAdmin(!isAdmin)}
-          className="gap-2"
-        >
-          <ShieldAlert className="w-4 h-4" />
-          Toggle to {isAdmin ? 'Enthusiast' : 'Admin'} View
-        </Button>
       </div>
 
       {isAdmin ? <AdminView /> : <EnthusiastView />}
@@ -37,9 +52,10 @@ export default function Dashboard() {
 }
 
 function AdminView() {
+  const { data: monuments, isLoading } = useMonuments();
   const statCards = [
     { title: "Total Users", value: ADMIN_STATS.totalUsers.toLocaleString(), icon: Users, color: "text-blue-500" },
-    { title: "Monuments", value: ADMIN_STATS.totalMonuments, icon: Building2, color: "text-primary" },
+    { title: "Monuments", value: monuments?.length || ADMIN_STATS.totalMonuments, icon: Building2, color: "text-primary" },
     { title: "Active Virtual Tours", value: ADMIN_STATS.activeTours.toLocaleString(), icon: Map, color: "text-green-500" },
     { title: "Discussions", value: ADMIN_STATS.discussions.toLocaleString(), icon: MessageSquare, color: "text-accent" },
   ];
@@ -66,15 +82,17 @@ function AdminView() {
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle className="font-serif text-2xl">Manage Monuments</CardTitle>
-                <Button size="sm" className="bg-primary text-primary-foreground">Add New</Button>
+                <AddMonumentDialog>
+                  <Button size="sm" className="bg-primary text-primary-foreground">Add New</Button>
+                </AddMonumentDialog>
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {MONUMENTS.map(m => (
+                {isLoading ? <p>Loading...</p> : (monuments || []).map(m => (
                   <div key={m.id} className="flex items-center justify-between p-4 rounded-lg border border-border bg-background">
                     <div className="flex items-center gap-4">
-                      <img src={m.image} alt={m.name} className="w-16 h-12 object-cover rounded-md" />
+                      <img src={m.image || undefined} alt={m.name} className="w-16 h-12 object-cover rounded-md" />
                       <div>
                         <div className="font-semibold text-foreground">{m.name}</div>
                         <div className="text-sm text-muted-foreground">{m.location}</div>
@@ -90,7 +108,7 @@ function AdminView() {
             </CardContent>
           </Card>
         </div>
-        
+
         <div>
           <Card className="bg-card border-border h-full">
             <CardHeader>
@@ -98,11 +116,11 @@ function AdminView() {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {[1,2,3,4,5].map(i => (
+                {[1, 2, 3, 4, 5].map(i => (
                   <div key={i} className="flex gap-4">
                     <div className="w-2 h-2 mt-2 rounded-full bg-primary shrink-0" />
                     <div>
-                      <p className="text-sm text-foreground"><span className="font-semibold">User_{102+i}</span> joined as Cultural Enthusiast.</p>
+                      <p className="text-sm text-foreground"><span className="font-semibold">User_{102 + i}</span> joined as Cultural Enthusiast.</p>
                       <p className="text-xs text-muted-foreground mt-1">{i} hours ago</p>
                     </div>
                   </div>
@@ -117,6 +135,7 @@ function AdminView() {
 }
 
 function EnthusiastView() {
+  const { data: monuments } = useMonuments();
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="grid md:grid-cols-3 gap-6">
@@ -134,7 +153,7 @@ function EnthusiastView() {
             <p className="text-xs text-right mt-1 text-muted-foreground">300 XP to next level</p>
           </CardContent>
         </Card>
-        
+
         <Card className="bg-card border-border overflow-hidden md:col-span-2">
           <div className="h-2 bg-accent w-full" />
           <CardHeader>
@@ -142,9 +161,9 @@ function EnthusiastView() {
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 gap-4">
-              {MONUMENTS.slice(0,2).map(m => (
+              {(monuments || []).slice(0, 2).map(m => (
                 <div key={m.id} className="relative h-32 rounded-xl overflow-hidden group cursor-pointer">
-                  <img src={m.image} alt={m.name} className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105" />
+                  <img src={m.image || undefined} alt={m.name} className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105" />
                   <div className="absolute inset-0 bg-black/40" />
                   <div className="absolute bottom-0 left-0 p-4">
                     <h4 className="text-white font-bold">{m.name}</h4>

@@ -1,14 +1,15 @@
 import { Link, useLocation } from "wouter";
-import { Moon, Sun, Menu, Globe, User, ShieldAlert } from "lucide-react";
+import { Moon, Sun, Menu, Globe, User, ShieldAlert, LogOut, LogIn, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/lib/auth";
 
 export default function Navbar() {
   const [location] = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [isDark, setIsDark] = useState(false);
-  const [role, setRole] = useState<'admin' | 'enthusiast'>('enthusiast');
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,24 +62,41 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="hidden sm:flex items-center gap-2 border-primary/20 hover:bg-primary/10">
-                {role === 'admin' ? <ShieldAlert className="w-4 h-4" /> : <User className="w-4 h-4" />}
-                {role === 'admin' ? 'Admin' : 'Enthusiast'}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setRole('enthusiast')} className="cursor-pointer">
-                <User className="w-4 h-4 mr-2" />
-                Cultural Enthusiast
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setRole('admin')} className="cursor-pointer">
-                <ShieldAlert className="w-4 h-4 mr-2" />
-                Admin
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="hidden sm:flex items-center gap-2 border-primary/20 hover:bg-primary/10">
+                  <User className="w-4 h-4" />
+                  {user.username}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem className="cursor-pointer">
+                  <ShieldAlert className="w-4 h-4 mr-2" />
+                  {user.role === 'admin' ? 'Admin' : 'Enthusiast'}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={logout} className="cursor-pointer">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className="hidden md:flex items-center gap-2">
+              <Link href="/login">
+                <Button variant="outline" size="sm" className="border-primary/20 hover:bg-primary/10 gap-2">
+                  <LogIn className="w-4 h-4" />
+                  Login
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button variant="default" size="sm" className="gap-2">
+                  <PlusCircle className="w-4 h-4" />
+                  Register
+                </Button>
+              </Link>
+            </div>
+          )}
 
           <Button 
             variant="ghost" 

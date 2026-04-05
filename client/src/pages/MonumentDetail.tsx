@@ -1,5 +1,5 @@
 import { useParams } from "wouter";
-import { MONUMENTS } from "@/lib/data";
+import { useMonument } from "@/hooks/useMonuments";
 import { motion } from "framer-motion";
 import { MapPin, Calendar, Compass, Share2, BookmarkPlus, PlayCircle, Eye, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,9 +7,10 @@ import { Badge } from "@/components/ui/badge";
 
 export default function MonumentDetail() {
   const { id } = useParams();
-  const monument = MONUMENTS.find(m => m.id === id) || MONUMENTS[0];
+  const { data: monument, isLoading, error } = useMonument(id!);
 
-  if (!monument) return <div>Not Found</div>;
+  if (isLoading) return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+  if (error || !monument) return <div className="flex justify-center items-center min-h-screen">Not Found</div>;
 
   return (
     <div className="w-full pb-20 pt-20">
@@ -92,7 +93,7 @@ export default function MonumentDetail() {
             <div className="bg-card p-8 rounded-3xl border border-border shadow-sm">
               <h3 className="text-2xl font-serif font-bold mb-8 text-foreground">Historical Timeline</h3>
               <div className="space-y-8 relative before:absolute before:inset-0 before:ml-2 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
-                {monument.timeline.map((item, i) => (
+                {monument.timeline?.map((item, i) => (
                   <div key={i} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                     <div className="flex items-center justify-center w-5 h-5 rounded-full border-4 border-background bg-primary shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10" />
                     <div className="w-[calc(100%-2.5rem)] md:w-[calc(50%-1.5rem)] text-left md:group-odd:text-right p-4 bg-background rounded-lg border border-border">
@@ -111,7 +112,7 @@ export default function MonumentDetail() {
                 Did You Know?
               </h3>
               <ul className="space-y-4">
-                {monument.funFacts.map((fact, i) => (
+                {monument.funFacts?.map((fact, i) => (
                   <li key={i} className="flex items-start">
                     <div className="min-w-2 mt-2 mr-3 h-2 rounded-full bg-accent" />
                     <span className="text-muted-foreground">{fact}</span>

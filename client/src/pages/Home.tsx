@@ -1,11 +1,17 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { MONUMENTS } from "@/lib/data";
+import { useMonuments } from "@/hooks/useMonuments";
 import { Link } from "wouter";
+import { useAuth } from "@/lib/auth";
 import { ArrowRight, MapPin, Sparkles, BookOpen } from "lucide-react";
 import heroBg from "@/assets/images/hero-bg.png";
 
 export default function Home() {
+  const { data: monuments, isLoading } = useMonuments();
+  const { user } = useAuth();
+  const heroLink = user ? "/dashboard" : "/login";
+
+  if (isLoading) return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -32,12 +38,16 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="rounded-full h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground">
-                <MapPin className="mr-2 h-5 w-5" /> Explore Monuments
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-full h-14 px-8 text-lg border-white/30 text-white hover:bg-white/10 glass-panel">
-                <Sparkles className="mr-2 h-5 w-5" /> Start Virtual Tour
-              </Button>
+              <Link href={heroLink}>
+                <Button size="lg" className="rounded-full h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-primary-foreground">
+                  <MapPin className="mr-2 h-5 w-5" /> Explore Monuments
+                </Button>
+              </Link>
+              <Link href={heroLink}>
+                <Button size="lg" variant="outline" className="rounded-full h-14 px-8 text-lg border-white/30 text-white hover:bg-white/10 glass-panel">
+                  <Sparkles className="mr-2 h-5 w-5" /> Start Virtual Tour
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -59,7 +69,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {MONUMENTS.map((monument, index) => (
+            {(monuments || []).map((monument, index) => (
               <motion.div
                 key={monument.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -71,7 +81,7 @@ export default function Home() {
                 <Link href={`/monument/${monument.id}`}>
                   <div className="relative h-[400px] rounded-2xl overflow-hidden mb-4">
                     <img 
-                      src={monument.image} 
+                      src={monument.image === null ? undefined : monument.image} 
                       alt={monument.name}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
@@ -103,7 +113,7 @@ export default function Home() {
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <BookOpen className="w-12 h-12 text-primary/40 mx-auto mb-8" />
           <blockquote className="text-3xl md:text-5xl font-serif text-foreground leading-tight mb-8">
-            "A nation's culture resides in the hearts and in the soul of its people."
+            &ldquo;A nation&apos;s culture resides in the hearts and in the soul of its people.&rdquo;
           </blockquote>
           <cite className="text-primary font-medium tracking-widest uppercase">— Mahatma Gandhi</cite>
         </div>

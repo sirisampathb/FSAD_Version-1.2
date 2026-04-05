@@ -1,0 +1,74 @@
+﻿
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2026-04-05T11:26:23.340Z  INFO 1 --- [monument-backend] [           main] c.e.m.MonumentBackendApplication         : Starting MonumentBackendApplication v0.0.1-SNAPSHOT using Java 17.0.18 with PID 1 (/app/target/monument-backend-0.0.1-SNAPSHOT.jar started by root in /app)
+2026-04-05T11:26:23.358Z  INFO 1 --- [monument-backend] [           main] c.e.m.MonumentBackendApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-04-05T11:26:24.556Z  INFO 1 --- [monument-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-05T11:26:24.648Z  INFO 1 --- [monument-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 82 ms. Found 2 JPA repository interfaces.
+2026-04-05T11:26:25.476Z  INFO 1 --- [monument-backend] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-04-05T11:26:25.482Z  INFO 1 --- [monument-backend] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-05T11:26:25.483Z  INFO 1 --- [monument-backend] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-04-05T11:26:25.537Z  INFO 1 --- [monument-backend] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-04-05T11:26:25.540Z  INFO 1 --- [monument-backend] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2037 ms
+2026-04-05T11:26:25.829Z  INFO 1 --- [monument-backend] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-05T11:26:25.925Z  INFO 1 --- [monument-backend] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-04-05T11:26:25.954Z  INFO 1 --- [monument-backend] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-05T11:26:26.322Z  INFO 1 --- [monument-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-05T11:26:26.390Z  INFO 1 --- [monument-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-05T11:26:26.680Z  INFO 1 --- [monument-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@10ed037a
+2026-04-05T11:26:26.681Z  INFO 1 --- [monument-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-05T11:26:26.728Z  WARN 1 --- [monument-backend] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-05T11:26:27.693Z  INFO 1 --- [monument-backend] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    create table monument_fun_facts (
+        monument_id varchar(255) not null,
+        fact TEXT
+    )
+Hibernate: 
+    create table monument_timeline (
+        monument_id varchar(255) not null,
+        event varchar(255),
+        year varchar(255)
+    )
+Hibernate: 
+    create table monuments (
+        id varchar(255) not null,
+        built_year varchar(255) not null,
+        description TEXT not null,
+        dynasty varchar(255) not null,
+        image varchar(255),
+        location varchar(255) not null,
+        name varchar(255) not null,
+        style varchar(255) not null,
+        unesco boolean not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table users (
+        id varchar(255) not null,
+        auth_token varchar(255),
+        password_hash varchar(255),
+        role varchar(255),
+        username varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    alter table if exists monument_fun_facts 
+       add constraint FKogi7v245mah3aneps55c7tv9n 
+       foreign key (monument_id) 
+       references monuments
+Hibernate: 
+    alter table if exists monument_timeline 
+       add constraint FK4vl1yr6xb2y6y4240hk98dfqt 
+       foreign key (monument_id) 
+       references monuments
+2026-04-05T11:26:27.756Z  INFO 1 --- [monument-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-05T11:26:28.358Z  WARN 1 --- [monument-backend] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-05T11:26:28.919Z  INFO 1 --- [monument-backend] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path ''
+2026-04-05T11:26:28.950Z  INFO 1 --- [monument-backend] [           main] c.e.m.MonumentBackendApplication         : Started MonumentBackendApplication in 6.356 seconds (process running for 7.255)
