@@ -71,7 +71,7 @@ export default [
     rules: {
       ...tseslint.configs.recommended.rules,
       ...react.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
+      ...reactHooks.configs['recommended-latest'].rules,
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
