@@ -88,8 +88,9 @@ export const initServer = async () => {
   return { httpServer, app };
 };
 
-// Only start the server if this file is run directly (not as a module)
-if (import.meta.url === `file://${process.argv[1]}` || !process.env.VERCEL) {
+// Always start the server if we're not being imported as a module (e.g. by Vercel)
+// On Render and Local, process.env.VERCEL will be false/undefined.
+if (!process.env.VERCEL) {
   (async () => {
     const { httpServer } = await initServer();
     const port = parseInt(process.env.PORT || "5000", 10);
