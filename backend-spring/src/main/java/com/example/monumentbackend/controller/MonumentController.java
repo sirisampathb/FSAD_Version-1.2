@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/monuments")
-@CrossOrigin(origins = "http://localhost:5000", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5000", "http://localhost:5173"}, allowCredentials = "true")
 public class MonumentController {
 
     private final MonumentService monumentService;
