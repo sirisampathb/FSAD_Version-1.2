@@ -34,6 +34,7 @@ export async function apiRequest(
 
   // Ensure absolute URL targeting the working Render backend
   const targetUrl = url.startsWith("http") ? url : `${apiBase}${url.startsWith("/") ? url : `/${url}`}`;
+  console.log(`[API] Fetching: ${method} ${targetUrl}`);
 
   const res = await fetch(targetUrl, {
     method,
