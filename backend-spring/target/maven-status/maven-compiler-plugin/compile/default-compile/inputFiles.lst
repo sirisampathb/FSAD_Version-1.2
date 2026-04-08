@@ -8,10 +8,10 @@ C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java
 C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\dto\MonumentDTO.java
 C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\service\MonumentService.java
 C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\repository\MonumentRepository.java
-C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\config\WebConfig.java
 C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\config\CorsConfig.java
 C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\repository\UserRepository.java
 C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\CorsConfig.java
+C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\config\GlobalExceptionHandler.java
 C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\controller\AuthController.java
 C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\dto\TimelineEventDTO.java
 C:\clg\FSADP Version1.2\Asset-Manager\Asset-Manager\backend-spring\src\main\java\com\example\monumentbackend\dto\AuthResponse.java

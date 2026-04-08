@@ -4,3 +4,10 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+target/
+*.log
+.mvn/
+mvnw
+mvnw.cmd
+.replit
+.local
