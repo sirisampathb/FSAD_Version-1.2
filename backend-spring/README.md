@@ -47,4 +47,4 @@ Update the following properties in `application.properties`:
 - `repository/` - JPA repositories
 - `service/` - Business logic
 - `controller/` - REST controllers
-- `config/` - Configuration classes
+- `config/` - Configuration classes"# FSAD_Backend-1.2" 

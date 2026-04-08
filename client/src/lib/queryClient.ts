@@ -1,7 +1,15 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-const apiBase = import.meta.env.VITE_API_URL ?? "";
-console.log("API Base URL:", apiBase || "(relative)");
+const apiBase = "https://fsad-backend-3.onrender.com";
+console.log("API Base URL:", apiBase);
+
+export function resolveImageUrl(url: string | null | undefined): string | undefined {
+  if (!url) return undefined;
+  if (url.startsWith("/assets/")) {
+    return `${apiBase}${url}`;
+  }
+  return url;
+}
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {

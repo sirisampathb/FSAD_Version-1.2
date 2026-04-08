@@ -9,20 +9,34 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
-import { useCreateMonument } from "@/hooks/useMonuments";
-import { insertMonumentSchema, type InsertMonument } from "@shared/schema";
-import { Plus, Trash2, Image as ImageIcon, MapPin, AlignLeft, Clock } from "lucide-react";
+import { useCreateMonument, useUpdateMonument } from "@/hooks/useMonuments";
+import { insertMonumentSchema, type InsertMonument, type Monument } from "@shared/schema";
+import { Plus, Trash2, Image as ImageIcon, MapPin, AlignLeft, Clock, Save, Edit, Landmark } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-export function AddMonumentDialog({ children }: { children: React.ReactNode }) {
+export function AddMonumentDialog({ children, initialData }: { children: React.ReactNode, initialData?: Monument }) {
     const [open, setOpen] = useState(false);
     const [activeTab, setActiveTab] = useState("basics");
-    const { mutateAsync: createMonument, isPending } = useCreateMonument();
+    const { mutateAsync: createMonument, isPending: isCreating } = useCreateMonument();
+    const { mutateAsync: updateMonument, isPending: isUpdating } = useUpdateMonument();
+    const isPending = isCreating || isUpdating;
+    const isEditing = !!initialData;
     const { toast } = useToast();
 
     const form = useForm<InsertMonument>({
         resolver: zodResolver(insertMonumentSchema),
-        defaultValues: {
+        defaultValues: initialData ? {
+            name: initialData.name,
+            location: initialData.location,
+            builtYear: initialData.builtYear,
+            dynasty: initialData.dynasty,
+            style: initialData.style,
+            description: initialData.description,
+            image: initialData.image || "",
+            unesco: initialData.unesco || false,
+            timeline: initialData.timeline || [{ year: "", event: "" }],
+            funFacts: initialData.funFacts || [""],
+        } : {
             name: "",
             location: "",
             builtYear: "",
@@ -49,13 +63,19 @@ export function AddMonumentDialog({ children }: { children: React.ReactNode }) {
     const onSubmit = async (data: InsertMonument) => {
         try {
             // Clean up empty lines
-            data.timeline = (data.timeline || []).filter((t: any) => t.year.trim() !== "" || t.event.trim() !== "");
+            data.timeline = (data.timeline || []).filter((t: any) => t.year?.trim() !== "" || t.event?.trim() !== "");
             data.funFacts = (data.funFacts || []).filter((f: any) => typeof f === 'string' ? f.trim() !== "" : f.value?.trim() !== "").map((f: any) => typeof f === 'string' ? f : f.value);
 
-            await createMonument(data);
-            toast({ title: "Success!", description: "Heritage site added to the collection." });
+            if (isEditing && initialData) {
+                await updateMonument({ id: initialData.id, monument: data });
+                toast({ title: "Updated!", description: "Heritage site information has been updated." });
+            } else {
+                await createMonument(data);
+                toast({ title: "Success!", description: "Heritage site added to the collection." });
+            }
+            
             setOpen(false);
-            form.reset();
+            if (!isEditing) form.reset();
             setActiveTab("basics");
         } catch (error: any) {
             toast({ title: "Unable to save", description: error.message, variant: "destructive" });
@@ -72,7 +92,8 @@ export function AddMonumentDialog({ children }: { children: React.ReactNode }) {
             <DialogContent className="max-w-3xl p-0 overflow-hidden bg-background border-border">
                 <div className="px-6 py-4 border-b border-border bg-card/50">
                     <DialogTitle className="text-2xl font-serif text-foreground flex items-center gap-2">
-                        Add New Heritage Site
+                        {isEditing ? <Edit className="w-6 h-6" /> : <Landmark className="w-6 h-6" />}
+                        {isEditing ? "Edit Heritage Site" : "Add New Heritage Site"}
                     </DialogTitle>
                     <DialogDescription>
                         Enter the details of the historical place. We've organized this into sections so it's easier to fill out.

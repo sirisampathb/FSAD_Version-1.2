@@ -1,4 +1,6 @@
-import { type User, type InsertUser, type Monument, type InsertMonument } from "@shared/schema";
+import { type User, type InsertUser, type Monument, type InsertMonument, users, monuments } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 // modify the interface with any CRUD methods
@@ -11,6 +13,8 @@ export interface IStorage {
   getMonuments(): Promise<Monument[]>;
   getMonument(id: string): Promise<Monument | undefined>;
   createMonument(monument: InsertMonument): Promise<Monument>;
+  updateMonument(id: string, monument: Partial<InsertMonument>): Promise<Monument | undefined>;
+  deleteMonument(id: string): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
@@ -149,6 +153,74 @@ export class MemStorage implements IStorage {
     this.monuments.set(id, monument);
     return monument;
   }
+
+  async updateMonument(id: string, update: Partial<InsertMonument>): Promise<Monument | undefined> {
+    const existing = this.monuments.get(id);
+    if (!existing) return undefined;
+    
+    const updated: Monument = { 
+      ...existing, 
+      ...update,
+      // Ensure complex types don't get messy if partially updated
+      timeline: update.timeline ?? existing.timeline,
+      funFacts: update.funFacts ?? existing.funFacts
+    };
+    
+    this.monuments.set(id, updated);
+    return updated;
+  }
+
+  async deleteMonument(id: string): Promise<boolean> {
+    return this.monuments.delete(id);
+  }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  async getUser(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db.insert(users).values(insertUser).returning();
+    return user;
+  }
+
+  async getMonuments(): Promise<Monument[]> {
+    return await db.select().from(monuments);
+  }
+
+  async getMonument(id: string): Promise<Monument | undefined> {
+    const [monument] = await db.select().from(monuments).where(eq(monuments.id, id));
+    return monument;
+  }
+
+  async createMonument(insertMonument: InsertMonument): Promise<Monument> {
+    const [monument] = await db.insert(monuments).values(insertMonument).returning();
+    return monument;
+  }
+
+  async updateMonument(id: string, update: Partial<InsertMonument>): Promise<Monument | undefined> {
+    const [updated] = await db
+      .update(monuments)
+      .set(update)
+      .where(eq(monuments.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteMonument(id: string): Promise<boolean> {
+    const [deleted] = await db
+      .delete(monuments)
+      .where(eq(monuments.id, id))
+      .returning();
+    return !!deleted;
+  }
+}
+
+export const storage = new DatabaseStorage();

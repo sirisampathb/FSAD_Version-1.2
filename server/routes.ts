@@ -109,6 +109,30 @@ export async function registerRoutes(
       res.status(500).json({ error: "Failed to create monument" });
     }
   });
+  
+  app.patch("/api/monuments/:id", async (req, res) => {
+    try {
+      const monument = await storage.updateMonument(req.params.id, req.body);
+      if (!monument) {
+        return res.status(404).json({ error: "Monument not found" });
+      }
+      res.json(monument);
+    } catch {
+      res.status(500).json({ error: "Failed to update monument" });
+    }
+  });
+
+  app.delete("/api/monuments/:id", async (req, res) => {
+    try {
+      const success = await storage.deleteMonument(req.params.id);
+      if (!success) {
+        return res.status(404).json({ error: "Monument not found" });
+      }
+      res.sendStatus(204);
+    } catch {
+      res.status(500).json({ error: "Failed to delete monument" });
+    }
+  });
 
   return httpServer;
 }

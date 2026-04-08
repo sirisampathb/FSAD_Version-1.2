@@ -45,3 +45,12 @@ export async function createMonument(monument: InsertMonument): Promise<Monument
   const res = await apiRequest("POST", "/api/monuments", monument);
   return res.json();
 }
+
+export async function updateMonument(id: string, monument: Partial<InsertMonument>): Promise<Monument> {
+  const res = await apiRequest("PATCH", `/api/monuments/${id}`, monument);
+  return res.json();
+}
+
+export async function deleteMonument(id: string): Promise<void> {
+  await apiRequest("DELETE", `/api/monuments/${id}`);
+}

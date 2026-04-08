@@ -10,7 +10,10 @@ public class User {
     private String id;
 
     private String username;
+
+    @Column(name = "password")
     private String passwordHash;
+
     private String role;
     private String authToken;
 

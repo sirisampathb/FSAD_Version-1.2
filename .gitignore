@@ -11,3 +11,7 @@ mvnw
 mvnw.cmd
 .replit
 .local
+.env
+.env.local
+.env.development
+.env.production

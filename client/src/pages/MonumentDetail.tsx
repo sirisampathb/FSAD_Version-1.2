@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { MapPin, Calendar, Compass, Share2, BookmarkPlus, PlayCircle, Eye, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { resolveImageUrl } from "@/lib/queryClient";
 
 export default function MonumentDetail() {
   const { id } = useParams();
@@ -18,7 +19,7 @@ export default function MonumentDetail() {
       <div className="relative h-[60vh] min-h-[500px] w-full">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${monument.image})` }}
+          style={{ backgroundImage: `url(${resolveImageUrl(monument.image)})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
         

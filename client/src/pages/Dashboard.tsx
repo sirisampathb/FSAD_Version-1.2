@@ -5,8 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Building2, Map, MessageSquare, Trash2, Edit2, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
-import { useMonuments } from "@/hooks/useMonuments";
+import { useMonuments, useDeleteMonument } from "@/hooks/useMonuments";
 import { AddMonumentDialog } from "@/components/AddMonumentDialog";
+import { resolveImageUrl } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 // Auth-aware dashboard. Users must login to access personalized content.
 
@@ -53,6 +55,20 @@ export default function Dashboard() {
 
 function AdminView() {
   const { data: monuments, isLoading } = useMonuments();
+  const { mutateAsync: deleteMonument } = useDeleteMonument();
+  const { toast } = useToast();
+
+  const handleDelete = async (id: string, name: string) => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      try {
+        await deleteMonument(id);
+        toast({ title: "Deleted", description: `${name} has been removed from the platform.` });
+      } catch (err: any) {
+        toast({ title: "Delete failed", description: err.message, variant: "destructive" });
+      }
+    }
+  };
+
   const statCards = [
     { title: "Total Users", value: ADMIN_STATS.totalUsers.toLocaleString(), icon: Users, color: "text-blue-500" },
     { title: "Monuments", value: monuments?.length || ADMIN_STATS.totalMonuments, icon: Building2, color: "text-primary" },
@@ -92,15 +108,24 @@ function AdminView() {
                 {isLoading ? <p>Loading...</p> : (monuments || []).map(m => (
                   <div key={m.id} className="flex items-center justify-between p-4 rounded-lg border border-border bg-background">
                     <div className="flex items-center gap-4">
-                      <img src={m.image || undefined} alt={m.name} className="w-16 h-12 object-cover rounded-md" />
+                      <img src={resolveImageUrl(m.image)} alt={m.name} className="w-16 h-12 object-cover rounded-md" />
                       <div>
                         <div className="font-semibold text-foreground">{m.name}</div>
                         <div className="text-sm text-muted-foreground">{m.location}</div>
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button variant="outline" size="icon" className="h-8 w-8"><Edit2 className="w-4 h-4" /></Button>
-                      <Button variant="outline" size="icon" className="h-8 w-8 text-destructive hover:bg-destructive/10"><Trash2 className="w-4 h-4" /></Button>
+                      <AddMonumentDialog initialData={m}>
+                        <Button variant="outline" size="icon" className="h-8 w-8"><Edit2 className="w-4 h-4" /></Button>
+                      </AddMonumentDialog>
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        className="h-8 w-8 text-destructive hover:bg-destructive/10"
+                        onClick={() => handleDelete(m.id, m.name)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
                     </div>
                   </div>
                 ))}
@@ -163,7 +188,7 @@ function EnthusiastView() {
             <div className="grid sm:grid-cols-2 gap-4">
               {(monuments || []).slice(0, 2).map(m => (
                 <div key={m.id} className="relative h-32 rounded-xl overflow-hidden group cursor-pointer">
-                  <img src={m.image || undefined} alt={m.name} className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105" />
+                  <img src={resolveImageUrl(m.image)} alt={m.name} className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105" />
                   <div className="absolute inset-0 bg-black/40" />
                   <div className="absolute bottom-0 left-0 p-4">
                     <h4 className="text-white font-bold">{m.name}</h4>

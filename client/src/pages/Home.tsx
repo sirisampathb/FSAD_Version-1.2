@@ -4,6 +4,7 @@ import { useMonuments } from "@/hooks/useMonuments";
 import { Link } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { ArrowRight, MapPin, Sparkles, BookOpen } from "lucide-react";
+import { resolveImageUrl } from "@/lib/queryClient";
 import heroBg from "@/assets/images/hero-bg.png";
 
 export default function Home() {
@@ -81,7 +82,7 @@ export default function Home() {
                 <Link href={`/monument/${monument.id}`}>
                   <div className="relative h-[400px] rounded-2xl overflow-hidden mb-4">
                     <img 
-                      src={monument.image === null ? undefined : monument.image} 
+                      src={resolveImageUrl(monument.image)} 
                       alt={monument.name}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />

@@ -14,8 +14,6 @@ com\example\monumentbackend\config\CorsConfig.class
 com\example\monumentbackend\repository\UserRepository.class
 com\example\monumentbackend\service\MonumentService.class
 com\example\monumentbackend\config\GlobalExceptionHandler.class
-CorsConfig$1.class
-CorsConfig.class
 com\example\monumentbackend\dto\TimelineEventDTO.class
 com\example\monumentbackend\dto\RegisterRequest.class
 com\example\monumentbackend\dto\MonumentDTO$TimelineEventDTO.class
