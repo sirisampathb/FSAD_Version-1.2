@@ -13,25 +13,27 @@ declare module "http" {
   }
 }
 
-const allowedOrigins = [
-  "https://fsad-version-1-2.vercel.app",
-  "http://localhost:3000",
-  "http://localhost:5173",
-  "http://0.0.0.0:3000"
-];
-
 app.use(cors({
   origin: (origin, callback) => {
-    // allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
+    // Allow if no origin (mobile/curl) or if it's a known domain pattern
+    if (!origin || 
+        origin.endsWith(".vercel.app") || 
+        origin.includes("localhost") || 
+        origin.includes("127.0.0.1") ||
+        origin.includes("0.0.0.0")) {
+      callback(null, true);
+    } else {
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+      callback(new Error(msg), false);
     }
-    return callback(null, true);
   },
-  credentials: true
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Auth-Token"],
 }));
+
+// Explicitly handle OPTIONS preflight
+app.options("*", cors());
 
 app.use(
   express.json({
