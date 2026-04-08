@@ -12,6 +12,15 @@ export async function registerRoutes(
   // use storage to perform CRUD operations on the storage interface
   // e.g. storage.insertUser(user) or storage.getUserByUsername(username)
 
+  // Debug Endpoint
+  app.get("/api/debug", (req, res) => {
+    res.json({
+      backend: "Node/Express",
+      corsOriginHeader: req.headers.origin || "unknown",
+      time: new Date().toISOString()
+    });
+  });
+
   // Authentication Routes
   app.post("/api/auth/register", async (req, res) => {
     try {

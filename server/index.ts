@@ -13,27 +13,28 @@ declare module "http" {
   }
 }
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow if no origin (mobile/curl) or if it's a known domain pattern
-    if (!origin || 
-        origin.endsWith(".vercel.app") || 
-        origin.includes("localhost") || 
-        origin.includes("127.0.0.1") ||
-        origin.includes("0.0.0.0")) {
-      callback(null, true);
-    } else {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      callback(new Error(msg), false);
-    }
-  },
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Auth-Token"],
-}));
+// Manual CORS implementation to guarantee headers
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  
+  if (origin && (origin.endsWith('.vercel.app') || origin.includes('localhost') || origin.includes('127.0.0.1'))) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    // Fallback to exactly the known deployment domain
+    res.setHeader('Access-Control-Allow-Origin', 'https://fsad-version-1-2.vercel.app');
+  }
+  
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Auth-Token, Origin, Accept');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-// Explicitly handle OPTIONS preflight
-app.options("*", cors());
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+  
+  next();
+});
 
 app.use(
   express.json({
