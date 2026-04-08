@@ -32,7 +32,10 @@ export async function apiRequest(
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${apiBase}${url}`, {
+  // Ensure absolute URL targeting the working Render backend
+  const targetUrl = url.startsWith("http") ? url : `${apiBase}${url.startsWith("/") ? url : `/${url}`}`;
+
+  const res = await fetch(targetUrl, {
     method,
     headers,
     body: data ? JSON.stringify(data) : undefined,
@@ -49,7 +52,8 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const url = `${apiBase}${queryKey.join("/")}`;
+    const path = queryKey.join("/");
+    const url = `${apiBase}/${path.startsWith("/") ? path.slice(1) : path}`;
     const token = localStorage.getItem("authToken");
     const headers: Record<string, string> = {};
 

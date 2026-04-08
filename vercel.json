@@ -4,7 +4,6 @@
   "outputDirectory": "dist/public",
   "installCommand": "npm install --include=dev --legacy-peer-deps",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.ts" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
