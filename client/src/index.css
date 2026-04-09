@@ -134,3 +134,29 @@
 .hero-overlay {
   background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
 }
+
+.mesh-gradient {
+  background-color: hsla(20,14%,10%,1);
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(36,100%,50%,0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(12,76%,61%,0.15) 0px, transparent 50%);
+}
+
+.bento-card {
+  @apply relative overflow-hidden rounded-[2rem] border border-border/50 bg-card/40 backdrop-blur-xl transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:border-primary/30;
+}
+
+.glass-card {
+  @apply bg-background/40 backdrop-blur-2xl border border-white/10 shadow-2xl;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+

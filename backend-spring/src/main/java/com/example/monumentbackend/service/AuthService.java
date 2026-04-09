@@ -41,6 +41,7 @@ public class AuthService {
         user.setMobile(request.getMobile());
         user.setAuthToken(UUID.randomUUID().toString());
 
+        System.out.println("Saving user: " + user.getUsername() + " with mobile: " + user.getMobile());
         userRepository.save(user);
 
         UserDTO dto = new UserDTO(user.getId(), user.getUsername(), user.getRole());

@@ -87,9 +87,93 @@ export const MONUMENTS = [
   }
 ];
 
+export const STATE_DATA = [
+  {
+    id: "rajasthan",
+    name: "Rajasthan",
+    description: "The Land of Kings, famous for its majestic forts, deserts, and royal heritage.",
+    monuments: ["Amer Fort", "Mehrangarh Fort", "Hawa Mahal", "Jaisalmer Fort"],
+    foods: ["Dal Baati Churma", "Laal Maas", "Gatte ki Sabzi", "Ker Sangri"],
+    color: "from-orange-500 to-red-600"
+  },
+  {
+    id: "maharashtra",
+    name: "Maharashtra",
+    description: "Home to the business capital Mumbai and the world-famous Ajanta & Ellora caves.",
+    monuments: ["Gateway of India", "Ajanta & Ellora Caves", "Shaniwar Wada", "Raigad Fort"],
+    foods: ["Vada Pav", "Misal Pav", "Puran Poli", "Pav Bhaji"],
+    color: "from-blue-500 to-indigo-600"
+  },
+  {
+    id: "tamil-nadu",
+    name: "Tamil Nadu",
+    description: "Known for its Dravidian-style Hindu temples and classical arts.",
+    monuments: ["Meenakshi Temple", "Brihadisvara Temple", "Shore Temple", "Vivekananda Rock"],
+    foods: ["Masala Dosa", "Idli Sambhar", "Chettinad Chicken", "Pongal"],
+    color: "from-yellow-500 to-amber-600"
+  },
+  {
+    id: "uttar-pradesh",
+    name: "Uttar Pradesh",
+    description: "The heart of India, home to the iconic Taj Mahal and Holy city of Varanasi.",
+    monuments: ["Taj Mahal", "Agra Fort", "Bara Imambara", "Dhamek Stupa"],
+    foods: ["Galouti Kebab", "Petha", "Tahri", "Aloo Poori"],
+    color: "from-green-500 to-emerald-600"
+  },
+  {
+    id: "west-bengal",
+    name: "West Bengal",
+    description: "Land of literature, art, and the majestic Royal Bengal Tiger.",
+    monuments: ["Victoria Memorial", "Howrah Bridge", "Dakshineswar Temple", "Hazarduari Palace"],
+    foods: ["Kosha Mangsho", "Rosogolla", "Machher Jhol", "Ilish Bhapa"],
+    color: "from-red-500 to-rose-600"
+  },
+  {
+    id: "karnataka",
+    name: "Karnataka",
+    description: "A blend of ancient heritage ruins and modern technology hubs.",
+    monuments: ["Hampi Ruins", "Mysore Palace", "Gol Gumbaz", "Badami Caves"],
+    foods: ["Bisi Bele Bath", "Mysore Pak", "Dharwad Pedha", "Ragi Mudde"],
+    color: "from-cyan-500 to-blue-600"
+  },
+  {
+    id: "gujarat",
+    name: "Gujarat",
+    description: "Famous for its white desert (Rann of Kutch) and vibrant culture.",
+    monuments: ["Somnath Temple", "Rani ki Vav", "Sun Temple Konark", "Laxmi Vilas Palace"],
+    foods: ["Dhokla", "Thepla", "Khandvi", "Undhiyu"],
+    color: "from-amber-400 to-orange-500"
+  },
+  {
+    id: "punjab",
+    name: "Punjab",
+    description: "The land of five rivers, hospitality, and the Golden Temple.",
+    monuments: ["Golden Temple", "Jallianwala Bagh", "Qila Mubarak", "Wagah Border"],
+    foods: ["Butter Chicken", "Sarson da Saag", "Amritsari Kulcha", "Lassi"],
+    color: "from-yellow-400 to-amber-500"
+  },
+  {
+    id: "kerala",
+    name: "Kerala",
+    description: "God's Own Country, known for backwaters, tea plantations, and lagoons.",
+    monuments: ["Bekal Fort", "Padmanabhaswamy Temple", "Mattancherry Palace", "Jewish Synagogue"],
+    foods: ["Appam & Stew", "Karimeen Pollichathu", "Sadhya", "Malabar Parotta"],
+    color: "from-green-400 to-lime-500"
+  },
+  {
+    id: "odisha",
+    name: "Odisha",
+    description: "Known for its tribal culture and many ancient Hindu temples.",
+    monuments: ["Konark Sun Temple", "Jagannath Temple", "Lingaraja Temple", "Udayagiri Caves"],
+    foods: ["Dalma", "Chhena Poda", "Rasabali", "Pakhala Bhata"],
+    color: "from-purple-500 to-violet-600"
+  }
+];
+
 export const ADMIN_STATS = {
   totalUsers: 12450,
   totalMonuments: 84,
   activeTours: 1240,
   discussions: 5430
 };
+

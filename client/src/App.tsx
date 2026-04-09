@@ -14,6 +14,7 @@ import MonumentDetail from "@/pages/MonumentDetail";
 import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import StateExplorer from "@/pages/StateExplorer";
 
 import { Chatbot } from "@/components/Chatbot";
 
@@ -26,6 +27,7 @@ function Router() {
           <Route path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/explore" component={StateExplorer} />
           <Route path="/monument/:id" component={MonumentDetail} />
           <Route path="/dashboard" component={Dashboard} />
           <Route component={NotFound} />
@@ -35,6 +37,7 @@ function Router() {
     </div>
   );
 }
+
 
 function App() {
   return (

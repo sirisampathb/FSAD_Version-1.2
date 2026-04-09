@@ -47,19 +47,33 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           <Link href="/">
             <span className={`text-sm font-medium hover:text-primary transition-colors cursor-pointer ${
-              !scrolled && location === '/' ? 'text-white/90 hover:text-white' : 'text-foreground/80'
+              location === '/' 
+                ? (scrolled ? 'text-primary' : 'text-white underline underline-offset-8') 
+                : (!scrolled && location === '/' ? 'text-white/90' : 'text-foreground/80')
             }`}>
-              Explore
+              Home
+            </span>
+          </Link>
+          <Link href="/explore">
+            <span className={`text-sm font-medium hover:text-primary transition-colors cursor-pointer ${
+              location === '/explore' 
+                ? (scrolled ? 'text-primary' : 'text-white underline underline-offset-8') 
+                : (!scrolled && location === '/' ? 'text-white/90' : 'text-foreground/80')
+            }`}>
+              Regions
             </span>
           </Link>
           <Link href="/dashboard">
             <span className={`text-sm font-medium hover:text-primary transition-colors cursor-pointer ${
-              !scrolled && location === '/' ? 'text-white/90 hover:text-white' : 'text-foreground/80'
+              location === '/dashboard' 
+                ? 'text-primary font-bold' 
+                : (!scrolled && location === '/' ? 'text-white/90' : 'text-foreground/80')
             }`}>
               Dashboard
             </span>
           </Link>
         </div>
+
 
         <div className="flex items-center gap-4">
           {user ? (

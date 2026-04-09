@@ -13,8 +13,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
+    @Column(nullable = false)
+    private String password;
 
     @Column(name = "role")
     private String role;
@@ -35,7 +35,7 @@ public class User {
 
     public String getId() { return id; }
     public String getUsername() { return username; }
-    public String getPassword() { return passwordHash; }
+    public String getPassword() { return password; }
     public String getRole() { return role; }
     public String getAuthToken() { return authToken; }
     public String getMobile() { return mobile; }
@@ -46,7 +46,7 @@ public class User {
 
     public void setId(String id) { this.id = id; }
     public void setUsername(String username) { this.username = username; }
-    public void setPassword(String passwordHash) { this.passwordHash = passwordHash; }
+    public void setPassword(String password) { this.password = password; }
     public void setRole(String role) { this.role = role; }
     public void setAuthToken(String authToken) { this.authToken = authToken; }
     public void setMobile(String mobile) { this.mobile = mobile; }
