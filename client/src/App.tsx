@@ -15,6 +15,8 @@ import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 
+import { Chatbot } from "@/components/Chatbot";
+
 function Router() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -41,6 +43,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <Chatbot />
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>

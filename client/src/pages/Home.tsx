@@ -1,16 +1,23 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useMonuments } from "@/hooks/useMonuments";
 import { Link } from "wouter";
 import { useAuth } from "@/lib/auth";
-import { ArrowRight, MapPin, Sparkles, BookOpen } from "lucide-react";
+import { ArrowRight, MapPin, Sparkles, BookOpen, Search } from "lucide-react";
 import { resolveImageUrl } from "@/lib/queryClient";
 import heroBg from "@/assets/images/hero-bg.png";
 
 export default function Home() {
   const { data: monuments, isLoading } = useMonuments();
   const { user } = useAuth();
+  const [searchQuery, setSearchQuery] = useState("");
   const heroLink = user ? "/dashboard" : "/login";
+
+  const filteredMonuments = (monuments || []).filter(m => 
+    m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    m.location.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (isLoading) return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   return (
@@ -57,20 +64,31 @@ export default function Home() {
       {/* Featured Monuments Carousel */}
       <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-end mb-12">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
             <div>
               <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">Featured Heritage</h2>
               <p className="text-muted-foreground text-lg max-w-2xl">
                 Immerse yourself in the architectural marvels that have stood the test of time.
               </p>
             </div>
+            
+            <div className="relative w-full md:w-80">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input 
+                placeholder="Search monuments or locations..." 
+                className="pl-10 h-10 rounded-full border-primary/20 bg-card/50 backdrop-blur-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
             <Button variant="ghost" className="hidden md:flex text-primary hover:text-primary hover:bg-primary/10">
               View all places <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(monuments || []).map((monument, index) => (
+            {filteredMonuments.map((monument, index) => (
               <motion.div
                 key={monument.id}
                 initial={{ opacity: 0, y: 20 }}

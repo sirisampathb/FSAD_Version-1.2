@@ -9,6 +9,10 @@ import { useMonuments, useDeleteMonument } from "@/hooks/useMonuments";
 import { AddMonumentDialog } from "@/components/AddMonumentDialog";
 import { resolveImageUrl } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
+  PieChart, Pie, Cell, Legend 
+} from "recharts";
 
 // Auth-aware dashboard. Users must login to access personalized content.
 
@@ -76,6 +80,24 @@ function AdminView() {
     { title: "Discussions", value: ADMIN_STATS.discussions.toLocaleString(), icon: MessageSquare, color: "text-accent" },
   ];
 
+  const chartData = (monuments || []).reduce((acc: any[], current) => {
+    const style = current.style || "Other";
+    const existing = acc.find(a => a.name === style);
+    if (existing) {
+      existing.value += 1;
+    } else {
+      acc.push({ name: style, value: 1 });
+    }
+    return acc;
+  }, []);
+
+  const unescoData = [
+    { name: "UNESCO", value: (monuments || []).filter(m => m.unesco).length },
+    { name: "National", value: (monuments || []).filter(m => !m.unesco).length },
+  ];
+
+  const COLORS = ['#D97706', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'];
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -90,6 +112,59 @@ function AdminView() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* Analytics Section */}
+      <div className="grid md:grid-cols-2 gap-8">
+        <Card className="bg-card border-border">
+          <CardHeader>
+            <CardTitle className="font-serif text-xl">Architectural Styles</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+                <XAxis dataKey="name" fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                <YAxis fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
+                  itemStyle={{ color: 'hsl(var(--foreground))' }}
+                />
+                <Bar dataKey="value" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-card border-border">
+          <CardHeader>
+            <CardTitle className="font-serif text-xl">Heritage Status</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={unescoData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {unescoData.map((_, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
+                  itemStyle={{ color: 'hsl(var(--foreground))' }}
+                />
+                <Legend verticalAlign="bottom" height={36}/>
+              </PieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
