@@ -3,11 +3,14 @@ package com.example.monumentbackend.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Configuration
-public class CorsConfig implements WebMvcConfigurer {
+public class CorsConfig {
 
     @Value("${cors.allowed-origins}")
     private String allowedOrigins;
@@ -21,21 +24,28 @@ public class CorsConfig implements WebMvcConfigurer {
     @Value("${cors.allow-credentials}")
     private boolean allowCredentials;
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        String[] origins = allowedOrigins.split(",");
-        for (int i = 0; i < origins.length; i++) {
-            origins[i] = origins[i].trim();
-        }
-        String[] methods = allowedMethods.split(",");
-        for (int i = 0; i < methods.length; i++) {
-            methods[i] = methods[i].trim();
-        }
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
         
-        registry.addMapping("/**")
-                .allowedOriginPatterns(origins)
-                .allowedMethods(methods)
-                .allowedHeaders(allowedHeaders)
-                .allowCredentials(allowCredentials);
+        // Clean up and set origins
+        config.setAllowedOriginPatterns(Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .collect(Collectors.toList()));
+        
+        // Clean up and set methods
+        config.setAllowedMethods(Arrays.stream(allowedMethods.split(","))
+                .map(String::trim)
+                .collect(Collectors.toList()));
+        
+        // Set headers and credentials
+        config.setAllowedHeaders(Arrays.stream(allowedHeaders.split(","))
+                .map(String::trim)
+                .collect(Collectors.toList()));
+        config.setAllowCredentials(allowCredentials);
+        
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }
