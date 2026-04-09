@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, User, Bot, Sparkles, Clock } from "lucide-react";
+import { MessageCircle, X, Send, User, Bot, Sparkles, Clock, ChevronDown, CheckCircle2, History } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 type Message = {
   id: string;
@@ -44,6 +44,7 @@ const MONUMENT_DATA: Record<string, string> = {
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -54,12 +55,29 @@ export function Chatbot() {
   ]);
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = useCallback((behavior: ScrollBehavior = "smooth") => {
+    messagesEndRef.current?.scrollIntoView({ behavior });
+  }, []);
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const isAtBottom = target.scrollHeight - target.scrollTop <= target.clientHeight + 100;
+    setShowScrollButton(!isAtBottom);
+  };
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (messages.length > 0) {
+      scrollToBottom();
     }
-  }, [messages, isOpen, isTyping]);
+  }, [messages, isTyping, scrollToBottom]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => scrollToBottom("auto"), 100);
+    }
+  }, [isOpen, scrollToBottom]);
 
   const handleSend = (text: string = input) => {
     const messageText = text.trim();
@@ -105,93 +123,151 @@ export function Chatbot() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: "bottom right" }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             className="mb-4"
           >
-            <Card className="w-80 sm:w-96 h-[550px] shadow-2xl border-primary/20 flex flex-col glass-card overflow-hidden">
-              <CardHeader className="bg-primary text-primary-foreground p-4 flex flex-row items-center justify-between shrink-0">
-                <div className="flex items-center gap-2">
-                  <div className="bg-white/20 p-1.5 rounded-full">
-                    <Sparkles className="w-4 h-4" />
+            <Card className="w-[340px] sm:w-[400px] h-[600px] shadow-2xl border-primary/20 flex flex-col glass-card overflow-hidden rounded-[24px]">
+              <CardHeader className="bg-gradient-to-r from-primary via-primary to-accent text-primary-foreground p-5 flex flex-row items-center justify-between shrink-0 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/pinstriped-suit.png')]" />
+                <div className="flex items-center gap-3 relative z-10">
+                  <div className="relative">
+                    <div className="bg-white/20 p-2 rounded-2xl backdrop-blur-md border border-white/20 shadow-inner group transition-transform hover:scale-105">
+                      <Sparkles className="w-5 h-5 text-white animate-pulse" />
+                    </div>
+                    <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />
+                    </span>
                   </div>
                   <div>
-                    <CardTitle className="text-base font-serif">Heritage Guide</CardTitle>
-                    <p className="text-[10px] opacity-80 uppercase tracking-widest">AI Assistant</p>
+                    <CardTitle className="text-lg font-serif tracking-tight flex items-center gap-2">
+                      Heritage Guide
+                      <Badge variant="outline" className="text-[9px] h-4 bg-white/10 text-white border-white/20 font-sans uppercase tracking-tighter">BETA</Badge>
+                    </CardTitle>
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3 h-3 text-white/70" />
+                      <p className="text-[10px] text-white/80 font-medium uppercase tracking-wider">Online & Ready</p>
+                    </div>
                   </div>
                 </div>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="h-8 w-8 hover:bg-white/20 text-white"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
+                <div className="flex items-center gap-1 relative z-10">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-8 w-8 hover:bg-white/20 text-white rounded-full transition-colors"
+                    onClick={() => setMessages(messages.slice(0, 1))}
+                    title="Clear history"
+                  >
+                    <History className="w-4 h-4" />
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-8 w-8 hover:bg-white/20 text-white rounded-full transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <X className="w-5 h-5" />
+                  </Button>
+                </div>
               </CardHeader>
               
-              <CardContent className="flex-grow p-0 flex flex-col min-h-0">
-                <ScrollArea className="flex-grow p-4" ref={scrollRef}>
-                  <div className="space-y-4">
-                    {messages.map((msg) => (
-                      <div
+              <CardContent className="flex-grow p-0 flex flex-col min-h-0 bg-background/30 relative">
+                <div 
+                  className="flex-grow p-4 overflow-y-auto scrollbar-hide space-y-4 custom-scrollbar" 
+                  ref={scrollRef}
+                  onScroll={handleScroll}
+                >
+                  <div className="flex flex-col gap-6 py-2">
+                    {messages.map((msg, idx) => (
+                      <motion.div
                         key={msg.id}
+                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.3, delay: 0.05 }}
                         className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
                       >
                         <div
-                          className={`flex gap-2 max-w-[85%] ${
+                          className={`flex gap-3 max-w-[88%] ${
                             msg.sender === "user" ? "flex-row-reverse" : "flex-row"
                           }`}
                         >
-                          <div className={`mt-1 h-7 w-7 rounded-full flex items-center justify-center shrink-0 shadow-sm ${
-                            msg.sender === "user" ? "bg-primary/20" : "bg-accent/20"
+                          <div className={`mt-1 h-8 w-8 rounded-xl flex items-center justify-center shrink-0 shadow-md ${
+                            msg.sender === "user" ? "bg-primary text-white" : "bg-card border border-border"
                           }`}>
-                            {msg.sender === "user" ? <User className="w-3.5 h-3.5 text-primary" /> : <Bot className="w-3.5 h-3.5 text-accent" />}
+                            {msg.sender === "user" ? (
+                              <User className="w-4 h-4" />
+                            ) : (
+                              <Bot className="w-4 h-4 text-primary" />
+                            )}
                           </div>
-                          <div className="flex flex-col gap-1">
+                          <div className={`flex flex-col gap-1.5 ${msg.sender === "user" ? "items-end" : "items-start"}`}>
                             <div
-                              className={`p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                              className={cn(
+                                "p-3.5 rounded-2xl text-[13.5px] leading-relaxed shadow-sm relative transition-all duration-300",
                                 msg.sender === "user"
-                                  ? "bg-primary text-primary-foreground rounded-tr-none"
-                                  : "bg-muted text-foreground rounded-tl-none border border-border/50"
-                              }`}
+                                  ? "bg-primary text-primary-foreground rounded-tr-none shadow-primary/20"
+                                  : "bg-card text-foreground rounded-tl-none border border-border/60 shadow-black/5"
+                              )}
                             >
                               {msg.text}
                             </div>
-                            <span className="text-[10px] text-muted-foreground flex items-center gap-1 px-1">
+                            <span className="text-[10px] text-muted-foreground flex items-center gap-1 px-1 font-medium opacity-60">
                               <Clock className="w-2.5 h-2.5" /> {msg.timestamp}
                             </span>
                           </div>
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
                     {isTyping && (
-                      <div className="flex gap-2 items-center">
-                        <div className="h-7 w-7 rounded-full bg-accent/20 flex items-center justify-center">
-                          <Bot className="w-3.5 h-3.5 text-accent" />
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="flex gap-3 items-center"
+                      >
+                        <div className="h-8 w-8 rounded-xl bg-card border border-border flex items-center justify-center shadow-sm">
+                          <Bot className="w-4 h-4 text-primary" />
                         </div>
-                        <div className="bg-muted px-3 py-2 rounded-2xl rounded-tl-none flex gap-1 items-center h-8">
-                          <span className="w-1.5 h-1.5 bg-foreground/30 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                          <span className="w-1.5 h-1.5 bg-foreground/30 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                          <span className="w-1.5 h-1.5 bg-foreground/30 rounded-full animate-bounce"></span>
+                        <div className="bg-card border border-border/60 px-4 py-3 rounded-2xl rounded-tl-none flex gap-1.5 items-center h-10 shadow-sm">
+                          <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                          <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                          <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce"></span>
                         </div>
-                      </div>
+                      </motion.div>
                     )}
+                    <div ref={messagesEndRef} className="h-4" />
                   </div>
-                </ScrollArea>
+                </div>
+
+                <AnimatePresence>
+                  {showScrollButton && (
+                    <motion.button
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      onClick={() => scrollToBottom()}
+                      className="absolute bottom-20 right-4 bg-primary text-white p-2 rounded-full shadow-lg z-20 hover:scale-110 active:scale-95 transition-transform"
+                    >
+                      <ChevronDown className="w-5 h-5" />
+                    </motion.button>
+                  )}
+                </AnimatePresence>
                 
                 {/* Quick Chips */}
-                <div className="px-4 py-2 flex flex-wrap gap-2 border-t border-border/50 bg-muted/30">
+                <div className="px-4 py-3 flex flex-wrap gap-2 border-t border-border/40 bg-muted/20 backdrop-blur-sm shrink-0">
+                  <div className="w-full mb-1 text-[10px] text-muted-foreground uppercase tracking-widest flex items-center gap-1.5">
+                    <Sparkles className="w-2.5 h-2.5" />
+                    Quick Suggestions
+                  </div>
                   {QUICK_CHIPS.map(chip => (
                     <Badge 
                       key={chip} 
                       variant="secondary" 
-                      className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors py-1 px-2.5 text-[11px] font-normal"
+                      className="cursor-pointer hover:bg-primary hover:text-primary-foreground border-transparent hover:border-primary transition-all py-1.5 px-3 text-[11px] font-medium bg-card shadow-sm"
                       onClick={() => handleSend(chip)}
                     >
                       {chip}
@@ -200,18 +276,26 @@ export function Chatbot() {
                 </div>
               </CardContent>
 
-              <CardFooter className="p-4 border-t border-border shrink-0">
+              <CardFooter className="p-4 border-t border-border/40 bg-card/50 backdrop-blur-md shrink-0">
                 <form 
                   onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-                  className="flex w-full gap-2"
+                  className="flex w-full gap-3"
                 >
-                  <Input
-                    placeholder="Ask about a monument..."
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    className="flex-grow h-10 rounded-full bg-muted/50 border-border/50 focus-visible:ring-primary"
-                  />
-                  <Button type="submit" size="icon" className="h-10 w-10 rounded-full shrink-0 shadow-md">
+                  <div className="relative flex-grow group">
+                    <Input
+                      placeholder="Ask about Indian history..."
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      className="w-full h-11 pr-10 rounded-[16px] bg-background/50 border-border/60 focus-visible:ring-primary focus-visible:ring-offset-0 transition-all group-hover:bg-background"
+                    />
+                    <Sparkles className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40" />
+                  </div>
+                  <Button 
+                    type="submit" 
+                    size="icon" 
+                    disabled={!input.trim()}
+                    className="h-11 w-11 rounded-[16px] shrink-0 shadow-lg shadow-primary/20 bg-gradient-to-br from-primary to-accent hover:opacity-90 transition-opacity"
+                  >
                     <Send className="w-4 h-4" />
                   </Button>
                 </form>
@@ -223,12 +307,33 @@ export function Chatbot() {
 
       <Button
         size="icon"
-        className="h-14 w-14 rounded-full shadow-xl bg-primary hover:bg-primary/90 transition-all hover:scale-110 active:scale-95 group relative overflow-hidden"
+        className="h-16 w-16 rounded-[24px] shadow-2xl bg-gradient-to-br from-primary to-accent hover:scale-105 active:scale-95 transition-all group relative overflow-hidden"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-        <MessageCircle className={`w-7 h-7 absolute transition-all duration-300 ${isOpen ? 'rotate-90 opacity-0 scale-0' : 'rotate-0 opacity-100 scale-100'}`} />
-        <X className={`w-7 h-7 absolute transition-all duration-300 ${isOpen ? 'rotate-0 opacity-100 scale-100' : '-rotate-90 opacity-0 scale-0'}`} />
+        <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="relative z-10 flex items-center justify-center">
+          <AnimatePresence mode="wait">
+            {!isOpen ? (
+              <motion.div
+                key="open"
+                initial={{ opacity: 0, rotate: -45 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: 45 }}
+              >
+                <MessageCircle className="w-8 h-8 text-white" />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="close"
+                initial={{ opacity: 0, rotate: -45 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: 45 }}
+              >
+                <X className="w-8 h-8 text-white" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </Button>
     </div>
   );
