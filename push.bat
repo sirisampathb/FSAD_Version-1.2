@@ -1,0 +1,9 @@
+@echo off
+echo Adding changes...
+git add .
+echo Committing changes...
+git commit -m "feat: enhance dashboard and home UI with premium heritage theme and refined colors"
+echo Pushing to GitHub...
+git push origin main
+echo Done! Please close this window.
+pause
