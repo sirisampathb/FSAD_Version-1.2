@@ -1,6 +1,7 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const apiBase = import.meta.env.VITE_API_URL || 
+  (import.meta.env.PROD ? "https://fsad-backend-3.onrender.com" : "http://localhost:8080");
 console.log("API Base URL:", apiBase);
 
 export function resolveImageUrl(url: string | null | undefined): string | undefined {
