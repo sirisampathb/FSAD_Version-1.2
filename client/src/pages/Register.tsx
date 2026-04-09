@@ -10,6 +10,7 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [mobile, setMobile] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -24,7 +25,7 @@ export default function Register() {
 
     setLoading(true);
     try {
-      await register(username.trim(), password.trim());
+      await register(username.trim(), password.trim(), mobile.trim());
       setLocation("/dashboard");
     } catch (err) {
       setError((err as Error).message || "Registration failed. Please try again.");
@@ -55,6 +56,17 @@ export default function Register() {
           </div>
 
           <div>
+            <label className="text-sm font-medium text-foreground mb-2 block">Mobile Number (Optional)</label>
+            <Input
+              type="tel"
+              value={mobile}
+              onChange={(event) => setMobile(event.target.value)}
+              placeholder="10 digit mobile number"
+              pattern="[0-9]{10}"
+            />
+          </div>
+
+          <div>
             <label className="text-sm font-medium text-foreground mb-2 block">Password</label>
             <Input
               type="password"
@@ -75,6 +87,7 @@ export default function Register() {
               required
             />
           </div>
+
 
           {error && <div className="rounded-xl bg-destructive/10 border border-destructive/20 p-4 text-sm text-destructive">{error}</div>}
 

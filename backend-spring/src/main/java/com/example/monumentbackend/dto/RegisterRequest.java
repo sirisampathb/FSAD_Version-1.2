@@ -13,15 +13,10 @@ public class RegisterRequest {
     @NotBlank(message = "Role is required")
     private String role;
 
-    public String getUsername() {
-        return username;
-    }
+    private String mobile;
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-}
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
+    public String getRole() { return role; }
+    public String getMobile() { return mobile; }
+}
