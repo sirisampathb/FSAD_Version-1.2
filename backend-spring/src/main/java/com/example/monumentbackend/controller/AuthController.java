@@ -4,6 +4,7 @@ import com.example.monumentbackend.dto.AuthResponse;
 import com.example.monumentbackend.dto.LoginRequest;
 import com.example.monumentbackend.dto.RegisterRequest;
 import com.example.monumentbackend.service.AuthService;
+import com.example.monumentbackend.entity.User;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

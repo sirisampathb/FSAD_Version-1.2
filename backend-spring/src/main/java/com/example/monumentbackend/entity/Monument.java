@@ -1,10 +1,11 @@
 package com.example.monumentbackend.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 
@@ -43,16 +44,14 @@ public class Monument {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @ElementCollection
-    @CollectionTable(name = "monument_timeline", joinColumns = @JoinColumn(name = "monument_id"))
+    @Column(columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private List<TimelineEvent> timeline;
 
-    @ElementCollection
-    @CollectionTable(name = "monument_fun_facts", joinColumns = @JoinColumn(name = "monument_id"))
-    @Column(name = "fact", columnDefinition = "TEXT")
+    @Column(name = "fun_facts", columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private List<String> funFacts;
 
-    @Embeddable
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

@@ -25,7 +25,7 @@ public class AuthService {
         User user = new User();
         user.setId(UUID.randomUUID().toString());
         user.setUsername(request.getUsername());
-        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
         user.setAuthToken(UUID.randomUUID().toString());
 
@@ -41,7 +41,7 @@ public class AuthService {
         if (userOpt.isPresent()) {
             User user = userOpt.get();
 
-            if (passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+            if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
                 user.setAuthToken(UUID.randomUUID().toString());
                 userRepository.save(user);
 

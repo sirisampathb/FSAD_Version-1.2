@@ -1,6 +1,6 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-const apiBase = "https://fsad-backend-3.onrender.com";
+const apiBase = "http://localhost:8080";
 console.log("API Base URL:", apiBase);
 
 export function resolveImageUrl(url: string | null | undefined): string | undefined {

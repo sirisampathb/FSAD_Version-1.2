@@ -9,12 +9,16 @@ public class User {
     @Id
     private String id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password")
-    private String passwordHash;
+    @Column(name = "password", nullable = false)
+    private String password;
 
+    @Column(name = "role")
     private String role;
+    
+    @Column(name = "auth_token")
     private String authToken;
 
     // ✅ GETTERS
@@ -27,8 +31,8 @@ public class User {
         return username;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
     public String getRole() {
@@ -49,8 +53,8 @@ public class User {
         this.username = username;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setRole(String role) {
