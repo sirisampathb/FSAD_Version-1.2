@@ -1,6 +1,6 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-const apiBase = import.meta.env.VITE_API_URL || 
+const apiBase = import.meta.env.VITE_API_URL || "https://fsad-backend-3.onrender.com" ||
   (import.meta.env.PROD ? "" : "http://localhost:8080");
 console.log("API Base URL:", apiBase || "(relative - proxied by Vercel)");
 
