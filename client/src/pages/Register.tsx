@@ -3,6 +3,9 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Crown, User, ShieldCheck, Gem } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Register() {
   const { register } = useAuth();
@@ -11,6 +14,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [mobile, setMobile] = useState("");
+  const [role, setRole] = useState("enthusiast");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +29,7 @@ export default function Register() {
 
     setLoading(true);
     try {
-      await register(username.trim(), password.trim(), mobile.trim());
+      await register(username.trim(), password.trim(), mobile.trim(), role);
       setLocation("/dashboard");
     } catch (err) {
       setError((err as Error).message || "Registration failed. Please try again.");
@@ -44,6 +48,26 @@ export default function Register() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="mb-6">
+            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4 block text-center">Identity Path</label>
+            <Tabs defaultValue="enthusiast" className="w-full" onValueChange={setRole}>
+              <TabsList className="grid w-full grid-cols-2 p-1 bg-muted/50 rounded-2xl h-16">
+                <TabsTrigger value="enthusiast" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-black transition-all">
+                  <div className="flex flex-col items-center gap-1">
+                    <Gem className="h-4 w-4" />
+                    <span className="text-[10px] uppercase font-bold">Enthusiast</span>
+                  </div>
+                </TabsTrigger>
+                <TabsTrigger value="admin" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-black transition-all">
+                  <div className="flex flex-col items-center gap-1">
+                    <Crown className="h-4 w-4" />
+                    <span className="text-[10px] uppercase font-bold">Curator</span>
+                  </div>
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+
           <div>
             <label className="text-sm font-medium text-foreground mb-2 block">Username</label>
             <Input

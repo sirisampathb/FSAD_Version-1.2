@@ -6,8 +6,12 @@ import { z } from "zod";
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+  password: text("password_hash").notNull(),
   role: text("role").default("enthusiast"),
+  authToken: text("auth_token"),
+  mobile: text("mobile").unique(),
+  otp: text("otp"),
+  otpExpiresAt: text("otp_expires_at"),
 });
 
 export const monuments = pgTable("monuments", {

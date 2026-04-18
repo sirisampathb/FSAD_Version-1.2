@@ -298,6 +298,3 @@ export default function StateExplorer() {
     </div>
   );
 }
-    </div>
-  );
-}
