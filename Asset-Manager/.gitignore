@@ -1,0 +1,45 @@
+# Build artifacts
+**/target/
+**/node_modules/
+**/dist/
+**/.replit
+**/.local
+**/bin/
+**/obj/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Java specific
+*.class
+*.jar
+*.war
+*.ear
+.factorypath
+.classpath
+.project
+.settings/
+
+# Logs
+*.log
+startup.log
+run.log
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
