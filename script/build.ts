@@ -1,6 +1,7 @@
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
 import { rm, readFile } from "fs/promises";
+import path from "path";
 
 // server deps to bundle to reduce openat(2) syscalls
 // which helps cold start times
@@ -33,32 +34,49 @@ const allowlist = [
 ];
 
 async function buildAll() {
-  await rm("dist", { recursive: true, force: true });
+  const isVercel = process.env.VERCEL === "1" || process.env.VERCEL === "true";
+  
+  try {
+    console.log("Cleaning dist directory...");
+    await rm("dist", { recursive: true, force: true });
 
-  console.log("building client...");
-  await viteBuild();
+    console.log("Building client (Vite)...");
+    await viteBuild();
+    console.log("Client build completed successfully.");
 
-  console.log("building server...");
-  const pkg = JSON.parse(await readFile("package.json", "utf-8"));
-  const allDeps = [
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.devDependencies || {}),
-  ];
-  const externals = allDeps.filter((dep) => !allowlist.includes(dep));
+    if (isVercel) {
+      console.log("Heuristic: Vercel environment detected. Skipping server bundle as it's handled by external Render backend or static rewrites.");
+      return;
+    }
 
-  await esbuild({
-    entryPoints: ["server/index.ts"],
-    platform: "node",
-    bundle: true,
-    format: "cjs",
-    outfile: "dist/index.cjs",
-    define: {
-      "process.env.NODE_ENV": '"production"',
-    },
-    minify: true,
-    external: externals,
-    logLevel: "info",
-  });
+    console.log("Building server (esbuild)...");
+    const pkgPath = path.resolve(process.cwd(), "package.json");
+    const pkg = JSON.parse(await readFile(pkgPath, "utf-8"));
+    const allDeps = [
+      ...Object.keys(pkg.dependencies || {}),
+      ...Object.keys(pkg.devDependencies || {}),
+    ];
+    const externals = allDeps.filter((dep) => !allowlist.includes(dep));
+
+    await esbuild({
+      entryPoints: ["server/index.ts"],
+      platform: "node",
+      bundle: true,
+      format: "cjs",
+      outfile: "dist/index.cjs",
+      define: {
+        "process.env.NODE_ENV": '"production"',
+      },
+      minify: true,
+      external: externals,
+      logLevel: "info",
+    });
+    console.log("Server build completed successfully.");
+  } catch (err) {
+    console.error("Build failed at step:");
+    console.error(err);
+    process.exit(1);
+  }
 }
 
 buildAll().catch((err) => {

@@ -17,8 +17,8 @@ export async function login(username: string, password: string): Promise<AuthRes
   return res.json();
 }
 
-export async function register(username: string, password: string, mobile?: string): Promise<AuthResponse> {
-  const res = await apiRequest("POST", "/api/auth/register", { username, password, mobile, role: "enthusiast" });
+export async function register(username: string, password: string, mobile?: string, role: string = "enthusiast"): Promise<AuthResponse> {
+  const res = await apiRequest("POST", "/api/auth/register", { username, password, mobile, role });
   return res.json();
 }
 

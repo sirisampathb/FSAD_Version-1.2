@@ -5,7 +5,7 @@ type AuthContextValue = {
   user: AuthUser | null;
   loading: boolean;
   login: (username: string, password: string) => Promise<AuthUser>;
-  register: (username: string, password: string, mobile?: string) => Promise<AuthUser>;
+  register: (username: string, password: string, mobile?: string, role?: string) => Promise<AuthUser>;
   loginWithOtp: (mobile: string, otp: string) => Promise<AuthUser>;
   requestOtp: (mobile: string) => Promise<{ message: string; error?: string }>;
   logout: () => Promise<void>;
@@ -40,8 +40,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return response.user;
   };
 
-  const register = async (username: string, password: string, mobile?: string) => {
-    const response = await registerApi(username, password, mobile);
+  const register = async (username: string, password: string, mobile?: string, role?: string) => {
+    const response = await registerApi(username, password, mobile, role);
     localStorage.setItem("authToken", response.token);
     setUser(response.user);
     return response.user;

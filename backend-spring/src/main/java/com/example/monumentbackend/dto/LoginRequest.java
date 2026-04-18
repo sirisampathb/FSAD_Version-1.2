@@ -1,7 +1,13 @@
 package com.example.monumentbackend.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginRequest {
 
     @NotBlank(message = "Username is required")
@@ -9,12 +15,4 @@ public class LoginRequest {
 
     @NotBlank(message = "Password is required")
     private String password;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }
