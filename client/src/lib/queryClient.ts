@@ -15,6 +15,7 @@ export function resolveImageUrl(url: string | null | undefined): string | undefi
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
+    console.error(`[API Error] ${res.status}: ${text}`);
     throw new Error(`${res.status}: ${text}`);
   }
 }
@@ -35,7 +36,7 @@ export async function apiRequest(
 
   // Ensure absolute URL targeting the working Render backend
   const targetUrl = url.startsWith("http") ? url : `${apiBase}${url.startsWith("/") ? url : `/${url}`}`;
-  console.log(`[API] Fetching: ${method} ${targetUrl}`);
+  console.log(`[API Request] ${method} ${targetUrl}`, { hasToken: !!token });
 
   const res = await fetch(targetUrl, {
     method,
@@ -44,6 +45,9 @@ export async function apiRequest(
     credentials: "include",
   });
 
+  if (!res.ok) {
+    console.error(`[API Error] ${method} ${targetUrl}:`, res.status, res.statusText);
+  }
   await throwIfResNotOk(res);
   return res;
 }
@@ -69,15 +73,35 @@ export const getQueryFn: <T>(options: {
       });
 
       if (unauthorizedBehavior === "returnNull" && res.status === 401) {
+        console.warn(`[API] Unauthorized (401) for: ${path}, returning null`);
         return null;
       }
 
+      if (!res.ok) {
+        console.error(`[API Query Error] ${url}:`, res.status, res.statusText);
+      }
       await throwIfResNotOk(res);
       return await res.json();
     };
 
 export const queryClient = new QueryClient({
   defaultOptions: {
+    queries: {
+      retry: (failureCount, error) => {
+        // Retry on network errors, but not on 4xx errors
+        if (error instanceof Error) {
+          if (error.message.includes("401") || error.message.includes("403")) {
+            return false; // Don't retry auth errors
+          }
+        }
+        return failureCount < 3; // Retry up to 3 times for other errors
+      },
+      retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes
+    },
+  },
+});
     queries: {
       queryFn: getQueryFn({ on401: "throw" }),
       refetchInterval: false,

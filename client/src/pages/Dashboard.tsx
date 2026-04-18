@@ -74,9 +74,35 @@ export default function Dashboard() {
 }
 
 function AdminView() {
-  const { data: monuments } = useMonuments();
+  const { data: monuments, isLoading, error } = useMonuments();
   const { mutateAsync: deleteMonument } = useDeleteMonument();
   const { toast } = useToast();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+          <p className="text-muted-foreground">Loading your Imperial Archive...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center max-w-md">
+          <ShieldAlert className="w-16 h-16 text-destructive/60 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-foreground mb-2">Failed to load archives</h2>
+          <p className="text-muted-foreground mb-6">{error instanceof Error ? error.message : "An error occurred while fetching monuments"}</p>
+          <Button onClick={() => window.location.reload()} className="rounded-xl">
+            Retry
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const handleDelete = async (id: string, name: string) => {
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
@@ -302,7 +328,33 @@ function AdminView() {
 }
 
 function EnthusiastView() {
-  const { data: monuments } = useMonuments();
+  const { data: monuments, isLoading, error } = useMonuments();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+          <p className="text-muted-foreground">Discovering architectural wonders...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center max-w-md">
+          <ShieldAlert className="w-16 h-16 text-destructive/60 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-foreground mb-2">Unable to load monuments</h2>
+          <p className="text-muted-foreground mb-6">{error instanceof Error ? error.message : "An error occurred"}</p>
+          <Button onClick={() => window.location.reload()} className="rounded-xl">
+            Retry
+          </Button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
       
