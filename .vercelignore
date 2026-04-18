@@ -1,0 +1,14 @@
+.git
+.gitignore
+node_modules
+.replit
+.vscode
+Asset-Manager
+attached_assets
+backend-spring
+build.log
+cleanup.bat
+docker-compose.yml
+logs.txt
+SPRING_BOOT_SETUP.md
+.npmrc
