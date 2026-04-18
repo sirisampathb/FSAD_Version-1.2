@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const [location] = useLocation();
@@ -47,8 +48,8 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-12">
-          {['/', '/explore', '/dashboard'].map((path) => (
-            <Link key={path} href={path}>
+          {['/', '/explore', user ? '/dashboard' : null].filter(Boolean).map((path) => (
+            <Link key={path!} href={path!}>
               <span className={`text-[10px] font-black uppercase tracking-[0.4em] hover:text-primary transition-all cursor-pointer relative group ${
                 location === path 
                   ? 'text-primary' 
