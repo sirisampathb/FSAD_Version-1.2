@@ -1,6 +1,6 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-const apiBase = import.meta.env.VITE_API_URL || 
+const apiBase = import.meta.env.VITE_API_URL || "https://fsad-backend-3.onrender.com" ||
   (import.meta.env.PROD ? "" : "http://localhost:8080");
 console.log("API Base URL:", apiBase || "(relative - proxied by Vercel)");
 
@@ -53,28 +53,28 @@ export const getQueryFn: <T>(options: {
   on401: UnauthorizedBehavior;
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
-  async ({ queryKey }) => {
-    const path = queryKey.join("/");
-    const url = `${apiBase}/${path.startsWith("/") ? path.slice(1) : path}`;
-    const token = localStorage.getItem("authToken");
-    const headers: Record<string, string> = {};
+    async ({ queryKey }) => {
+      const path = queryKey.join("/");
+      const url = `${apiBase}/${path.startsWith("/") ? path.slice(1) : path}`;
+      const token = localStorage.getItem("authToken");
+      const headers: Record<string, string> = {};
 
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
 
-    const res = await fetch(url, {
-      headers,
-      credentials: "include",
-    });
+      const res = await fetch(url, {
+        headers,
+        credentials: "include",
+      });
 
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
-    }
+      if (unauthorizedBehavior === "returnNull" && res.status === 401) {
+        return null;
+      }
 
-    await throwIfResNotOk(res);
-    return await res.json();
-  };
+      await throwIfResNotOk(res);
+      return await res.json();
+    };
 
 export const queryClient = new QueryClient({
   defaultOptions: {

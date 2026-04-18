@@ -126,6 +126,42 @@ export default function Home() {
             </div>
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {filteredMonuments.map((monument, index) => (
+              <motion.div
+                key={monument.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.05 }}
+                viewport={{ once: true }}
+              >
+                <Link href={`/monument/${monument.id}`}>
+                  <div className="group relative h-[500px] rounded-[2.5rem] overflow-hidden shadow-xl border border-white/5 transition-all duration-500 hover:border-primary/40 hover:-translate-y-2">
+                    <img 
+                      src={resolveImageUrl(monument.image)} 
+                      alt={monument.name}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
+                    
+                    {monument.unesco && (
+                      <div className="absolute top-8 right-8 glass-panel text-primary text-[9px] font-bold px-4 py-1.5 rounded-full border border-primary/20 uppercase tracking-[0.1em]">
+                        UNESCO Legend
+                      </div>
+                    )}
+                    
+                    <div className="absolute bottom-0 left-0 p-10 w-full transition-transform duration-500 group-hover:-translate-y-2">
+                      <div className="flex items-center text-primary/80 text-[10px] font-bold uppercase tracking-[0.2em] mb-4">
+                        <MapPin className="w-4 h-4 mr-2" />
+                        {monument.location}
+                      </div>
+                      <h3 className="text-2xl md:text-3xl font-serif font-bold text-white mb-4 leading-tight group-hover:text-primary transition-colors">{monument.name}</h3>
+                      <div className="h-0.5 w-0 bg-primary group-hover:w-full transition-all duration-500 rounded-full" />
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
