@@ -65,11 +65,11 @@ export default function Home() {
                <div className="h-px w-12 bg-primary/40" />
             </div>
             
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-9xl font-bold tracking-tight mb-8 leading-[1.05] text-white">
-              The <span className="text-gradient-gold animate-text-gradient italic font-medium">Soul</span> of Antiquity
+            <h1 className="font-serif text-5xl md:text-7xl lg:text-9xl font-bold tracking-tight mb-8 leading-[1.05] text-white drop-shadow-2xl">
+              The <span className="text-primary animate-text-gradient italic font-medium">Soul</span> of Antiquity
             </h1>
             
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
+            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-12 font-medium leading-relaxed drop-shadow-lg">
               Witness the architectural echoes of a civilization that transcended time. From golden sands to sacred peaks.
             </p>
             
@@ -185,48 +185,47 @@ export default function Home() {
                       </div>
                       <span className="text-primary font-bold uppercase tracking-[0.2em] text-xs">Curator Command Center</span>
                     </div>
-                    <h2 className="text-4xl font-serif font-bold text-white">Shalom, <span className="text-primary">{user.username}</span></h2>
-                    <p className="text-white/60 mt-2">The chronicles are under your stewardship. What shall we preserve today?</p>
+                    <h2 className="text-4xl font-serif font-bold text-foreground">Shalom, <span className="text-primary">{user.username}</span></h2>
+                    <p className="text-muted-foreground mt-2 font-medium">The chronicles are under your stewardship. What shall we preserve today?</p>
                   </div>
                   <div className="flex gap-4">
                     <Link href="/dashboard">
-                      <Button className="h-14 px-8 rounded-2xl bg-primary text-black font-bold uppercase tracking-widest text-xs hover:scale-105 transition-all">
+                      <Button className="h-14 px-8 rounded-2xl bg-primary text-white font-bold uppercase tracking-widest text-xs hover:scale-105 transition-all">
                         <PlusCircle className="w-4 h-4 mr-2" /> Add Monument
                       </Button>
                     </Link>
-                    <Button variant="outline" className="h-14 px-8 rounded-2xl border-white/10 text-white font-bold uppercase tracking-widest text-xs glass-panel">
+                    <Button variant="outline" className="h-14 px-8 rounded-2xl border-border text-foreground font-bold uppercase tracking-widest text-xs bg-white">
                        Export Registry
                     </Button>
                   </div>
                 </div>
 
-                {/* Admin Quick Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
-                  <div className="bento-card p-8 bg-white/5 border-white/5">
+                {/* Admin Quick Stats Grid */}                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                  <div className="bento-card p-8 bg-card border-border">
                     <BarChart3 className="w-8 h-8 text-primary mb-6" />
-                    <h4 className="text-white/40 text-xs font-bold uppercase tracking-widest mb-2">Total Registry</h4>
-                    <div className="text-4xl font-serif font-bold text-white mb-2">{monuments?.length || 0} Assets</div>
-                    <div className="text-emerald-400 text-xs font-medium flex items-center gap-1">
+                    <h4 className="text-muted-foreground text-xs font-bold uppercase tracking-widest mb-2">Total Registry</h4>
+                    <div className="text-4xl font-serif font-bold text-foreground mb-2">{monuments?.length || 0} Assets</div>
+                    <div className="text-emerald-600 text-xs font-medium flex items-center gap-1">
                       <Sparkles className="w-3 h-3" /> +2 new this week
                     </div>
                   </div>
                   
-                  <div className="bento-card p-8 bg-white/5 border-white/5">
+                  <div className="bento-card p-8 bg-card border-border">
                     <ShieldCheck className="w-8 h-8 text-primary mb-6" />
-                    <h4 className="text-white/40 text-xs font-bold uppercase tracking-widest mb-2">UNESCO Status</h4>
-                    <div className="text-4xl font-serif font-bold text-white mb-2">
+                    <h4 className="text-muted-foreground text-xs font-bold uppercase tracking-widest mb-2">UNESCO Status</h4>
+                    <div className="text-4xl font-serif font-bold text-foreground mb-2">
                        {monuments?.filter(m => m.unesco).length || 0} Verified
                     </div>
-                    <p className="text-white/40 text-xs">Priority compliance achieved</p>
+                    <p className="text-muted-foreground text-xs">Priority compliance achieved</p>
                   </div>
-
-                  <div className="bento-card p-8 bg-white/5 border-white/5">
+ 
+                  <div className="bento-card p-8 bg-card border-border">
                     <History className="w-8 h-8 text-primary mb-6" />
-                    <h4 className="text-white/40 text-xs font-bold uppercase tracking-widest mb-2">System Health</h4>
-                    <div className="text-4xl font-serif font-bold text-white mb-2">99.9%</div>
-                    <p className="text-white/40 text-xs">Distributed node sync active</p>
+                    <h4 className="text-muted-foreground text-xs font-bold uppercase tracking-widest mb-2">System Health</h4>
+                    <div className="text-4xl font-serif font-bold text-foreground mb-2">99.9%</div>
+                    <p className="text-muted-foreground text-xs">Distributed node sync active</p>
                   </div>
-                </div>
+                </div>v>
               </motion.div>
             ) : (
               /* Enthusiast Section */
@@ -271,9 +270,9 @@ export default function Home() {
                           { icon: BookOpen, label: "Scribe", color: "text-blue-400" },
                           { icon: History, label: "Elder", color: "text-purple-400" }
                         ].map((badge, i) => (
-                          <div key={i} className="flex flex-col items-center justify-center p-6 rounded-3xl bg-white/5 border border-white/5 grayscale hover:grayscale-0 transition-all cursor-help group">
+                          <div key={i} className="flex flex-col items-center justify-center p-6 rounded-3xl bg-secondary/30 border border-border grayscale hover:grayscale-0 transition-all cursor-help group">
                             <badge.icon className={`w-8 h-8 ${badge.color} mb-3 group-hover:scale-110 transition-transform`} />
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">{badge.label}</span>
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors">{badge.label}</span>
                           </div>
                         ))}
                      </div>
@@ -297,7 +296,7 @@ export default function Home() {
                           </div>
                           <div>
                             <h4 className="text-sm font-bold group-hover/item:text-primary transition-colors">{m.name}</h4>
-                            <p className="text-[10px] text-white/40 uppercase tracking-widest font-medium dark:text-gray-400">Visited 2 days ago</p>
+                            <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">Visited 2 days ago</p>
                           </div>
                         </div>
                       </Link>
