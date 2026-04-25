@@ -46,10 +46,10 @@ export default function StateExplorer() {
                </Badge>
                <div className="h-px w-12 bg-primary/40" />
             </div>
-            <h1 className="text-7xl md:text-9xl font-serif font-bold text-foreground mb-8 shadow-sm">
+            <h1 className="text-6xl md:text-7xl font-serif font-bold text-foreground mb-8 shadow-sm">
               Explore <span className="text-gradient-gold italic font-light lowercase">{selectedState.name}</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto italic font-medium opacity-80 leading-relaxed">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto italic font-medium opacity-80 leading-relaxed">
               &ldquo;{selectedState.description}&rdquo;
             </p>
           </motion.div>
@@ -110,7 +110,7 @@ export default function StateExplorer() {
                         <div className="bg-primary/20 p-4 rounded-[1.5rem] border border-primary/30 shadow-xl group-hover:rotate-12 transition-transform duration-500">
                           <MapPin className="w-8 h-8 text-primary" />
                         </div>
-                        <h2 className="text-4xl font-serif font-bold tracking-tight">Monumental <br />Legends</h2>
+                        <h2 className="text-3xl font-serif font-bold tracking-tight">Monumental <br />Legends</h2>
                       </div>
                       <ul className="space-y-6">
                         {selectedState.monuments.map((m: string, i: number) => (
@@ -122,7 +122,7 @@ export default function StateExplorer() {
                             className="flex items-center gap-6 p-5 rounded-3xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-default group/item"
                           >
                             <div className="w-3 h-3 rounded-full bg-primary shadow-[0_0_15px_rgba(253,185,49,0.5)] group-item-hover:scale-125 transition-transform" />
-                            <span className="text-foreground text-lg font-bold tracking-tight opacity-90">{m}</span>
+                            <span className="text-foreground text-base font-bold tracking-tight opacity-90">{m}</span>
                           </motion.li>
                         ))}
                       </ul>
@@ -137,7 +137,7 @@ export default function StateExplorer() {
                         <div className="bg-accent/20 p-4 rounded-[1.5rem] border border-accent/30 shadow-xl group-hover:-rotate-12 transition-transform duration-500">
                           <Utensils className="w-8 h-8 text-accent" />
                         </div>
-                        <h2 className="text-4xl font-serif font-bold tracking-tight">Culinary <br />Spirit</h2>
+                        <h2 className="text-3xl font-serif font-bold tracking-tight">Culinary <br />Spirit</h2>
                       </div>
                       <ul className="space-y-6">
                         {selectedState.foods.map((food: string, i: number) => (
@@ -148,7 +148,7 @@ export default function StateExplorer() {
                             transition={{ delay: i * 0.1 }}
                             className="flex items-center justify-between p-5 rounded-3xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-default group/item"
                           >
-                            <span className="text-foreground text-lg font-bold tracking-tight opacity-90">{food}</span>
+                            <span className="text-foreground text-base font-bold tracking-tight opacity-90">{food}</span>
                             <Sparkles className="w-5 h-5 text-accent opacity-0 group-hover/item:opacity-100 transition-opacity animate-pulse" />
                           </motion.li>
                         ))}
@@ -165,9 +165,9 @@ export default function StateExplorer() {
                       <div className="bg-sky-500/20 p-4 rounded-[1.5rem] text-sky-400 border border-sky-500/30 shadow-xl">
                         <Calendar className="w-8 h-8" />
                       </div>
-                      <h3 className="text-3xl font-serif font-bold tracking-tight">Auspicious Seasons</h3>
+                      <h3 className="text-2xl font-serif font-bold tracking-tight">Auspicious Seasons</h3>
                     </div>
-                    <p className="text-muted-foreground text-lg mb-10 leading-relaxed font-medium opacity-80 italic">
+                    <p className="text-muted-foreground text-base mb-8 leading-relaxed font-medium opacity-80 italic">
                       "Behold the glory of <strong className="text-foreground">{selectedState.name}</strong> from <span className="text-primary font-black underline decoration-primary/40 underline-offset-8 decoration-2">{selectedState.bestTimeToVisit}</span>, when the heavens align for the perfect pilgrimage."
                     </p>
                     <div className="flex items-center gap-4 text-xs font-black text-sky-400 uppercase tracking-[0.3em]">
@@ -183,7 +183,7 @@ export default function StateExplorer() {
                       <div className="bg-orange-500/20 p-4 rounded-[1.5rem] text-orange-400 border border-orange-500/30 shadow-xl">
                         <Compass className="w-8 h-8" />
                       </div>
-                      <h3 className="text-3xl font-serif font-bold tracking-tight">Cultural Essences</h3>
+                      <h3 className="text-2xl font-serif font-bold tracking-tight">Cultural Essences</h3>
                     </div>
                     <div className="flex flex-wrap gap-4">
                       {selectedState.highlights?.map((tag: string) => (
@@ -217,8 +217,8 @@ export default function StateExplorer() {
                         </div>
                       </div>
                       <div className="text-center lg:text-left flex-grow">
-                        <h3 className="text-5xl md:text-6xl font-serif font-bold mb-6 tracking-tighter leading-none">Draft Your <br /><span className="text-gradient-gold italic">Sacred Itinerary</span></h3>
-                        <p className="text-muted-foreground text-xl leading-relaxed max-w-2xl mb-12 font-medium opacity-80">
+                        <h3 className="text-4xl md:text-5xl font-serif font-bold mb-6 tracking-tighter leading-none">Draft Your <br /><span className="text-gradient-gold italic">Sacred Itinerary</span></h3>
+                        <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mb-12 font-medium opacity-80">
                           Unveil the hidden trails of <span className="text-foreground font-black italic">{selectedState.name}</span>. Our AI Chronicler will weave a journey tailored to your soul's curiosity.
                         </p>
                         
@@ -253,7 +253,7 @@ export default function StateExplorer() {
                     >
                       <div className="flex flex-col md:flex-row items-center justify-between gap-10 border-b border-white/10 pb-12">
                         <div>
-                          <h3 className="text-5xl font-serif font-bold tracking-tighter mb-4">Manifesting for <span className="text-primary italic">{selectedState.name}</span></h3>
+                          <h3 className="text-4xl font-serif font-bold tracking-tighter mb-4">Manifesting for <span className="text-primary italic">{selectedState.name}</span></h3>
                           <p className="text-xs font-black text-primary uppercase tracking-[0.4em] opacity-60">Authorized: Imperial Chronicler {user?.username}</p>
                         </div>
                         <Button variant="ghost" onClick={() => setIsPlanning(false)} className="rounded-2xl h-14 border border-white/10 hover:bg-white/5 font-black uppercase tracking-widest text-[10px]">Abandon Intent</Button>
