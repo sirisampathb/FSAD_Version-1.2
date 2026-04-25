@@ -26,11 +26,11 @@ export default function StateExplorer() {
           transition={{ duration: 1.5 }}
           className={cn("absolute inset-0 bg-gradient-to-br opacity-30 transition-colors duration-1000", selectedState.color)} 
         />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
 
         {/* Decorative Light Leak */}
-        <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-primary/20 blur-[150px] animate-float rounded-full mix-blend-screen pointer-events-none" />
+        <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-primary/20 blur-3xl animate-float rounded-full pointer-events-none" />
 
         <div className="container mx-auto px-6 z-10 text-center">
           <motion.div
@@ -113,7 +113,7 @@ export default function StateExplorer() {
                         <h2 className="text-4xl font-serif font-bold tracking-tight">Monumental <br />Legends</h2>
                       </div>
                       <ul className="space-y-6">
-                        {selectedState.monuments.map((m, i) => (
+                        {selectedState.monuments.map((m: string, i: number) => (
                           <motion.li 
                             key={m}
                             initial={{ opacity: 0, x: -20 }}
@@ -140,7 +140,7 @@ export default function StateExplorer() {
                         <h2 className="text-4xl font-serif font-bold tracking-tight">Culinary <br />Spirit</h2>
                       </div>
                       <ul className="space-y-6">
-                        {selectedState.foods.map((food, i) => (
+                        {selectedState.foods.map((food: string, i: number) => (
                           <motion.li 
                             key={food}
                             initial={{ opacity: 0, x: -20 }}
@@ -160,7 +160,7 @@ export default function StateExplorer() {
                 <div className="grid md:grid-cols-2 gap-12">
                   {/* Planning/Seasonal Card */}
                   <Card className="premium-card p-12 border-primary/10 bg-gradient-to-br from-card/60 to-primary/5 shadow-2xl relative overflow-hidden group">
-                    <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-primary/10 rounded-full blur-[80px] group-hover:bg-primary/20 transition-colors" />
+                    <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />
                     <div className="flex items-center gap-6 mb-10">
                       <div className="bg-sky-500/20 p-4 rounded-[1.5rem] text-sky-400 border border-sky-500/30 shadow-xl">
                         <Calendar className="w-8 h-8" />
@@ -178,7 +178,7 @@ export default function StateExplorer() {
 
                   {/* Cultural Highlights Card */}
                   <Card className="premium-card p-12 border-accent/10 bg-gradient-to-br from-card/60 to-accent/5 shadow-2xl relative overflow-hidden group">
-                    <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-accent/10 rounded-full blur-[80px] group-hover:bg-accent/20 transition-colors" />
+                    <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-accent/10 rounded-full blur-3xl group-hover:bg-accent/20 transition-colors" />
                     <div className="flex items-center gap-6 mb-10">
                       <div className="bg-orange-500/20 p-4 rounded-[1.5rem] text-orange-400 border border-orange-500/30 shadow-xl">
                         <Compass className="w-8 h-8" />
@@ -186,7 +186,7 @@ export default function StateExplorer() {
                       <h3 className="text-3xl font-serif font-bold tracking-tight">Cultural Essences</h3>
                     </div>
                     <div className="flex flex-wrap gap-4">
-                      {selectedState.highlights?.map((tag) => (
+                      {selectedState.highlights?.map((tag: string) => (
                         <Badge key={tag} variant="secondary" className="px-6 py-3 rounded-full font-black uppercase tracking-widest text-[10px] bg-white/5 border border-white/10 hover:bg-primary hover:text-black transition-all cursor-default shadow-lg">
                           {tag}
                         </Badge>
@@ -205,8 +205,8 @@ export default function StateExplorer() {
               viewport={{ once: true, margin: "-100px" }}
             >
               <Card className="premium-card p-16 bg-gradient-to-br from-primary/10 via-background/40 to-accent/10 border-primary/30 shadow-[0_60px_120px_rgba(0,0,0,0.6)] relative overflow-hidden group">
-                <div className="absolute -top-20 -right-20 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[150px] animate-pulse-gold pointer-events-none" />
-                <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] bg-accent/5 rounded-full blur-[100px] animate-float pointer-events-none" />
+                <div className="absolute -top-20 -right-20 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-pulse-gold pointer-events-none" />
+                <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] bg-accent/5 rounded-full blur-3xl animate-float pointer-events-none" />
                 
                 <div className="relative z-10">
                   {!isPlanning ? (

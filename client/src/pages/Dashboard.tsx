@@ -1,3 +1,16 @@
+import { useAuth } from "@/lib/auth";
+import { Link } from "wouter";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ShieldAlert, Sparkles, TrendingUp, History, Map, Users, Building2, MessageSquare, Plus, Edit2, Trash2, ChevronRight } from "lucide-react";
+import { useMonuments, useDeleteMonument } from "@/hooks/useMonuments";
+import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { AddMonumentDialog } from "@/components/AddMonumentDialog";
+import { resolveImageUrl } from "@/lib/queryClient";
+
 export default function Dashboard() {
   const { user } = useAuth();
 
@@ -27,8 +40,8 @@ export default function Dashboard() {
     <div className="min-h-screen bg-background pt-24 pb-24 mesh-gradient overflow-hidden noise-overlay">
       <div className="container mx-auto px-6 relative">
         {/* Ambient background decoration */}
-        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -z-10 animate-pulse-gold opacity-30" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] -z-10 animate-float opacity-20" />
+        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl -z-10 animate-pulse-gold opacity-30" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-accent/5 rounded-full blur-3xl -z-10 animate-float opacity-20" />
 
         {/* Classical Header */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 mb-16 px-4">
@@ -360,7 +373,7 @@ function EnthusiastView() {
       
       {/* 1. Level Bento */}
       <Card className="glass-panel lg:col-span-4 p-10 relative overflow-hidden group border-primary/5">
-        <div className="absolute -top-10 -right-10 w-60 h-60 bg-primary/10 rounded-full blur-[80px] group-hover:bg-primary/20 transition-colors animate-float" />
+        <div className="absolute -top-10 -right-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors animate-float" />
         <CardHeader className="p-0 mb-10">
           <Badge className="w-fit mb-6 rounded-lg bg-primary/10 text-primary border border-primary/20 px-4 py-1.5 font-bold uppercase tracking-[0.2em] text-[9px]">Grand Archivist</Badge>
           <CardTitle className="text-4xl font-serif font-bold tracking-tight">Explorer Rank</CardTitle>

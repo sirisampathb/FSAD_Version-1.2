@@ -50,7 +50,7 @@ export default function Home() {
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-black/20 to-background" />
         
         {/* Decorative Light Leak */}
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] animate-float rounded-full mix-blend-screen pointer-events-none" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-3xl animate-float rounded-full pointer-events-none" />
         
         {/* Content */}
         <div className="container mx-auto px-6 z-20 text-center">

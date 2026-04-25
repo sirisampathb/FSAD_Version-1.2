@@ -57,7 +57,7 @@ export const getQueryFn: <T>(options: {
   on401: UnauthorizedBehavior;
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
-    async ({ queryKey }) => {
+    async ({ queryKey }: { queryKey: readonly unknown[] }) => {
       const path = queryKey.join("/");
       const url = `${apiBase}/${path.startsWith("/") ? path.slice(1) : path}`;
       const token = localStorage.getItem("authToken");

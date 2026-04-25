@@ -121,7 +121,7 @@
 
 /* Advanced Utilities */
 .glass-panel {
-  @apply bg-background/60 backdrop-blur-2xl border border-white/10 dark:border-white/5 shadow-2xl;
+  @apply bg-background/60 backdrop-blur-md border border-white/10 dark:border-white/5 shadow-xl;
 }
 
 .text-gradient-gold {
@@ -145,11 +145,11 @@
 }
 
 .bento-card {
-  @apply relative overflow-hidden rounded-[2.5rem] border border-border/40 bg-card/40 backdrop-blur-3xl transition-all duration-700 hover:shadow-[0_30px_60px_rgba(0,0,0,0.3)] hover:border-primary/50 hover:-translate-y-2;
+  @apply relative overflow-hidden rounded-[2.5rem] border border-border/40 bg-card/40 backdrop-blur-lg transition-all duration-700 hover:shadow-xl hover:border-primary/50 hover:-translate-y-1;
 }
 
 .premium-card {
-  @apply relative overflow-hidden rounded-[3.5rem] border border-white/10 bg-gradient-to-br from-white/10 to-white/[0.01] backdrop-blur-3xl shadow-[0_50px_100px_rgba(0,0,0,0.4)] transition-all duration-700 hover:border-primary/40;
+  @apply relative overflow-hidden rounded-[3.5rem] border border-white/10 bg-gradient-to-br from-white/10 to-white/[0.01] backdrop-blur-lg shadow-2xl transition-all duration-700 hover:border-primary/40;
 }
 
 .noise-overlay {
@@ -161,9 +161,8 @@
   position: absolute;
   inset: 0;
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.15;
+  opacity: 0.05;
   pointer-events: none;
-  mix-blend-mode: overlay;
   z-index: 10;
 }
 
