@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden noise-overlay">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image with Parallax effect */}
         <motion.div 
           initial={{ scale: 1.05 }}
@@ -47,7 +47,8 @@ export default function Home() {
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-black/20 to-background" />
+        <div className="absolute inset-0 z-10 bg-black/20" />
+        <div className="absolute inset-x-0 bottom-0 h-32 z-10 bg-gradient-to-t from-background to-transparent" />
         
         {/* Decorative Light Leak */}
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-3xl animate-float rounded-full pointer-events-none" />
