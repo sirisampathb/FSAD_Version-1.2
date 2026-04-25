@@ -93,6 +93,7 @@ const translations: Record<string, any> = {
 };
 
 export default function Dashboard() {
+  const { user } = useAuth();
   const [lang, setLang] = useState(localStorage.getItem("lang") || "en");
   const [time, setTime] = useState(new Date());
   const t = translations[lang] || translations.en;
