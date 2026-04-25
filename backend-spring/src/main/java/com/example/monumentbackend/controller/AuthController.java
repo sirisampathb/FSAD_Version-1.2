@@ -33,8 +33,9 @@ public class AuthController {
         try {
             String message = authService.sendOtp(request);
             return ResponseEntity.ok(Map.of("message", message));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(400).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            e.printStackTrace(); // Log to console for debugging
+            return ResponseEntity.status(400).body(Map.of("error", e.getMessage() != null ? e.getMessage() : "Unknown error occurred during OTP send"));
         }
     }
 
@@ -42,8 +43,9 @@ public class AuthController {
     public ResponseEntity<?> verifyOtp(@Valid @RequestBody OtpVerifyRequest request) {
         try {
             return ResponseEntity.ok(authService.verifyOtp(request));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(400).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(Map.of("error", e.getMessage() != null ? e.getMessage() : "Unknown error occurred during OTP verification"));
         }
     }
 
