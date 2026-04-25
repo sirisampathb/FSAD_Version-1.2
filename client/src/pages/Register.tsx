@@ -49,7 +49,7 @@ export default function Register() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50 -z-10" />
         <div className="mb-10 text-center">
           <p className="text-[10px] text-primary uppercase font-black tracking-[0.5em] mb-4 animate-pulse">Join the Chronicles</p>
-          <h1 className="text-5xl font-serif font-bold text-foreground tracking-tight">Create your <span className="text-gradient-gold animate-text-gradient italic font-medium">Path</span></h1>
+          <h1 className="text-5xl font-serif font-bold text-foreground tracking-tight">Create your <span className="text-gradient-rose animate-text-gradient italic font-medium">Path</span></h1>
           <p className="text-muted-foreground mt-4 text-base font-medium opacity-60">Begin your immersive journey through Bharat's architectural spirit.</p>
         </div>
 

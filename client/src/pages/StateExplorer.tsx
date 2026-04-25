@@ -47,7 +47,7 @@ export default function StateExplorer() {
                <div className="h-px w-12 bg-primary/40" />
             </div>
             <h1 className="text-4xl md:text-6xl font-serif font-bold text-foreground mb-4 shadow-sm">
-              Explore <span className="text-gradient-gold italic font-light lowercase">{selectedState.name}</span>
+              Explore <span className="text-gradient-rose italic font-light lowercase">{selectedState.name}</span>
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto italic font-medium opacity-80 leading-relaxed">
               &ldquo;{selectedState.description}&rdquo;
@@ -205,7 +205,7 @@ export default function StateExplorer() {
               viewport={{ once: true, margin: "-100px" }}
             >
               <Card className="premium-card p-10 bg-gradient-to-br from-primary/10 via-background/40 to-accent/10 border-primary/30 shadow-2xl relative overflow-hidden group">
-                <div className="absolute -top-20 -right-20 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-pulse-gold pointer-events-none" />
+                <div className="absolute -top-20 -right-20 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-pulse-rose pointer-events-none" />
                 <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] bg-accent/5 rounded-full blur-3xl animate-float pointer-events-none" />
                 
                 <div className="relative z-10">
@@ -217,7 +217,7 @@ export default function StateExplorer() {
                         </div>
                       </div>
                       <div className="text-center lg:text-left flex-grow">
-                        <h3 className="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tighter leading-none">Draft Your <br /><span className="text-gradient-gold italic">Sacred Itinerary</span></h3>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tighter leading-none">Draft Your <br /><span className="text-gradient-rose italic">Sacred Itinerary</span></h3>
                         <p className="text-muted-foreground text-base leading-relaxed max-w-2xl mb-8 font-medium opacity-80">
                           Unveil the hidden trails of <span className="text-foreground font-black italic">{selectedState.name}</span>. Our AI Chronicler will weave a journey tailored to your soul's curiosity.
                         </p>
@@ -282,7 +282,7 @@ export default function StateExplorer() {
                       </div>
                       <Button className="w-full h-24 rounded-[3rem] text-2xl font-black uppercase tracking-[0.3em] shadow-[0_40px_80px_rgba(253,185,49,0.3)] bg-primary text-black hover:bg-white transition-all duration-1000 group relative overflow-hidden">
                         <span className="relative z-10 flex items-center justify-center gap-6">
-                          Weave Destiny <Sparkles className="w-8 h-8 animate-pulse-gold" />
+                          Weave Destiny <Sparkles className="w-8 h-8 animate-pulse-rose" />
                         </span>
                         <div className="absolute inset-0 bg-white/20 translate-x-full group-hover:translate-x-0 transition-transform duration-1000" />
                       </Button>

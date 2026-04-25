@@ -50,7 +50,7 @@ export default function Navbar() {
             </motion.div>
             <span className={`font-serif text-3xl font-bold tracking-tighter relative z-10 ${!scrolled && location === '/' ? 'text-white' : 'text-foreground'
               }`}>
-              Bharat <span className="text-gradient-gold animate-text-gradient italic font-medium">Heritage</span>
+              Bharat <span className="text-gradient-rose animate-text-gradient italic font-medium">Heritage</span>
             </span>
           </motion.div>
         </Link>

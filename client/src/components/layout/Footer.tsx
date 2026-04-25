@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
             <div className="font-serif text-3xl font-bold mb-6 text-foreground tracking-tighter">
-              Bharat <span className="text-gradient-gold animate-text-gradient italic">Heritage</span>
+              Bharat <span className="text-gradient-rose animate-text-gradient italic">Heritage</span>
             </div>
             <p className="text-muted-foreground max-w-sm mb-6">
               Discover the soul of India. A cultural education platform that inspires awareness of Indian heritage, historical places, and famous monuments.

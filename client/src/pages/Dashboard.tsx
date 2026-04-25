@@ -100,7 +100,7 @@ export default function Dashboard() {
             </div>
             <h1 className="text-6xl md:text-8xl font-serif font-bold text-foreground tracking-tighter leading-none mb-6">
               {greeting}, <br />
-              <span className="text-gradient-gold animate-text-gradient italic font-medium drop-shadow-2xl">{user.username}</span>
+              <span className="text-gradient-rose animate-text-gradient italic font-medium drop-shadow-2xl">{user.username}</span>
             </h1>
             <p className="text-muted-foreground text-xl max-w-xl font-medium italic opacity-60 reveal-mask">
               "Your presence is documented. The architectural spirit of Bharat awaits your command."
@@ -177,7 +177,7 @@ function AdminView() {
             animate={{ opacity: 1, y: 0 }} 
             whileHover={{ y: -12, scale: 1.02 }}
             transition={{ delay: i * 0.1, type: "spring" }}
-            className="premium-glass p-10 rounded-[3rem] border-white/5 hover:border-primary/40 transition-all duration-700 relative overflow-hidden group gold-glow-border"
+            className="premium-glass p-10 rounded-[3rem] border-white/5 hover:border-primary/40 transition-all duration-700 relative overflow-hidden group rose-glow-border"
           >
             <div className="absolute -right-4 -top-4 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors" />
             <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color} w-fit mb-8 shadow-xl border border-white/5`}>
@@ -300,7 +300,7 @@ function EnthusiastView() {
     <div className="space-y-12">
       <div className="grid lg:grid-cols-12 gap-8">
         {/* 1. Mesmerizing Level Bento */}
-        <Card className="premium-glass lg:col-span-5 p-12 rounded-[4rem] border-white/5 relative overflow-hidden group gold-glow-border">
+        <Card className="premium-glass lg:col-span-5 p-12 rounded-[4rem] border-white/5 relative overflow-hidden group rose-glow-border">
           <div className="absolute inset-0 bg-aurora opacity-20 pointer-events-none" />
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-12">
@@ -309,7 +309,7 @@ function EnthusiastView() {
                  <Compass className="w-10 h-10 text-primary/40 stroke-[1.5]" />
                </motion.div>
             </div>
-            <h3 className="text-6xl font-serif font-bold tracking-tighter mb-10 leading-none">Your <br /><span className="text-gradient-gold italic">Heritage Rank</span></h3>
+            <h3 className="text-6xl font-serif font-bold tracking-tighter mb-10 leading-none">Your <br /><span className="text-gradient-rose italic">Heritage Rank</span></h3>
             <div className="flex items-baseline gap-4 mb-10">
                <span className="text-9xl font-bold text-foreground leading-none">7</span>
                <span className="text-4xl text-muted-foreground font-black opacity-20 italic">/ 10</span>
@@ -394,7 +394,7 @@ function EnthusiastView() {
                 <Globe className="w-20 h-20 stroke-[1.5]" />
               </motion.div>
               <div>
-                <h3 className="text-6xl md:text-8xl font-serif font-bold mb-8 tracking-tighter leading-none italic">Forge Your <br /><span className="text-gradient-gold animate-text-gradient">Divine Legacy</span></h3>
+                <h3 className="text-6xl md:text-8xl font-serif font-bold mb-8 tracking-tighter leading-none italic">Forge Your <br /><span className="text-gradient-rose animate-text-gradient">Divine Legacy</span></h3>
                 <p className="text-muted-foreground text-2xl mb-12 leading-relaxed max-w-3xl font-medium opacity-60">
                   The chronicles are incomplete without your journey. Step into the regions where history breaths.
                 </p>

@@ -40,7 +40,7 @@
   /* Custom Animations */
   --animate-shimmer: shimmer 2s infinite;
   --animate-float: float 10s ease-in-out infinite;
-  --animate-pulse-gold: pulse-gold 4s infinite;
+  --animate-pulse-rose: pulse-rose 4s infinite;
   --animate-blob: blob 7s infinite alternate;
   --animate-aurora: aurora 20s infinite linear;
   --animate-text-gradient: textGradient 4s linear infinite;
@@ -53,9 +53,9 @@
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(-20px) rotate(1deg); }
   }
-  @keyframes pulse-gold {
-    0%, 100% { box-shadow: 0 0 20px rgba(253, 185, 49, 0.2); }
-    50% { box-shadow: 0 0 40px rgba(253, 185, 49, 0.4); }
+  @keyframes pulse-rose {
+    0%, 100% { box-shadow: 0 0 20px rgba(225, 29, 72, 0.2); }
+    50% { box-shadow: 0 0 40px rgba(225, 29, 72, 0.4); }
   }
   @keyframes blob {
     0% { transform: translate(0px, 0px) scale(1); }
@@ -117,7 +117,7 @@
 }
 
 .dark {
-  --background: 220 30% 6%; /* Deeper Obsidian */
+  --background: 230 45% 4%; /* Midnight Indigo */
   --foreground: 40 33% 98%;
   
   --card: 220 30% 9%;
@@ -126,22 +126,22 @@
   --popover: 220 30% 9%;
   --popover-foreground: 40 33% 98%;
   
-  --primary: 43 100% 50%; /* Amber Gold */
-  --primary-foreground: 220 30% 7%;
+  --primary: 350 89% 60%; /* Imperial Rose/Crimson */
+  --primary-foreground: 40 33% 98%;
   
-  --secondary: 220 30% 14%;
+  --secondary: 230 45% 12%;
   --secondary-foreground: 40 33% 98%;
   
-  --muted: 220 30% 14%;
-  --muted-foreground: 220 10% 70%;
+  --muted: 230 45% 12%;
+  --muted-foreground: 230 20% 70%;
   
-  --accent: 12 76% 50%; /* Deep Terra Cotta */
+  --accent: 260 80% 70%; /* Luminous Violet */
   --accent-foreground: 0 0% 100%;
   
   --destructive: 0 62% 40%;
   --destructive-foreground: 40 33% 98%;
   
-  --border: 220 30% 14%;
+  --border: 230 45% 12%;
   --input: 220 30% 14%;
   --ring: 43 100% 50%;
 }
@@ -164,8 +164,8 @@
   @apply bg-background/60 backdrop-blur-md border border-white/10 dark:border-white/5 shadow-xl;
 }
 
-.text-gradient-gold {
-  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#FFD700] via-[#FDB931] to-[#D4AF37];
+.text-gradient-rose {
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-[#FFB7B2] via-[#E29578] to-[#FFDDD2];
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
@@ -183,16 +183,16 @@
   @apply bg-background/40 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
 }
 
-.gold-glow-border {
+.rose-glow-border {
   @apply relative;
 }
 
-.gold-glow-border::before {
+.rose-glow-border::before {
   content: "";
   @apply absolute -inset-[1px] rounded-[inherit] bg-gradient-to-br from-primary/50 via-primary/20 to-transparent -z-10 opacity-0 transition-opacity duration-500;
 }
 
-.gold-glow-border:hover::before {
+.rose-glow-border:hover::before {
   @apply opacity-100;
 }
 
@@ -204,11 +204,11 @@
 }
 
 .mesh-gradient {
-  background-color: hsla(220,30%,6%,1);
+  background-color: hsla(230,45%,4%,1);
   background-image: 
-    radial-gradient(at 0% 0%, hsla(43,100%,50%,0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, hsla(12,76%,50%,0.15) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, hsla(220,30%,20%,0.1) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, hsla(350,89%,60%,0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(260,80%,70%,0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, hsla(230,45%,15%,0.1) 0px, transparent 50%);
 }
 
 .bento-card {
@@ -253,8 +253,8 @@
 .delay-4000 { animation-delay: 4s; }
 
 .bg-aurora {
-  background: radial-gradient(circle at 50% 50%, hsla(43, 100%, 50%, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 10% 20%, hsla(12, 76%, 50%, 0.1) 0%, transparent 40%),
-              radial-gradient(circle at 90% 80%, hsla(180, 40%, 35%, 0.1) 0%, transparent 40%);
+  background: radial-gradient(circle at 50% 50%, hsla(350, 89%, 60%, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 10% 20%, hsla(260, 80%, 70%, 0.1) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, hsla(190, 80%, 50%, 0.1) 0%, transparent 40%);
   @apply animate-aurora;
 }
