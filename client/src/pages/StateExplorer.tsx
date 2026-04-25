@@ -119,6 +119,8 @@ export default function StateExplorer() {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: i * 0.1 }}
+                            className="flex items-center gap-4 p-3 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-default group/item"
+                          >
                             <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(253,185,49,0.5)]" />
                             <span className="text-foreground text-sm font-bold tracking-tight opacity-90">{m}</span>
                           </motion.li>
