@@ -19,5 +19,5 @@ public class RegisterRequest {
     @NotBlank(message = "Role is required")
     private String role;
 
-    private String mobile;
+    private String email;
 }

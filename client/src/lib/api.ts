@@ -17,18 +17,18 @@ export async function login(username: string, password: string): Promise<AuthRes
   return res.json();
 }
 
-export async function register(username: string, password: string, mobile?: string, role: string = "enthusiast"): Promise<AuthResponse> {
-  const res = await apiRequest("POST", "/api/auth/register", { username, password, mobile, role });
+export async function register(username: string, password: string, email?: string, role: string = "enthusiast"): Promise<AuthResponse> {
+  const res = await apiRequest("POST", "/api/auth/register", { username, password, email, role });
   return res.json();
 }
 
-export async function sendOtp(mobile: string): Promise<{ message: string; error?: string }> {
-  const res = await apiRequest("POST", "/api/auth/send-otp", { mobile });
+export async function sendOtp(email: string): Promise<{ message: string; error?: string }> {
+  const res = await apiRequest("POST", "/api/auth/send-otp", { email });
   return res.json();
 }
 
-export async function verifyOtp(mobile: string, otp: string): Promise<AuthResponse> {
-  const res = await apiRequest("POST", "/api/auth/verify-otp", { mobile, otp });
+export async function verifyOtp(email: string, otp: string): Promise<AuthResponse> {
+  const res = await apiRequest("POST", "/api/auth/verify-otp", { email, otp });
   return res.json();
 }
 

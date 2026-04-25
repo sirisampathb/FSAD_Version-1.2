@@ -5,20 +5,19 @@ import jakarta.validation.constraints.Pattern;
 
 public class OtpVerifyRequest {
 
-    @NotBlank(message = "Mobile number is required")
-    @Pattern(regexp = "^[0-9]{10}$", message = "Invalid mobile number")
-    private String mobile;
+    @NotBlank(message = "Email is required")
+    private String email;
 
     @NotBlank(message = "OTP is required")
     @Pattern(regexp = "^[0-9]{6}$", message = "OTP must be 6 digits")
     private String otp;
 
-    public String getMobile() {
-        return mobile;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getOtp() {

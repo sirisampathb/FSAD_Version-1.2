@@ -28,8 +28,8 @@ public class User {
     @Column(name = "auth_token")
     private String authToken;
 
-    @Column(name = "mobile", unique = true)
-    private String mobile;
+    @Column(name = "email", unique = true)
+    private String email;
 
     @Column(name = "otp")
     private String otp;

@@ -9,7 +9,7 @@ export const users = pgTable("users", {
   password: text("password_hash").notNull(),
   role: text("role").default("enthusiast"),
   authToken: text("auth_token"),
-  mobile: text("mobile").unique(),
+  email: text("email").unique(),
   otp: text("otp"),
   otpExpiresAt: text("otp_expires_at"),
 });

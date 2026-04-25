@@ -19,11 +19,13 @@ public class AuthService {
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     // ✅ Constructor (IMPORTANT)
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public AuthResponse register(RegisterRequest request) {
@@ -33,10 +35,10 @@ public class AuthService {
             logger.warn("Registration failed: Username already exists - {}", request.getUsername());
             throw new RuntimeException("Username already exists");
         }
-        if (request.getMobile() != null && !request.getMobile().isEmpty()) {
-            if (userRepository.existsByMobile(request.getMobile())) {
-                logger.warn("Registration failed: Mobile already registered - {}", request.getMobile());
-                throw new RuntimeException("Mobile number already registered");
+        if (request.getEmail() != null && !request.getEmail().isEmpty()) {
+            if (userRepository.existsByEmail(request.getEmail())) {
+                logger.warn("Registration failed: Email already registered - {}", request.getEmail());
+                throw new RuntimeException("Email address already registered");
             }
         }
 
@@ -45,7 +47,7 @@ public class AuthService {
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
-        user.setMobile(request.getMobile());
+        user.setEmail(request.getEmail());
         user.setAuthToken(UUID.randomUUID().toString());
 
         logger.debug("Creating new user: {} with role: {}", user.getUsername(), user.getRole());
@@ -82,11 +84,11 @@ public class AuthService {
     }
 
     public String sendOtp(OtpRequest request) {
-        logger.info("OTP request for mobile: {}", request.getMobile());
-        Optional<User> userOpt = userRepository.findByMobile(request.getMobile());
+        logger.info("OTP request for email: {}", request.getEmail());
+        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
         if (userOpt.isEmpty()) {
-            logger.warn("OTP failed: Mobile number not found - {}", request.getMobile());
-            throw new RuntimeException("Mobile number not found. Please register first.");
+            logger.warn("OTP failed: Email not found - {}", request.getEmail());
+            throw new RuntimeException("Email address not found. Please register first.");
         }
 
         User user = userOpt.get();
@@ -96,30 +98,31 @@ public class AuthService {
         user.setOtpExpiresAt(LocalDateTime.now().plusMinutes(5));
         userRepository.save(user);
 
-        logger.debug("OTP generated for user: {}, mobile: {}", user.getUsername(), request.getMobile());
-        logger.info("OTP sent to mobile: {} (Demo mode - OTP: {})", request.getMobile(), otp);
+        logger.debug("OTP generated for user: {}, email: {}", user.getUsername(), request.getEmail());
         
-        // In Demo/Free mode, we return the OTP in the response or just log it
-        // In a real app, this would call an SMS API
-        return "OTP sent successfully (Demo: " + otp + ")";
+        // Send email
+        emailService.sendOtpEmail(request.getEmail(), otp);
+        logger.info("OTP sent to email: {}", request.getEmail());
+        
+        return "OTP sent successfully to email";
     }
 
     public AuthResponse verifyOtp(OtpVerifyRequest request) {
-        logger.info("OTP verification attempt for mobile: {}", request.getMobile());
-        Optional<User> userOpt = userRepository.findByMobile(request.getMobile());
+        logger.info("OTP verification attempt for email: {}", request.getEmail());
+        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
         if (userOpt.isEmpty()) {
-            logger.warn("OTP verification failed: Mobile not found - {}", request.getMobile());
-            throw new RuntimeException("Mobile number not found");
+            logger.warn("OTP verification failed: Email not found - {}", request.getEmail());
+            throw new RuntimeException("Email address not found");
         }
 
         User user = userOpt.get();
         if (user.getOtp() == null || !user.getOtp().equals(request.getOtp())) {
-            logger.warn("OTP verification failed: Invalid OTP for mobile - {}", request.getMobile());
+            logger.warn("OTP verification failed: Invalid OTP for email - {}", request.getEmail());
             throw new RuntimeException("Invalid OTP");
         }
 
         if (user.getOtpExpiresAt() == null || user.getOtpExpiresAt().isBefore(LocalDateTime.now())) {
-            logger.warn("OTP verification failed: OTP expired for mobile - {}", request.getMobile());
+            logger.warn("OTP verification failed: OTP expired for email - {}", request.getEmail());
             throw new RuntimeException("OTP has expired");
         }
 
@@ -128,7 +131,7 @@ public class AuthService {
         user.setOtpExpiresAt(null);
         user.setAuthToken(UUID.randomUUID().toString());
         userRepository.save(user);
-        logger.info("OTP verified successfully for user: {}, mobile: {}", user.getUsername(), request.getMobile());
+        logger.info("OTP verified successfully for user: {}, email: {}", user.getUsername(), request.getEmail());
 
         UserDTO dto = new UserDTO(user.getId(), user.getUsername(), user.getRole());
         return new AuthResponse(user.getAuthToken(), dto);

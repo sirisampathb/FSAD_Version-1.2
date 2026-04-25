@@ -5,9 +5,9 @@ type AuthContextValue = {
   user: AuthUser | null;
   loading: boolean;
   login: (username: string, password: string) => Promise<AuthUser>;
-  register: (username: string, password: string, mobile?: string, role?: string) => Promise<AuthUser>;
-  loginWithOtp: (mobile: string, otp: string) => Promise<AuthUser>;
-  requestOtp: (mobile: string) => Promise<{ message: string; error?: string }>;
+  register: (username: string, password: string, email?: string, role?: string) => Promise<AuthUser>;
+  loginWithOtp: (email: string, otp: string) => Promise<AuthUser>;
+  requestOtp: (email: string) => Promise<{ message: string; error?: string }>;
   logout: () => Promise<void>;
 };
 
@@ -40,22 +40,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return response.user;
   };
 
-  const register = async (username: string, password: string, mobile?: string, role?: string) => {
-    const response = await registerApi(username, password, mobile, role);
+  const register = async (username: string, password: string, email?: string, role?: string) => {
+    const response = await registerApi(username, password, email, role);
     localStorage.setItem("authToken", response.token);
     setUser(response.user);
     return response.user;
   };
 
-  const loginWithOtp = async (mobile: string, otp: string) => {
-    const response = await verifyOtp(mobile, otp);
+  const loginWithOtp = async (email: string, otp: string) => {
+    const response = await verifyOtp(email, otp);
     localStorage.setItem("authToken", response.token);
     setUser(response.user);
     return response.user;
   };
 
-  const requestOtp = async (mobile: string) => {
-    return await sendOtp(mobile);
+  const requestOtp = async (email: string) => {
+    return await sendOtp(email);
   };
 
   const logout = async () => {
