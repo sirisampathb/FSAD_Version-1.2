@@ -11,11 +11,7 @@ export const users = pgTable("users", {
   authToken: text("auth_token"),
   mobile: text("mobile").unique(),
   otp: text("otp"),
-<<<<<<< HEAD
   otpExpiresAt: text("otp_expires_at"),
-=======
-  otpExpiresAt: text("otp_expires_at"), // Using text for simplicity as seen in some other fields, or timestamp if preferred
->>>>>>> 292f116bd585d7d43c1f56fd6a6864bb800a926d
 });
 
 export const monuments = pgTable("monuments", {
