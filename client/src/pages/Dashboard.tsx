@@ -226,14 +226,14 @@ export default function Dashboard() {
         </header>
 
         <main>
-           {isAdmin ? <AdminView /> : <EnthusiastView />}
+           {isAdmin ? <AdminView t={t} /> : <EnthusiastView t={t} />}
         </main>
       </div>
     </div>
   );
 }
 
-function AdminView() {
+function AdminView({ t }: { t: any }) {
   const { data: monuments, isLoading, error } = useMonuments();
   const { mutateAsync: deleteMonument } = useDeleteMonument();
   const { toast } = useToast();
@@ -390,7 +390,7 @@ function AdminView() {
   );
 }
 
-function EnthusiastView() {
+function EnthusiastView({ t }: { t: any }) {
   const { data: monuments } = useMonuments();
   
   return (
