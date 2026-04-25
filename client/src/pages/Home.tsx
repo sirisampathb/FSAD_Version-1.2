@@ -225,7 +225,7 @@ export default function Home() {
                     <div className="text-4xl font-serif font-bold text-foreground mb-2">99.9%</div>
                     <p className="text-muted-foreground text-xs">Distributed node sync active</p>
                   </div>
-                </div>v>
+                </div>
               </motion.div>
             ) : (
               /* Enthusiast Section */
