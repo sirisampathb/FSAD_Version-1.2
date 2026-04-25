@@ -229,8 +229,9 @@ function AdminView() {
               </div>
             ))}
           </div>
-          <Button variant="ghost" className="w-full mt-12 h-14 rounded-2xl border border-white/5 hover:bg-white/5 font-black uppercase tracking-[0.3em] text-[10px] transition-all">
-            Access Full Logs
+          <Button variant="ghost" className="w-full mt-12 h-14 rounded-2xl border border-white/5 hover:bg-primary/10 hover:text-primary font-black uppercase tracking-[0.3em] text-[10px] transition-all duration-500 group/btn overflow-hidden relative">
+            <span className="relative z-10">Access Full Logs</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
           </Button>
         </Card>
       </div>
@@ -243,8 +244,11 @@ function AdminView() {
             <p className="text-muted-foreground text-lg opacity-60">Architectural mastery indexed for eternity.</p>
           </div>
           <AddMonumentDialog>
-            <Button className="rounded-2xl h-16 px-12 text-sm font-black uppercase tracking-[0.3em] bg-primary text-black hover:bg-white transition-all shadow-2xl shadow-primary/30">
-               <Plus className="w-6 h-6 mr-3 stroke-[3]" /> Add New Asset
+            <Button className="rounded-2xl h-16 px-12 text-sm font-black uppercase tracking-[0.3em] bg-primary text-white hover:bg-white hover:text-black transition-all duration-700 shadow-[0_20px_50px_rgba(225,29,72,0.3)] group overflow-hidden relative">
+               <span className="relative z-10 flex items-center">
+                 <Plus className="w-6 h-6 mr-3 stroke-[3] group-hover:rotate-90 transition-transform duration-500" /> Add New Asset
+               </span>
+               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             </Button>
           </AddMonumentDialog>
         </header>
@@ -348,8 +352,8 @@ function EnthusiastView() {
               <p className="text-muted-foreground text-lg opacity-60">Resuming your path through the chronicles.</p>
             </div>
             <Link href="/explore">
-              <Button variant="outline" className="rounded-2xl h-14 px-8 border-primary/20 text-primary font-black uppercase tracking-widest text-[10px] hover:bg-primary hover:text-black transition-all shadow-2xl shadow-primary/10">
-                New Pilgrimage <ChevronRight className="w-5 h-5 ml-2" />
+              <Button variant="outline" className="rounded-2xl h-14 px-8 border-primary/30 text-primary font-black uppercase tracking-widest text-[10px] hover:bg-primary hover:text-white transition-all duration-500 shadow-[0_10px_30px_rgba(225,29,72,0.1)] group">
+                New Pilgrimage <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
               </Button>
             </Link>
           </CardHeader>
@@ -399,8 +403,9 @@ function EnthusiastView() {
                   The chronicles are incomplete without your journey. Step into the regions where history breaths.
                 </p>
                 <Link href="/explore">
-                  <Button className="rounded-[2rem] h-20 px-16 text-lg font-black uppercase tracking-[0.4em] bg-primary text-black hover:bg-white hover:text-black transition-all duration-700 shadow-[0_30px_60px_rgba(253,185,49,0.3)]">
-                    Invoke Expedition
+                  <Button className="rounded-[2rem] h-20 px-16 text-lg font-black uppercase tracking-[0.4em] bg-primary text-white hover:bg-white hover:text-black transition-all duration-700 shadow-[0_30px_60px_rgba(225,29,72,0.4)] group overflow-hidden relative">
+                    <span className="relative z-10">Invoke Expedition</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                   </Button>
                 </Link>
               </div>
