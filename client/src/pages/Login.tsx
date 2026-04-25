@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { Globe, Lock, User, Phone, Sparkles, ChevronRight } from "lucide-react";
+import { Globe, Lock, User, Mail, Sparkles, ChevronRight } from "lucide-react";
 
 export default function Login() {
   const { login, loginWithOtp, requestOtp } = useAuth();
@@ -15,7 +15,7 @@ export default function Login() {
   
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,14 +37,14 @@ export default function Login() {
   };
 
   const handleSendOtp = async () => {
-    if (!/^[0-9]{10}$/.test(mobile)) {
-      setError("Please enter a valid 10-digit mobile number.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Please enter a valid email address.");
       return;
     }
     setError(null);
     setLoading(true);
     try {
-      const res = await requestOtp(mobile);
+      const res = await requestOtp(email);
       if (res.error) {
         setError(res.error);
       } else {
@@ -63,7 +63,7 @@ export default function Login() {
     setError(null);
     setLoading(true);
     try {
-      await loginWithOtp(mobile, otp);
+      await loginWithOtp(email, otp);
       toast({ title: "Success", description: "Logged in successfully." });
       setLocation("/dashboard");
     } catch (err) {
@@ -133,7 +133,7 @@ export default function Login() {
           <Tabs defaultValue="password" title="Login Methods" className="w-full">
             <TabsList className="grid w-full grid-cols-2 p-1 bg-muted/50 rounded-2xl mb-8">
               <TabsTrigger value="password" title="Password Login" className="rounded-xl data-[state=active]:shadow-lg">Password</TabsTrigger>
-              <TabsTrigger value="otp" title="OTP Login" className="rounded-xl data-[state=active]:shadow-lg">Mobile OTP</TabsTrigger>
+              <TabsTrigger value="otp" title="OTP Login" className="rounded-xl data-[state=active]:shadow-lg">Email OTP</TabsTrigger>
             </TabsList>
 
             <TabsContent value="password">
@@ -185,15 +185,15 @@ export default function Login() {
                 {!otpSent ? (
                   <>
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Mobile Number</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Email Address</label>
                       <div className="relative group">
-                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                         <Input
-                          type="tel"
-                          value={mobile}
-                          onChange={(e) => setMobile(e.target.value)}
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           className="pl-12 h-14 rounded-2xl bg-muted/40 border-border/50 focus:bg-background transition-all"
-                          placeholder="9876543210"
+                          placeholder="you@example.com"
                           required
                         />
                       </div>
@@ -206,7 +206,7 @@ export default function Login() {
                 ) : (
                   <>
                     <div className="space-y-2 text-center animate-in fade-in zoom-in-95 duration-300">
-                      <p className="text-sm text-muted-foreground">We sent a code to <span className="text-primary font-bold">{mobile}</span></p>
+                      <p className="text-sm text-muted-foreground">We sent a code to <span className="text-primary font-bold">{email}</span></p>
                       <Input
                         type="text"
                         value={otp}
@@ -215,7 +215,7 @@ export default function Login() {
                         maxLength={6}
                         required
                       />
-                      <button type="button" onClick={() => setOtpSent(false)} className="text-xs text-primary hover:underline">Incorrect number?</button>
+                      <button type="button" onClick={() => setOtpSent(false)} className="text-xs text-primary hover:underline">Incorrect email?</button>
                     </div>
                     {error && <div className="text-sm text-destructive">{error}</div>}
                     <Button type="submit" size="lg" className="w-full h-14 rounded-2xl shadow-xl shadow-primary/20" disabled={loading}>
