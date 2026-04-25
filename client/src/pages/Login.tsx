@@ -52,7 +52,12 @@ export default function Login() {
         toast({ title: "OTP Sent", description: res.message });
       }
     } catch (err) {
-      setError("Failed to send OTP.");
+      const msg = (err as Error).message;
+      if (msg.includes("Email address not found")) {
+        setError("This email address is not registered.");
+      } else {
+        setError(msg || "Failed to send OTP.");
+      }
     } finally {
       setLoading(false);
     }
@@ -84,31 +89,26 @@ export default function Login() {
         <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/20 to-transparent" />
         
         <div className="relative z-10 p-16 flex flex-col justify-between h-full">
-          <Link href="/">
-            <div className="flex items-center gap-2 cursor-pointer group">
-              <div className="bg-primary p-2 rounded-xl group-hover:rotate-12 transition-transform shadow-lg shadow-primary/30">
-                <Globe className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <span className="font-serif text-2xl font-bold tracking-tight text-white drop-shadow-md">Bharat Heritage</span>
-            </div>
-          </Link>
+          <div className="flex items-center gap-2">
+            {/* Logo removed to prevent overlap with Navbar */}
+          </div>
 
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-6xl font-serif font-bold text-white mb-6 leading-tight drop-shadow-2xl">
+            <h2 className="text-6xl font-serif font-bold text-foreground mb-6 leading-tight">
               Preserving our <br />
               <span className="text-primary italic">Eternal Legacy.</span>
             </h2>
-            <div className="flex items-center gap-4 text-white/80">
-              <div className="h-0.5 w-12 bg-primary/60" />
+            <div className="flex items-center gap-4 text-muted-foreground">
+              <div className="h-0.5 w-12 bg-primary/40" />
               <p className="text-lg font-light tracking-wide">Join thousands of enthusiasts exploring 5000 years of history.</p>
             </div>
           </motion.div>
 
-          <p className="text-white/40 text-sm">© 2024 Bharat Heritage. All rights reserved.</p>
+          <p className="text-muted-foreground text-sm opacity-40">© 2024 Bharat Heritage. All rights reserved.</p>
         </div>
       </div>
 
