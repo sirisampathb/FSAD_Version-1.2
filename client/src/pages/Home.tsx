@@ -38,17 +38,16 @@ export default function Home() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-[105vh] flex items-center justify-center overflow-hidden bg-black">
         {/* Background Image with Parallax effect */}
         <motion.div 
-          initial={{ scale: 1.05 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 10, ease: "linear" }}
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1.05 }}
+          transition={{ duration: 15, ease: "easeOut" }}
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 z-10 bg-black/20" />
-        <div className="absolute inset-x-0 bottom-0 h-32 z-10 bg-gradient-to-t from-background to-transparent" />
+        <div className="absolute inset-0 z-10 bg-black/10" />
         
         {/* Decorative Light Leak */}
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-3xl animate-float rounded-full pointer-events-none" />
