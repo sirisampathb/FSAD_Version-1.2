@@ -79,35 +79,36 @@
 }
 
 :root {
-  --background: 40 33% 99%; /* Pure Ivory */
-  --foreground: 20 14% 10%; /* Rich Slate */
+  --background: 40 33% 98%; /* Pure Gallery White */
+  --foreground: 220 30% 10%; /* Deep Slate */
   
   --card: 0 0% 100%;
-  --card-foreground: 20 14% 10%;
+  --card-foreground: 220 30% 10%;
   
   --popover: 0 0% 100%;
-  --popover-foreground: 20 14% 10%;
+  --popover-foreground: 220 30% 10%;
   
-  --primary: 43 100% 50%; /* Amber Gold */
+  --primary: 43 100% 45%; /* Heritage Gold */
   --primary-foreground: 0 0% 100%;
   
   --secondary: 40 20% 95%; /* Soft Sand */
-  --secondary-foreground: 20 14% 10%;
+  --secondary-foreground: 220 30% 10%;
   
   --muted: 40 10% 92%;
-  --muted-foreground: 25 10% 45%;
+  --muted-foreground: 220 10% 40%;
   
-  --accent: 12 76% 50%; /* Deep Terra Cotta */
+  --accent: 12 76% 50%;
   --accent-foreground: 0 0% 100%;
   
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
   
-  --border: 40 15% 90%;
-  --input: 40 15% 90%;
-  --ring: 43 100% 50%;
+  --border: 220 10% 90%;
+  --input: 220 10% 90%;
+  --ring: 43 100% 45%;
   
-  --radius: 1.5rem;
+  --radius: 1rem;
+}
 
   --chart-1: 43 100% 50%;
   --chart-2: 12 76% 50%;
@@ -117,33 +118,13 @@
 }
 
 .dark {
-  --background: 230 45% 4%; /* Midnight Indigo */
-  --foreground: 40 33% 98%;
-  
-  --card: 220 30% 9%;
-  --card-foreground: 40 33% 98%;
-  
-  --popover: 220 30% 9%;
-  --popover-foreground: 40 33% 98%;
-  
-  --primary: 350 89% 60%; /* Imperial Rose/Crimson */
-  --primary-foreground: 40 33% 98%;
-  
-  --secondary: 230 45% 12%;
-  --secondary-foreground: 40 33% 98%;
-  
-  --muted: 230 45% 12%;
-  --muted-foreground: 230 20% 70%;
-  
-  --accent: 260 80% 70%; /* Luminous Violet */
-  --accent-foreground: 0 0% 100%;
-  
-  --destructive: 0 62% 40%;
-  --destructive-foreground: 40 33% 98%;
-  
-  --border: 230 45% 12%;
-  --input: 220 30% 14%;
-  --ring: 43 100% 50%;
+  --background: 40 33% 98%; 
+  --foreground: 220 30% 10%;
+  --card: 0 0% 100%;
+  --card-foreground: 220 30% 10%;
+  --primary: 43 100% 45%;
+  --primary-foreground: 0 0% 100%;
+  --border: 220 10% 90%;
 }
 
 @layer base {
@@ -204,11 +185,10 @@
 }
 
 .mesh-gradient {
-  background-color: hsla(230,45%,4%,1);
+  background-color: #ffffff;
   background-image: 
-    radial-gradient(at 0% 0%, hsla(350,89%,60%,0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, hsla(260,80%,70%,0.15) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, hsla(230,45%,15%,0.1) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, hsla(43,100%,45%,0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(220,30%,10%,0.05) 0px, transparent 50%);
 }
 
 .bento-card {
@@ -246,7 +226,7 @@
 }
 
 .blob {
-  @apply absolute rounded-full mix-blend-multiply filter blur-[80px] opacity-30 animate-blob;
+  @apply absolute rounded-full mix-blend-multiply filter blur-[80px] opacity-10 animate-blob;
 }
 
 .delay-2000 { animation-delay: 2s; }

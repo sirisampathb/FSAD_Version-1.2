@@ -142,34 +142,25 @@ export default function Dashboard() {
   const isAdmin = user.role === "admin";
 
   return (
-    <div className="min-h-screen bg-[#030712] pt-24 pb-32 overflow-hidden relative">
-      {/* Mesmerizing Background Blobs */}
+    <div className="min-h-screen bg-background pt-16 pb-24 overflow-hidden relative">
+      {/* Subtle Background Blobs */}
       <div className="blob-container">
-        <div className="blob w-[600px] h-[600px] bg-primary/20 top-[-10%] left-[-10%] delay-0" />
-        <div className="blob w-[500px] h-[500px] bg-accent/20 bottom-[-10%] right-[-10%] delay-2000" />
-        <div className="blob w-[400px] h-[400px] bg-blue-500/10 top-[40%] left-[30%] delay-4000" />
+        <div className="blob w-[600px] h-[600px] bg-primary/5 top-[-10%] left-[-10%] delay-0" />
+        <div className="blob w-[500px] h-[500px] bg-blue-500/5 bottom-[-10%] right-[-10%] delay-2000" />
       </div>
 
-      {/* Noise Texture */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-50 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-
       <div className="container mx-auto px-6 relative z-10">
-        {/* Mesmerizing Header */}
-        <header className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-20 px-2">
+        {/* Simplified Header */}
+        <header className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-16">
           <motion.div 
-            initial={{ opacity: 0, x: -30 }} 
-            animate={{ opacity: 1, x: 0 }} 
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 10 }} 
+            animate={{ opacity: 1, y: 0 }} 
           >
-            <div className="flex items-center gap-4 mb-6">
-               <motion.div 
-                 animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
-                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                 className="bg-primary/20 p-3 rounded-2xl border border-primary/30 shadow-[0_0_20px_rgba(225,29,72,0.2)]"
-               >
-                 <Sparkles className="w-6 h-6 text-primary" />
-               </motion.div>
-               <div className="flex bg-white/5 p-1 rounded-full border border-white/10 backdrop-blur-xl">
+            <div className="flex items-center gap-3 mb-4">
+               <div className="bg-primary/10 p-2 rounded-xl border border-primary/20">
+                 <Sparkles className="w-5 h-5 text-primary" />
+               </div>
+               <div className="flex bg-secondary/50 p-1 rounded-full border border-border">
                  {["en", "hi", "sa", "te"].map((l) => (
                    <button
                      key={l}
@@ -183,42 +174,38 @@ export default function Dashboard() {
                  ))}
                </div>
             </div>
-            <h1 className="text-6xl md:text-8xl font-serif font-bold text-foreground tracking-tighter leading-none mb-6">
+            <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground tracking-tight leading-none mb-4">
               {getGreeting()}, <br />
-              <span className="text-gradient-rose animate-text-gradient italic font-medium drop-shadow-2xl">{user.username}</span>
+              <span className="text-primary italic font-medium">{user.username}</span>
             </h1>
-            <div className="flex items-center gap-6 mt-8">
-               <div className="premium-glass px-6 py-3 rounded-2xl border-white/10 flex items-center gap-4">
-                 <History className="w-5 h-5 text-primary animate-spin-slow" />
-                 <span className="text-xl font-serif font-bold tracking-widest text-foreground/80">
-                   {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+            <div className="flex items-center gap-6 mt-6">
+               <div className="bg-card px-4 py-2 rounded-xl border border-border flex items-center gap-3 shadow-sm">
+                 <History className="w-4 h-4 text-primary" />
+                 <span className="text-lg font-serif font-bold tracking-widest text-foreground">
+                   {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                  </span>
                </div>
-               <p className="text-muted-foreground text-sm font-medium italic opacity-60">
-                 "The spirit of Bharat breathes in sync with your journey."
+               <p className="text-muted-foreground text-sm font-medium opacity-60">
+                 "Architectural chronicles of Bharat."
                </p>
             </div>
           </motion.div>
           
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 20 }} 
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="flex items-center gap-8 premium-glass p-8 rounded-[2.5rem] border-white/5 shadow-[0_40px_100px_rgba(0,0,0,0.5)] group relative overflow-hidden"
+            initial={{ opacity: 0, scale: 0.95 }} 
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex items-center gap-6 bg-card p-6 rounded-3xl border border-border shadow-sm group"
           >
-            <div className="absolute inset-0 bg-aurora opacity-20 pointer-events-none" />
-            <div className="relative z-10 flex items-center gap-6">
-              <motion.div 
-                whileHover={{ rotate: 180, scale: 1.1 }}
-                className="w-20 h-20 rounded-[1.5rem] bg-gradient-to-br from-primary via-primary/80 to-accent flex items-center justify-center border border-white/20 shadow-2xl"
-              >
-                 <ShieldAlert className="w-10 h-10 text-white stroke-[2.5]" />
-              </motion.div>
+            <div className="relative z-10 flex items-center gap-4">
+              <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center border border-primary/20 shadow-lg">
+                 <ShieldAlert className="w-8 h-8 text-white stroke-[2.5]" />
+              </div>
               <div>
-                <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2 opacity-60">Status: {t.status}</p>
-                <h3 className="text-3xl font-serif font-bold text-foreground tracking-tight">{isAdmin ? t.role.admin : t.role.user}</h3>
-                <div className="flex items-center gap-2 mt-2">
-                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.8)]" />
-                   <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">{t.nodeStatus}</span>
+                <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-1 opacity-60">Status: {t.status}</p>
+                <h3 className="text-2xl font-serif font-bold text-foreground tracking-tight">{isAdmin ? t.role.admin : t.role.user}</h3>
+                <div className="flex items-center gap-2 mt-1">
+                   <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                   <span className="text-[10px] font-bold text-green-600 uppercase tracking-widest">{t.nodeStatus}</span>
                 </div>
               </div>
             </div>
@@ -262,22 +249,20 @@ function AdminView({ t }: { t: any }) {
   return (
     <div className="space-y-12">
       {/* 1. Bento Stat Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((stat, i) => (
           <motion.div 
             key={i} 
-            initial={{ opacity: 0, y: 30 }} 
+            initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
-            whileHover={{ y: -12, scale: 1.02 }}
-            transition={{ delay: i * 0.1, type: "spring" }}
-            className="premium-glass p-10 rounded-[3rem] border-white/5 hover:border-primary/40 transition-all duration-700 relative overflow-hidden group rose-glow-border"
+            whileHover={{ y: -5 }}
+            className="bg-card p-8 rounded-3xl border border-border shadow-sm hover:border-primary/40 transition-all duration-300 relative group"
           >
-            <div className="absolute -right-4 -top-4 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors" />
-            <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color} w-fit mb-8 shadow-xl border border-white/5`}>
-              <stat.icon className="w-8 h-8" />
+            <div className={`p-3 rounded-xl ${stat.bg} ${stat.color} w-fit mb-6 shadow-sm`}>
+              <stat.icon className="w-6 h-6" />
             </div>
-            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] mb-3 opacity-40">{t.stats[i]}</p>
-            <h3 className="text-5xl font-serif font-bold text-foreground group-hover:text-primary transition-colors">{stat.value}</h3>
+            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">{t.stats[i]}</p>
+            <h3 className="text-3xl font-serif font-bold text-foreground">{stat.value}</h3>
           </motion.div>
         ))}
       </div>
@@ -302,10 +287,10 @@ function AdminView({ t }: { t: any }) {
         </Card>
 
         {/* 3. Global Activity */}
-        <Card className="premium-glass lg:col-span-4 p-10 rounded-[3rem] border-white/5 relative overflow-hidden group">
-          <CardHeader className="p-0 mb-10">
-            <h3 className="text-3xl font-serif font-bold tracking-tight">The Chronicle</h3>
-            <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] opacity-40 mt-2">Latest User Insights</p>
+        <Card className="bg-card lg:col-span-4 p-8 rounded-3xl border-border relative overflow-hidden group shadow-sm">
+          <CardHeader className="p-0 mb-8">
+            <h3 className="text-2xl font-serif font-bold tracking-tight">The Chronicle</h3>
+            <p className="text-[10px] font-black text-primary uppercase tracking-widest opacity-40 mt-1">Latest Insights</p>
           </CardHeader>
           <div className="space-y-10">
             {[1, 2, 3].map(i => (
@@ -330,18 +315,15 @@ function AdminView({ t }: { t: any }) {
       </div>
 
       {/* 4. Vault Management */}
-      <Card className="premium-glass p-12 rounded-[4rem] border-white/5 relative overflow-hidden">
-        <header className="flex flex-col lg:flex-row justify-between items-center gap-10 mb-16">
+      <Card className="bg-card p-10 rounded-[3rem] border-border shadow-sm">
+        <header className="flex flex-col lg:flex-row justify-between items-center gap-8 mb-12">
           <div className="text-center lg:text-left">
-            <h2 className="text-5xl font-serif font-bold tracking-tight mb-3 italic">{t.vaultTitle}</h2>
-            <p className="text-muted-foreground text-lg opacity-60">{t.vaultSub}</p>
+            <h2 className="text-4xl font-serif font-bold tracking-tight mb-2 italic">{t.vaultTitle}</h2>
+            <p className="text-muted-foreground text-base opacity-60">{t.vaultSub}</p>
           </div>
           <AddMonumentDialog>
-            <Button className="rounded-2xl h-16 px-12 text-sm font-black uppercase tracking-[0.3em] bg-primary text-white hover:bg-white hover:text-black transition-all duration-700 shadow-[0_20px_50px_rgba(225,29,72,0.3)] group overflow-hidden relative">
-               <span className="relative z-10 flex items-center">
-                 <Plus className="w-6 h-6 mr-3 stroke-[3] group-hover:rotate-90 transition-transform duration-500" /> Add New Asset
-               </span>
-               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+            <Button className="rounded-xl h-14 px-8 text-xs font-black uppercase tracking-widest bg-primary text-white hover:opacity-90 transition-all shadow-lg shadow-primary/20">
+               <Plus className="w-5 h-5 mr-2 stroke-[3]" /> Add Asset
             </Button>
           </AddMonumentDialog>
         </header>
@@ -350,11 +332,10 @@ function AdminView({ t }: { t: any }) {
           {monuments?.map((m, i) => (
             <motion.div 
               key={m.id}
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              whileHover={{ y: -15 }}
-              transition={{ delay: i * 0.05 }}
-              className="premium-glass p-6 rounded-[2.5rem] group hover:border-primary/50 transition-all duration-700 shadow-2xl relative overflow-hidden"
+              whileHover={{ y: -8 }}
+              className="bg-card p-4 rounded-3xl border border-border group hover:border-primary/40 transition-all duration-300 shadow-sm"
             >
               <div className="aspect-[4/5] rounded-[1.5rem] overflow-hidden mb-8 relative">
                 <img src={resolveImageUrl(m.image)} alt={m.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
@@ -397,19 +378,16 @@ function EnthusiastView({ t }: { t: any }) {
     <div className="space-y-12">
       <div className="grid lg:grid-cols-12 gap-8">
         {/* 1. Mesmerizing Level Bento */}
-        <Card className="premium-glass lg:col-span-5 p-12 rounded-[4rem] border-white/5 relative overflow-hidden group rose-glow-border">
-          <div className="absolute inset-0 bg-aurora opacity-20 pointer-events-none" />
+        <Card className="bg-card lg:col-span-5 p-10 rounded-[2.5rem] border-border relative overflow-hidden group shadow-sm">
           <div className="relative z-10">
-            <div className="flex items-center justify-between mb-12">
-               <Badge className="bg-primary/20 text-primary border-primary/30 px-6 py-2 rounded-full font-black uppercase tracking-[0.4em] text-[10px] shadow-2xl">Elite Voyager</Badge>
-               <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 10, ease: "linear" }}>
-                 <Compass className="w-10 h-10 text-primary/40 stroke-[1.5]" />
-               </motion.div>
+            <div className="flex items-center justify-between mb-8">
+               <Badge className="bg-primary/10 text-primary border-primary/20 px-4 py-1.5 rounded-full font-bold uppercase tracking-widest text-[9px]">{t.rankSub}</Badge>
+               <Compass className="w-8 h-8 text-primary/20" />
             </div>
-            <h3 className="text-6xl font-serif font-bold tracking-tighter mb-10 leading-none">{t.rankTitle} <br /><span className="text-gradient-rose italic">{t.rankSub}</span></h3>
-            <div className="flex items-baseline gap-4 mb-10">
-               <span className="text-9xl font-bold text-foreground leading-none">7</span>
-               <span className="text-4xl text-muted-foreground font-black opacity-20 italic">/ 10</span>
+            <h3 className="text-4xl font-serif font-bold tracking-tight mb-8 leading-none">{t.rankTitle} <br /><span className="text-primary italic">{t.rankSub}</span></h3>
+            <div className="flex items-baseline gap-3 mb-8">
+               <span className="text-7xl font-bold text-foreground leading-none">7</span>
+               <span className="text-2xl text-muted-foreground font-black opacity-20 italic">/ 10</span>
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-center px-2">
@@ -438,15 +416,15 @@ function EnthusiastView({ t }: { t: any }) {
         </Card>
 
         {/* 2. Mesmerizing Voyage Cards */}
-        <Card className="premium-glass lg:col-span-7 p-12 rounded-[4rem] border-white/5 relative overflow-hidden group">
-          <CardHeader className="p-0 mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        <Card className="bg-card lg:col-span-7 p-10 rounded-[2.5rem] border-border shadow-sm">
+          <CardHeader className="p-0 mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
-              <h3 className="text-5xl font-serif font-bold tracking-tighter italic">{t.voyageTitle}</h3>
-              <p className="text-muted-foreground text-lg opacity-60">Resuming your path through the chronicles.</p>
+              <h3 className="text-3xl font-serif font-bold tracking-tight italic">{t.voyageTitle}</h3>
+              <p className="text-muted-foreground text-base opacity-60">Resuming your path.</p>
             </div>
             <Link href="/explore">
-              <Button variant="outline" className="rounded-2xl h-14 px-8 border-primary/30 text-primary font-black uppercase tracking-widest text-[10px] hover:bg-primary hover:text-white transition-all duration-500 shadow-[0_10px_30px_rgba(225,29,72,0.1)] group">
-                New Pilgrimage <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
+              <Button variant="outline" className="rounded-xl h-12 px-6 border-border text-foreground font-black uppercase tracking-widest text-[9px] hover:bg-secondary transition-all">
+                New Pilgrimage <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </Link>
           </CardHeader>
@@ -479,26 +457,20 @@ function EnthusiastView({ t }: { t: any }) {
       </div>
 
       {/* 3. Immersive CTA */}
-      <motion.div whileHover={{ scale: 1.01 }} className="mt-12">
-        <Card className="premium-glass p-24 rounded-[5rem] bg-aurora border-white/5 relative overflow-hidden group text-center lg:text-left">
-           <div className="absolute inset-0 bg-aurora opacity-30 animate-pulse pointer-events-none" />
-           <div className="flex flex-col lg:flex-row items-center gap-20 relative z-10">
-              <motion.div 
-                animate={{ y: [0, -20, 0], rotate: [0, 5, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-                className="w-40 h-40 bg-primary p-12 rounded-[4rem] shadow-[0_40px_80px_rgba(253,185,49,0.4)] flex items-center justify-center text-black border border-white/20 shrink-0"
-              >
-                <Globe className="w-20 h-20 stroke-[1.5]" />
-              </motion.div>
+      <motion.div className="mt-8">
+        <Card className="bg-primary/5 p-16 rounded-[3rem] border border-primary/10 text-center lg:text-left relative overflow-hidden group">
+           <div className="flex flex-col lg:flex-row items-center gap-12 relative z-10">
+              <div className="w-24 h-24 bg-primary rounded-3xl flex items-center justify-center text-white border border-primary/20 shrink-0 shadow-lg">
+                <Globe className="w-12 h-12 stroke-[1.5]" />
+              </div>
               <div>
-                <h3 className="text-6xl md:text-8xl font-serif font-bold mb-8 tracking-tighter leading-none italic">{t.ctaTitle}</h3>
-                <p className="text-muted-foreground text-2xl mb-12 leading-relaxed max-w-3xl font-medium opacity-60">
+                <h3 className="text-4xl md:text-5xl font-serif font-bold mb-4 tracking-tight leading-none italic">{t.ctaTitle}</h3>
+                <p className="text-muted-foreground text-lg mb-8 leading-relaxed max-w-2xl font-medium opacity-60">
                   {t.ctaSub}
                 </p>
                 <Link href="/explore">
-                  <Button className="rounded-[2rem] h-20 px-16 text-lg font-black uppercase tracking-[0.4em] bg-primary text-white hover:bg-white hover:text-black transition-all duration-700 shadow-[0_30px_60px_rgba(225,29,72,0.4)] group overflow-hidden relative">
-                    <span className="relative z-10">{t.ctaBtn}</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                  <Button className="rounded-xl h-16 px-12 text-base font-black uppercase tracking-widest bg-primary text-white hover:opacity-90 transition-all shadow-lg shadow-primary/20">
+                    {t.ctaBtn}
                   </Button>
                 </Link>
               </div>
