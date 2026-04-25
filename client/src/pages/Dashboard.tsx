@@ -29,16 +29,90 @@ import { AddMonumentDialog } from "@/components/AddMonumentDialog";
 import { resolveImageUrl } from "@/lib/queryClient";
 import { useState, useEffect } from "react";
 
+const translations: Record<string, any> = {
+  en: {
+    greeting: ["Auspicious Morning", "Splendid Afternoon", "Eternal Evening"],
+    status: "Verified",
+    role: { admin: "Imperial Curator", user: "Cultural Voyager" },
+    nodeStatus: "Divine Node Active",
+    stats: ["Citizens", "Archives", "Expeditions", "Echoes"],
+    vaultTitle: "Imperial Vault",
+    vaultSub: "Architectural mastery indexed for eternity.",
+    rankTitle: "Heritage Rank",
+    rankSub: "Elite Voyager",
+    voyageTitle: "Eternal Voyages",
+    ctaTitle: "Forge Your Divine Legacy",
+    ctaSub: "The chronicles are incomplete without your journey.",
+    ctaBtn: "Invoke Expedition"
+  },
+  hi: {
+    greeting: ["शुभ सवेर", "सुखद दोपहर", "अनंत संध्या"],
+    status: "सत्यापित",
+    role: { admin: "शाही क्यूरेटर", user: "सांस्कृतिक यात्री" },
+    nodeStatus: "दिव्य नोड सक्रिय",
+    stats: ["नागरिक", "संग्रह", "अभियान", "गूँज"],
+    vaultTitle: "शाही तिजोरी",
+    vaultSub: "अनंत काल के लिए अनुक्रमित वास्तुकला महारत।",
+    rankTitle: "विरासत रैंक",
+    rankSub: "अभिजात वर्ग यात्री",
+    voyageTitle: "शाश्वत यात्राएं",
+    ctaTitle: "अपनी दिव्य विरासत बनाएं",
+    ctaSub: "आपकी यात्रा के बिना इतिहास अधूरा है।",
+    ctaBtn: "अभियान का आह्वान करें"
+  },
+  sa: {
+    greeting: ["शुभ प्रभातम्", "शुभ मध्याह्नम्", "अनन्त सायंकालः"],
+    status: "प्रमाणितम्",
+    role: { admin: "राजकीय संग्रहाध्यक्ष", user: "सांस्कृतिक यात्री" },
+    nodeStatus: "दिव्य केन्द्रः सक्रियः",
+    stats: ["नागरिकाः", "लेखागाराः", "प्रयाणाः", "प्रतिध्वनयः"],
+    vaultTitle: "राजकीय कोशः",
+    vaultSub: "अनन्तकालाय वास्तुकलाकौशलं सूचितम्।",
+    rankTitle: "विरासत श्रेणी",
+    rankSub: "श्रेष्ठ यात्री",
+    voyageTitle: "शाश्वत यात्राः",
+    ctaTitle: "भवतः दिव्यपरम्परां रचयतु",
+    ctaSub: "भवतः यात्रया विना इतिहासः अपूर्णः अस्ति।",
+    ctaBtn: "अभियानम् आह्वयतु"
+  },
+  te: {
+    greeting: ["శుభోదయం", "శుభ మధ్యాహ్నం", "అనంత సాయంత్రం"],
+    status: "ధృవీకరించబడింది",
+    role: { admin: "రాజకీయ క్యూరేటర్", user: "సాంస్కృతిక యాత్రికుడు" },
+    nodeStatus: "దైవిక నోడ్ సక్రియంగా ఉంది",
+    stats: ["పౌరులు", "ఆర్కైవ్స్", "యాత్రలు", "ప్రతిధ్వనులు"],
+    vaultTitle: "రాజకీయ ఖజానా",
+    vaultSub: "నిరంతరాయంగా ఇండెక్స్ చేయబడిన నిర్మాణ నైపుణ్యం.",
+    rankTitle: "వారసత్వ ర్యాంక్",
+    rankSub: "ఎలైట్ యాత్రికుడు",
+    voyageTitle: "శాశ్వత యాత్రలు",
+    ctaTitle: "మీ దైవిక వారసత్వాన్ని సృష్టించండి",
+    ctaSub: "మీ ప్రయాణం లేకుండా చరిత్ర అసంపూర్ణం.",
+    ctaBtn: "యాత్రను ప్రారంభించండి"
+  }
+};
+
 export default function Dashboard() {
-  const { user } = useAuth();
-  const [greeting, setGreeting] = useState("Welcome");
+  const [lang, setLang] = useState(localStorage.getItem("lang") || "en");
+  const [time, setTime] = useState(new Date());
+  const t = translations[lang] || translations.en;
 
   useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) setGreeting("Auspicious Morning");
-    else if (hour < 17) setGreeting("Splendid Afternoon");
-    else setGreeting("Eternal Evening");
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
   }, []);
+
+  const getGreeting = () => {
+    const hour = time.getHours();
+    if (hour < 12) return t.greeting[0];
+    if (hour < 17) return t.greeting[1];
+    return t.greeting[2];
+  };
+
+  const changeLang = (l: string) => {
+    setLang(l);
+    localStorage.setItem("lang", l);
+  };
 
   if (!user) {
     return (
@@ -80,7 +154,7 @@ export default function Dashboard() {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Mesmerizing Header */}
-        <header className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 mb-20 px-2">
+        <header className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-20 px-2">
           <motion.div 
             initial={{ opacity: 0, x: -30 }} 
             animate={{ opacity: 1, x: 0 }} 
@@ -90,21 +164,39 @@ export default function Dashboard() {
                <motion.div 
                  animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                 className="bg-primary/20 p-3 rounded-2xl border border-primary/30 shadow-[0_0_20px_rgba(253,185,49,0.2)]"
+                 className="bg-primary/20 p-3 rounded-2xl border border-primary/30 shadow-[0_0_20px_rgba(225,29,72,0.2)]"
                >
                  <Sparkles className="w-6 h-6 text-primary" />
                </motion.div>
-               <Badge className="bg-white/5 text-primary border-primary/20 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] shadow-xl">
-                 Imperial Archive v2.0
-               </Badge>
+               <div className="flex bg-white/5 p-1 rounded-full border border-white/10 backdrop-blur-xl">
+                 {["en", "hi", "sa", "te"].map((l) => (
+                   <button
+                     key={l}
+                     onClick={() => changeLang(l)}
+                     className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${
+                       lang === l ? "bg-primary text-white shadow-xl" : "text-muted-foreground hover:text-foreground"
+                     }`}
+                   >
+                     {l}
+                   </button>
+                 ))}
+               </div>
             </div>
             <h1 className="text-6xl md:text-8xl font-serif font-bold text-foreground tracking-tighter leading-none mb-6">
-              {greeting}, <br />
+              {getGreeting()}, <br />
               <span className="text-gradient-rose animate-text-gradient italic font-medium drop-shadow-2xl">{user.username}</span>
             </h1>
-            <p className="text-muted-foreground text-xl max-w-xl font-medium italic opacity-60 reveal-mask">
-              "Your presence is documented. The architectural spirit of Bharat awaits your command."
-            </p>
+            <div className="flex items-center gap-6 mt-8">
+               <div className="premium-glass px-6 py-3 rounded-2xl border-white/10 flex items-center gap-4">
+                 <History className="w-5 h-5 text-primary animate-spin-slow" />
+                 <span className="text-xl font-serif font-bold tracking-widest text-foreground/80">
+                   {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                 </span>
+               </div>
+               <p className="text-muted-foreground text-sm font-medium italic opacity-60">
+                 "The spirit of Bharat breathes in sync with your journey."
+               </p>
+            </div>
           </motion.div>
           
           <motion.div 
@@ -118,14 +210,14 @@ export default function Dashboard() {
                 whileHover={{ rotate: 180, scale: 1.1 }}
                 className="w-20 h-20 rounded-[1.5rem] bg-gradient-to-br from-primary via-primary/80 to-accent flex items-center justify-center border border-white/20 shadow-2xl"
               >
-                 <ShieldAlert className="w-10 h-10 text-black stroke-[2.5]" />
+                 <ShieldAlert className="w-10 h-10 text-white stroke-[2.5]" />
               </motion.div>
               <div>
-                <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2 opacity-60">Status: Verified</p>
-                <h3 className="text-3xl font-serif font-bold text-foreground tracking-tight">{isAdmin ? 'Imperial Curator' : 'Cultural Voyager'}</h3>
+                <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2 opacity-60">Status: {t.status}</p>
+                <h3 className="text-3xl font-serif font-bold text-foreground tracking-tight">{isAdmin ? t.role.admin : t.role.user}</h3>
                 <div className="flex items-center gap-2 mt-2">
                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.8)]" />
-                   <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">Divine Node Active</span>
+                   <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">{t.nodeStatus}</span>
                 </div>
               </div>
             </div>
@@ -183,7 +275,7 @@ function AdminView() {
             <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color} w-fit mb-8 shadow-xl border border-white/5`}>
               <stat.icon className="w-8 h-8" />
             </div>
-            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] mb-3 opacity-40">{stat.title}</p>
+            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] mb-3 opacity-40">{t.stats[i]}</p>
             <h3 className="text-5xl font-serif font-bold text-foreground group-hover:text-primary transition-colors">{stat.value}</h3>
           </motion.div>
         ))}
@@ -240,8 +332,8 @@ function AdminView() {
       <Card className="premium-glass p-12 rounded-[4rem] border-white/5 relative overflow-hidden">
         <header className="flex flex-col lg:flex-row justify-between items-center gap-10 mb-16">
           <div className="text-center lg:text-left">
-            <h2 className="text-5xl font-serif font-bold tracking-tight mb-3 italic">Imperial Vault</h2>
-            <p className="text-muted-foreground text-lg opacity-60">Architectural mastery indexed for eternity.</p>
+            <h2 className="text-5xl font-serif font-bold tracking-tight mb-3 italic">{t.vaultTitle}</h2>
+            <p className="text-muted-foreground text-lg opacity-60">{t.vaultSub}</p>
           </div>
           <AddMonumentDialog>
             <Button className="rounded-2xl h-16 px-12 text-sm font-black uppercase tracking-[0.3em] bg-primary text-white hover:bg-white hover:text-black transition-all duration-700 shadow-[0_20px_50px_rgba(225,29,72,0.3)] group overflow-hidden relative">
@@ -313,7 +405,7 @@ function EnthusiastView() {
                  <Compass className="w-10 h-10 text-primary/40 stroke-[1.5]" />
                </motion.div>
             </div>
-            <h3 className="text-6xl font-serif font-bold tracking-tighter mb-10 leading-none">Your <br /><span className="text-gradient-rose italic">Heritage Rank</span></h3>
+            <h3 className="text-6xl font-serif font-bold tracking-tighter mb-10 leading-none">{t.rankTitle} <br /><span className="text-gradient-rose italic">{t.rankSub}</span></h3>
             <div className="flex items-baseline gap-4 mb-10">
                <span className="text-9xl font-bold text-foreground leading-none">7</span>
                <span className="text-4xl text-muted-foreground font-black opacity-20 italic">/ 10</span>
@@ -348,7 +440,7 @@ function EnthusiastView() {
         <Card className="premium-glass lg:col-span-7 p-12 rounded-[4rem] border-white/5 relative overflow-hidden group">
           <CardHeader className="p-0 mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
             <div>
-              <h3 className="text-5xl font-serif font-bold tracking-tighter italic">Eternal Voyages</h3>
+              <h3 className="text-5xl font-serif font-bold tracking-tighter italic">{t.voyageTitle}</h3>
               <p className="text-muted-foreground text-lg opacity-60">Resuming your path through the chronicles.</p>
             </div>
             <Link href="/explore">
@@ -398,13 +490,13 @@ function EnthusiastView() {
                 <Globe className="w-20 h-20 stroke-[1.5]" />
               </motion.div>
               <div>
-                <h3 className="text-6xl md:text-8xl font-serif font-bold mb-8 tracking-tighter leading-none italic">Forge Your <br /><span className="text-gradient-rose animate-text-gradient">Divine Legacy</span></h3>
+                <h3 className="text-6xl md:text-8xl font-serif font-bold mb-8 tracking-tighter leading-none italic">{t.ctaTitle}</h3>
                 <p className="text-muted-foreground text-2xl mb-12 leading-relaxed max-w-3xl font-medium opacity-60">
-                  The chronicles are incomplete without your journey. Step into the regions where history breaths.
+                  {t.ctaSub}
                 </p>
                 <Link href="/explore">
                   <Button className="rounded-[2rem] h-20 px-16 text-lg font-black uppercase tracking-[0.4em] bg-primary text-white hover:bg-white hover:text-black transition-all duration-700 shadow-[0_30px_60px_rgba(225,29,72,0.4)] group overflow-hidden relative">
-                    <span className="relative z-10">Invoke Expedition</span>
+                    <span className="relative z-10">{t.ctaBtn}</span>
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                   </Button>
                 </Link>
