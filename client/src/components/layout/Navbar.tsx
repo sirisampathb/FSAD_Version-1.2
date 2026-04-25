@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const [location] = useLocation();
@@ -26,41 +27,49 @@ export default function Navbar() {
   };
 
   return (
-    <nav 
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        scrolled 
-          ? "bg-background/40 backdrop-blur-3xl border-b border-primary/20 shadow-[0_10px_40px_rgba(0,0,0,0.3)] h-24" 
+    <nav
+      className={`fixed top-0 w-full z-50 transition-all duration-700 ${scrolled
+          ? "premium-glass border-b border-white/5 h-24"
           : "bg-transparent h-28"
-      }`}
+        }`}
     >
       <div className="container mx-auto px-6 h-full flex items-center justify-between">
         <Link href="/">
-          <div className="flex items-center gap-4 cursor-pointer group">
-            <div className="bg-primary p-2 rounded-xl scale-75 group-hover:scale-100 group-hover:rotate-12 transition-all duration-500 shadow-xl shadow-primary/20">
-              <Globe className="h-6 w-6 text-black" />
-            </div>
-            <span className={`font-serif text-3xl font-bold tracking-tighter ${
-              !scrolled && location === '/' ? 'text-white' : 'text-foreground'
-            }`}>
-              Bharat <span className="text-primary italic">Heritage</span>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-4 cursor-pointer group"
+          >
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+              className="bg-primary p-2.5 rounded-2xl scale-90 group-hover:scale-100 shadow-2xl shadow-primary/40 relative z-10"
+            >
+              <Globe className="h-7 w-7 text-black stroke-[2.5]" />
+              <div className="absolute inset-0 bg-white/20 rounded-[inherit] animate-pulse" />
+            </motion.div>
+            <span className={`font-serif text-3xl font-bold tracking-tighter relative z-10 ${!scrolled && location === '/' ? 'text-white' : 'text-foreground'
+              }`}>
+              Bharat <span className="text-gradient-gold animate-text-gradient italic font-medium">Heritage</span>
             </span>
-          </div>
+          </motion.div>
         </Link>
 
-        <div className="hidden md:flex items-center gap-12">
-          {['/', '/explore', user ? '/dashboard' : null].filter(Boolean).map((path) => (
+        <div className="hidden md:flex items-center gap-16">
+          {(['/', '/explore', user ? '/dashboard' : null].filter((path): path is string => Boolean(path))).map((path) => (
             <Link key={path!} href={path!}>
-              <span className={`text-[10px] font-black uppercase tracking-[0.4em] hover:text-primary transition-all cursor-pointer relative group ${
-                location === path 
-                  ? 'text-primary' 
-                  : (!scrolled && location === '/' ? 'text-white/80' : 'text-foreground/70')
-              }`}>
+              <motion.span
+                whileHover={{ y: -2 }}
+                className={`text-[10px] font-black uppercase tracking-[0.4em] hover:text-primary transition-all cursor-pointer relative group py-2 ${location === path
+                    ? 'text-primary'
+                    : (!scrolled && location === '/' ? 'text-white/80' : 'text-foreground/70')
+                  }`}>
                 {path === '/' ? 'Home' : path.slice(1)}
                 <span className={cn(
-                  "absolute -bottom-2 left-0 h-px bg-primary transition-all duration-500",
-                  location === path ? "w-full" : "w-0 group-hover:w-full"
+                  "absolute -bottom-1 left-0 h-[2px] bg-primary transition-all duration-700 rounded-full",
+                  location === path ? "w-full shadow-[0_0_10px_rgba(253,185,49,0.5)]" : "w-0 group-hover:w-full"
                 )} />
-              </span>
+              </motion.span>
             </Link>
           ))}
         </div>
@@ -106,9 +115,9 @@ export default function Navbar() {
             </div>
           )}
 
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={toggleTheme}
             className={cn(
               "rounded-full w-12 h-12",
@@ -118,9 +127,9 @@ export default function Navbar() {
             {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
 
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className={cn(
               "md:hidden rounded-full w-12 h-12",
               !scrolled && location === '/' ? 'text-white hover:bg-white/10' : ''

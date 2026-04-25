@@ -129,6 +129,33 @@
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
+.animate-text-gradient {
+  background-size: 200% auto;
+  animation: textGradient 4s linear infinite;
+}
+
+@keyframes textGradient {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.premium-glass {
+  @apply bg-background/40 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
+}
+
+.gold-glow-border {
+  @apply relative;
+}
+
+.gold-glow-border::before {
+  content: "";
+  @apply absolute -inset-[1px] rounded-[inherit] bg-gradient-to-br from-primary/50 via-primary/20 to-transparent -z-10 opacity-0 transition-opacity duration-500;
+}
+
+.gold-glow-border:hover::before {
+  @apply opacity-100;
+}
+
 .heritage-border {
   position: relative;
   border: 1px solid transparent;
@@ -158,12 +185,13 @@
 
 .noise-overlay::after {
   content: "";
-  position: absolute;
-  inset: 0;
+  @apply absolute inset-0 pointer-events-none -z-10;
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.05;
-  pointer-events: none;
-  z-index: 10;
+  opacity: 0.03;
+}
+
+.radial-glow {
+  background: radial-gradient(circle at center, var(--tw-gradient-from) 0%, transparent 70%);
 }
 
 /* Animations */

@@ -20,9 +20,10 @@ public class EmailService {
         
         try {
             mailSender.send(message);
+            System.out.println("OTP Email successfully sent to " + toEmail);
         } catch (Exception e) {
             System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
-            // In a real application, you might throw a custom exception here
+            throw new RuntimeException("Failed to send OTP email. Please check SMTP configuration.");
         }
     }
 }

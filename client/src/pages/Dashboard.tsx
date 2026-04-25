@@ -45,34 +45,57 @@ export default function Dashboard() {
 
         {/* Classical Header */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 mb-16 px-4">
-          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }}>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          >
             <div className="flex items-center gap-3 mb-4">
-               <div className="bg-primary/10 p-2 rounded-xl border border-primary/20">
+               <motion.div 
+                 animate={{ rotate: [0, 10, -10, 0] }}
+                 transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                 className="bg-primary/10 p-2 rounded-xl border border-primary/20"
+               >
                  <Sparkles className="w-5 h-5 text-primary" />
-               </div>
-               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/80">Imperial Archive Portal</span>
+               </motion.div>
+               <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/80 animate-pulse">Imperial Archive Portal</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground tracking-tight mb-4">
-              Welcome, <span className="text-primary italic font-medium">{user.username}</span>
+            <h1 className="text-5xl md:text-7xl font-serif font-bold text-foreground tracking-tight mb-4">
+              Welcome, <span className="text-gradient-gold animate-text-gradient italic font-medium">{user.username}</span>
             </h1>
-            <p className="text-muted-foreground text-lg max-w-xl font-medium opacity-60 italic leading-relaxed">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.6 }}
+              transition={{ delay: 0.5, duration: 1 }}
+              className="text-muted-foreground text-lg max-w-xl font-medium italic leading-relaxed"
+            >
               Curated access to the architectural spirit of Bharat.
-            </p>
+            </motion.p>
           </motion.div>
           
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }} 
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex items-center gap-6 glass-panel p-5 border-primary/10 shadow-sm"
+            initial={{ opacity: 0, scale: 0.95, x: 20 }} 
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="flex items-center gap-6 premium-glass p-6 rounded-[2rem] border-white/5 shadow-2xl relative overflow-hidden group"
           >
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/80 to-accent flex items-center justify-center border border-white/10 shadow-lg">
-               <ShieldAlert className="w-7 h-7 text-black" />
-            </div>
-            <div>
-              <p className="text-[9px] font-bold text-primary/60 uppercase tracking-[0.2em] mb-1">Authorization</p>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-serif font-bold text-foreground">{user.role === 'admin' ? 'Imperial Curator' : 'Cultural Voyager'}</span>
-                <div className="w-2 h-2 rounded-full bg-green-500/80 shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <motion.div 
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 1, ease: "circOut" }}
+              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary via-primary/80 to-accent flex items-center justify-center border border-white/20 shadow-[0_0_20px_rgba(253,185,49,0.3)] relative z-10"
+            >
+               <ShieldAlert className="w-8 h-8 text-black" />
+            </motion.div>
+            <div className="relative z-10">
+              <p className="text-[10px] font-bold text-primary/60 uppercase tracking-[0.3em] mb-1.5">Authorization</p>
+              <div className="flex items-center gap-3">
+                <span className="text-xl font-serif font-bold text-foreground">{user.role === 'admin' ? 'Imperial Curator' : 'Cultural Voyager'}</span>
+                <motion.div 
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                  className="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.6)]" 
+                />
               </div>
             </div>
           </motion.div>
@@ -151,84 +174,109 @@ function AdminView() {
         {statCards.map((stat, i) => (
           <motion.div 
             key={i} 
-            initial={{ opacity: 0, y: 20 }} 
+            initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
-            transition={{ delay: i * 0.05 }}
-            className="glass-panel p-8 group border-primary/5 hover:border-primary/20 transition-all duration-500"
+            whileHover={{ y: -10, scale: 1.02 }}
+            transition={{ 
+              delay: i * 0.1,
+              type: "spring",
+              stiffness: 260,
+              damping: 20
+            }}
+            className="premium-glass p-8 group border-white/5 hover:border-primary/30 transition-all duration-500 rounded-[2.5rem] relative overflow-hidden gold-glow-border"
           >
-            <div className="flex justify-between items-start mb-6">
-              <div className={`p-4 rounded-2xl ${stat.color} border shadow-sm group-hover:scale-105 transition-transform`}>
+            <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors" />
+            <div className="flex justify-between items-start mb-6 relative z-10">
+              <motion.div 
+                whileHover={{ rotate: 12, scale: 1.1 }}
+                className={`p-4 rounded-2xl ${stat.color} border shadow-inner transition-all duration-500`}
+              >
                 <stat.icon className="w-6 h-6" />
-              </div>
-              <div className="flex flex-col items-end opacity-60">
-                <TrendingUp className="w-4 h-4 text-green-500" />
-                <span className="text-[9px] font-bold text-green-500 mt-1 uppercase tracking-widest">+12%</span>
+              </motion.div>
+              <div className="flex flex-col items-end">
+                <motion.div
+                  animate={{ y: [0, -2, 0] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                >
+                  <TrendingUp className="w-5 h-5 text-green-500" />
+                </motion.div>
+                <span className="text-[10px] font-bold text-green-500 mt-1 uppercase tracking-[0.2em]">+12.4%</span>
               </div>
             </div>
-            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] mb-2">{stat.title}</p>
-            <h3 className="text-4xl font-serif font-bold text-foreground transition-colors">{stat.value}</h3>
+            <div className="relative z-10">
+              <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-[0.3em] mb-2.5 opacity-60">{stat.title}</p>
+              <h3 className="text-5xl font-serif font-bold text-foreground group-hover:text-primary transition-colors duration-500">{stat.value}</h3>
+            </div>
           </motion.div>
         ))}
       </div>
 
       {/* 2. Style Distribution */}
-      <Card className="glass-panel lg:col-span-8 p-1 border-primary/5">
-        <CardHeader className="p-10">
-           <div className="flex justify-between items-start">
+      <Card className="premium-glass lg:col-span-8 p-1 border-white/5 rounded-[3rem] overflow-hidden group">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+        <CardHeader className="p-12 relative z-10">
+           <div className="flex flex-col sm:flex-row justify-between items-start gap-6">
              <div>
-               <CardTitle className="font-serif text-3xl mb-2 tracking-tight">Census of Splendor</CardTitle>
-               <p className="text-muted-foreground text-sm font-medium opacity-60">Architectural heritage distribution overview.</p>
+               <CardTitle className="font-serif text-4xl mb-3 tracking-tight">Census of Splendor</CardTitle>
+               <p className="text-muted-foreground text-base font-medium opacity-60 max-w-md">Real-time architectural heritage distribution across the imperial archive.</p>
              </div>
-             <div className="flex items-center gap-3 bg-primary/5 px-4 py-2 rounded-full border border-primary/10">
-                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-[9px] font-bold text-primary uppercase tracking-[0.2em]">Live Data</span>
-             </div>
+             <motion.div 
+               whileHover={{ scale: 1.05 }}
+               className="flex items-center gap-3 bg-primary/10 px-5 py-2.5 rounded-full border border-primary/20 backdrop-blur-md"
+             >
+                <div className="w-2.5 h-2.5 rounded-full bg-primary animate-ping" />
+                <span className="text-[10px] font-bold text-primary uppercase tracking-[0.3em]">Live Archive</span>
+             </motion.div>
            </div>
         </CardHeader>
-        <CardContent className="h-[400px] p-10 pt-0">
+        <CardContent className="h-[450px] p-12 pt-0 relative z-10">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData}>
               <defs>
                 <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
+                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
                   <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="5 5" vertical={false} stroke="hsla(var(--border),0.1)" />
+              <CartesianGrid strokeDasharray="10 10" vertical={false} stroke="hsla(var(--border),0.05)" />
               <XAxis 
                 dataKey="name" 
-                stroke="hsla(var(--muted-foreground),0.4)" 
-                fontSize={10} 
+                stroke="hsla(var(--muted-foreground),0.3)" 
+                fontSize={11} 
                 tickLine={false}
                 axisLine={false}
-                dy={10}
-                className="font-bold uppercase tracking-widest opacity-60"
+                dy={15}
+                className="font-bold uppercase tracking-[0.2em] opacity-50"
               />
               <YAxis 
-                stroke="hsla(var(--muted-foreground),0.4)" 
-                fontSize={10} 
+                stroke="hsla(var(--muted-foreground),0.3)" 
+                fontSize={11} 
                 tickLine={false}
                 axisLine={false}
-                className="font-bold opacity-60"
+                dx={-10}
+                className="font-bold opacity-50"
               />
               <Tooltip 
+                cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 2, strokeDasharray: '5 5' }}
                 contentStyle={{ 
-                  backgroundColor: 'hsla(var(--card),0.95)', 
-                  backdropFilter: 'blur(16px)', 
-                  borderRadius: '16px', 
-                  border: '1px solid hsla(var(--primary),0.1)',
-                  padding: '12px'
+                  backgroundColor: 'hsla(var(--background),0.8)', 
+                  backdropFilter: 'blur(24px)', 
+                  borderRadius: '24px', 
+                  border: '1px solid hsla(var(--white),0.1)',
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                  padding: '20px'
                 }}
-                itemStyle={{ color: 'hsl(var(--primary))', fontWeight: 'bold', fontSize: '12px' }}
-                labelStyle={{ color: 'white', marginBottom: '4px', fontSize: '12px', fontWeight: 'bold' }}
+                itemStyle={{ color: 'hsl(var(--primary))', fontWeight: 'bold', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.1em' }}
+                labelStyle={{ color: 'white', marginBottom: '8px', fontSize: '12px', fontWeight: '900', textTransform: 'uppercase', opacity: 0.5 }}
               />
               <Area 
                 type="monotone" 
                 dataKey="value" 
                 stroke="hsl(var(--primary))" 
-                strokeWidth={3}
+                strokeWidth={4}
                 fillOpacity={1} 
                 fill="url(#colorValue)" 
+                animationDuration={2000}
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -293,42 +341,61 @@ function AdminView() {
                 <motion.div 
                   key={m.id}
                   layout
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.03 }}
+                  whileHover={{ y: -15 }}
+                  transition={{ 
+                    delay: idx * 0.05,
+                    duration: 0.5,
+                    ease: "easeOut"
+                  }}
                   viewport={{ once: true }}
-                  className="flex flex-col p-6 rounded-3xl bg-card/40 border border-white/5 group hover:border-primary/30 hover:shadow-xl transition-all duration-500"
+                  className="flex flex-col p-6 rounded-[2.5rem] premium-glass border-white/5 group hover:border-primary/40 hover:shadow-[0_20px_50px_rgba(253,185,49,0.15)] transition-all duration-700 relative overflow-hidden"
                 >
-                  <div className="relative aspect-square rounded-2xl overflow-hidden mb-6 shadow-sm">
-                    <img 
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className="relative aspect-[4/5] rounded-[1.8rem] overflow-hidden mb-7 shadow-2xl relative z-10">
+                    <motion.img 
+                      whileHover={{ scale: 1.15 }}
+                      transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                       src={resolveImageUrl(m.image)} 
                       alt={m.name} 
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                      className="absolute inset-0 w-full h-full object-cover" 
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-700" />
+                    
+                    <div className="absolute bottom-5 left-5 right-5">
+                       <motion.div
+                         initial={{ opacity: 0, y: 10 }}
+                         whileInView={{ opacity: 1, y: 0 }}
+                         className="flex items-center gap-2 mb-1"
+                       >
+                         <Map className="w-3.5 h-3.5 text-primary" />
+                         <span className="text-[10px] font-bold text-white uppercase tracking-[0.2em]">{m.location}</span>
+                       </motion.div>
+                    </div>
                   </div>
                   
-                  <div className="flex-grow mb-6">
-                    <div className="flex items-center gap-2 mb-2 opacity-60">
-                       <Map className="w-3 h-3 text-primary" />
-                       <span className="text-[9px] font-bold text-primary uppercase tracking-widest">{m.location}</span>
-                    </div>
-                    <h4 className="font-serif text-xl font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors">{m.name}</h4>
+                  <div className="flex-grow mb-7 relative z-10">
+                    <h4 className="font-serif text-2xl font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors duration-500">{m.name}</h4>
+                    <p className="text-[10px] font-bold text-muted-foreground mt-2 uppercase tracking-[0.3em] opacity-40">{m.style} Architecture</p>
                   </div>
 
-                  <div className="flex gap-3">
+                  <div className="flex gap-4 relative z-10">
                     <AddMonumentDialog initialData={m}>
-                      <Button variant="secondary" className="flex-grow rounded-xl h-10 gap-2 font-bold uppercase tracking-widest text-[9px] hover:bg-primary hover:text-black shadow-sm">
-                        <Edit2 className="w-3.5 h-3.5" /> Edit
+                      <Button variant="secondary" className="flex-grow rounded-2xl h-12 gap-2 font-bold uppercase tracking-widest text-[10px] bg-white/5 border-white/5 hover:bg-primary hover:text-black transition-all duration-500 shadow-xl">
+                        <Edit2 className="w-4 h-4" /> Edit Profile
                       </Button>
                     </AddMonumentDialog>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="h-10 w-10 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-xl transition-all border border-white/5"
-                      onClick={() => handleDelete(m.id, m.name)}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
+                    <motion.div whileTap={{ scale: 0.9 }}>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-12 w-12 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-2xl transition-all border border-white/5 bg-white/[0.02]"
+                        onClick={() => handleDelete(m.id, m.name)}
+                      >
+                        <Trash2 className="w-4.5 h-4.5" />
+                      </Button>
+                    </motion.div>
                   </div>
                 </motion.div>
               ))}
@@ -372,69 +439,88 @@ function EnthusiastView() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
       
       {/* 1. Level Bento */}
-      <Card className="glass-panel lg:col-span-4 p-10 relative overflow-hidden group border-primary/5">
+      <Card className="premium-glass lg:col-span-4 p-10 relative overflow-hidden group border-white/5 rounded-[3rem] gold-glow-border">
         <div className="absolute -top-10 -right-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors animate-float" />
-        <CardHeader className="p-0 mb-10">
-          <Badge className="w-fit mb-6 rounded-lg bg-primary/10 text-primary border border-primary/20 px-4 py-1.5 font-bold uppercase tracking-[0.2em] text-[9px]">Grand Archivist</Badge>
-          <CardTitle className="text-4xl font-serif font-bold tracking-tight">Explorer Rank</CardTitle>
+        <CardHeader className="p-0 mb-10 relative z-10">
+          <Badge className="w-fit mb-6 rounded-lg bg-primary/10 text-primary border border-primary/20 px-4 py-1.5 font-bold uppercase tracking-[0.3em] text-[9px] animate-pulse">Grand Archivist</Badge>
+          <CardTitle className="text-5xl font-serif font-bold tracking-tight">Explorer <br />Rank</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
-          <div className="flex items-baseline gap-3 mb-6">
-            <span className="text-7xl font-bold text-foreground drop-shadow-sm">4</span>
-            <span className="text-2xl text-muted-foreground font-bold opacity-30 italic">/ 10</span>
+        <CardContent className="p-0 relative z-10">
+          <div className="flex items-baseline gap-3 mb-8">
+            <motion.span 
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="text-8xl font-bold text-foreground drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+            >
+              4
+            </motion.span>
+            <span className="text-3xl text-muted-foreground font-bold opacity-20 italic">/ 10</span>
           </div>
-          <p className="text-primary font-bold tracking-[0.3em] uppercase text-[9px] mb-8 flex items-center gap-3 italic">
-             <Sparkles className="w-3.5 h-3.5" /> Sacred Cultural Custodian
+          <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] mb-10 flex items-center gap-3 italic">
+             <motion.span animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 4, ease: "linear" }}><Sparkles className="w-4 h-4" /></motion.span>
+             Sacred Cultural Custodian
           </p>
-          <div className="w-full bg-white/5 h-6 rounded-full overflow-hidden shadow-inner border border-white/5 p-1">
+          <div className="w-full bg-white/5 h-8 rounded-full overflow-hidden shadow-inner border border-white/5 p-1.5">
             <motion.div 
                initial={{ width: 0 }}
                animate={{ width: "70%" }}
-               transition={{ duration: 2, ease: "easeOut" }}
-               className="bg-primary h-full rounded-full shadow-[0_0_15px_rgba(var(--primary),0.3)]"
+               transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+               className="bg-gradient-to-r from-primary to-accent h-full rounded-full shadow-[0_0_20px_rgba(253,185,49,0.4)]"
             />
           </div>
-          <div className="flex justify-between items-center mt-4">
-            <p className="text-[9px] text-muted-foreground font-bold opacity-40 uppercase tracking-widest italic">Progressing to next cycle...</p>
-            <p className="text-[9px] text-primary/80 font-bold uppercase tracking-widest">300 XP to Transcend</p>
+          <div className="flex justify-between items-center mt-5">
+            <p className="text-[10px] text-muted-foreground font-bold opacity-30 uppercase tracking-[0.2em] italic">Progressing to next cycle...</p>
+            <p className="text-[10px] text-primary/80 font-bold uppercase tracking-[0.2em]">300 XP to Transcend</p>
           </div>
         </CardContent>
       </Card>
 
       {/* 2. History/Saved Tours */}
-      <Card className="glass-panel lg:col-span-8 p-10 border-primary/5">
-        <CardHeader className="p-0 mb-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <Card className="premium-glass lg:col-span-8 p-12 border-white/5 rounded-[3rem] overflow-hidden group">
+        <div className="absolute inset-0 bg-gradient-to-tr from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+        <CardHeader className="p-0 mb-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8 relative z-10">
            <div>
-             <CardTitle className="text-4xl font-serif font-bold tracking-tight mb-2">Eternal <span className="text-primary/70 italic font-medium">Voyage</span></CardTitle>
-             <p className="text-muted-foreground text-base font-medium opacity-60">Resume your pilgrimage through architectural wonders.</p>
+             <CardTitle className="text-5xl font-serif font-bold tracking-tight mb-3">Eternal <span className="text-gradient-gold animate-text-gradient italic font-medium">Voyage</span></CardTitle>
+             <p className="text-muted-foreground text-lg font-medium opacity-60">Resume your pilgrimage through architectural wonders.</p>
            </div>
-           <Button variant="outline" className="rounded-xl h-12 px-6 border-primary/20 text-primary font-bold uppercase tracking-[0.2em] text-[10px] gap-2 hover:bg-primary hover:text-black transition-all">
-             Archives <ChevronRight className="w-4 h-4" />
-           </Button>
+           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+             <Button variant="outline" className="rounded-2xl h-14 px-8 border-primary/20 text-primary font-bold uppercase tracking-[0.3em] text-[10px] gap-3 hover:bg-primary hover:text-black transition-all duration-500 shadow-xl">
+               Access Archives <ChevronRight className="w-5 h-5" />
+             </Button>
+           </motion.div>
         </CardHeader>
-        <CardContent className="p-0">
-          <div className="grid sm:grid-cols-2 gap-8">
+        <CardContent className="p-0 relative z-10">
+          <div className="grid sm:grid-cols-2 gap-10">
             {(monuments || []).slice(0, 2).map((m, i) => (
               <motion.div 
                 key={m.id}
-                whileHover={{ y: -8 }}
-                className="relative h-64 rounded-3xl overflow-hidden group/item cursor-pointer border border-white/5 shadow-sm"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.2 }}
+                whileHover={{ y: -12, scale: 1.02 }}
+                className="relative h-80 rounded-[2.5rem] overflow-hidden group/item cursor-pointer border border-white/5 shadow-2xl transition-all duration-700"
               >
-                <img src={resolveImageUrl(m.image)} alt={m.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover/item:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-8 w-full">
-                  <Badge className="mb-4 bg-primary/20 backdrop-blur-md text-primary border border-primary/30 px-3 py-1 text-[8px] font-bold uppercase tracking-widest">Stage {i+1}</Badge>
-                  <h4 className="text-2xl font-serif font-bold text-white mb-4 tracking-tight leading-tight">{m.name}</h4>
-                  <div className="flex items-center gap-4">
-                    <div className="flex-grow bg-white/10 h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
+                <motion.img 
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 1.5 }}
+                  src={resolveImageUrl(m.image)} 
+                  alt={m.name} 
+                  className="absolute inset-0 w-full h-full object-cover" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90" />
+                <div className="absolute bottom-0 left-0 p-10 w-full">
+                  <Badge className="mb-5 bg-primary/20 backdrop-blur-xl text-primary border border-primary/30 px-4 py-1.5 text-[9px] font-bold uppercase tracking-[0.3em]">Stage {i+1}</Badge>
+                  <h4 className="text-3xl font-serif font-bold text-white mb-6 tracking-tight leading-tight group-hover/item:text-primary transition-colors duration-500">{m.name}</h4>
+                  <div className="flex items-center gap-5">
+                    <div className="flex-grow bg-white/10 h-2.5 rounded-full overflow-hidden p-0.5 border border-white/5">
                        <motion.div 
                          initial={{ width: 0 }}
                          animate={{ width: "45%" }}
-                         transition={{ duration: 1.5, delay: 0.5 }}
-                         className="bg-primary h-full rounded-full" 
+                         transition={{ duration: 2, delay: 1 }}
+                         className="bg-gradient-to-r from-primary to-accent h-full rounded-full" 
                        />
                     </div>
-                    <span className="text-[8px] text-white font-bold tracking-widest uppercase opacity-60">45%</span>
+                    <span className="text-[10px] text-white font-bold tracking-[0.2em] uppercase opacity-60">45%</span>
                   </div>
                 </div>
               </motion.div>
@@ -444,23 +530,42 @@ function EnthusiastView() {
       </Card>
 
       {/* 3. Quick Tips */}
-      <div className="lg:col-span-12 mt-4">
-        <Card className="glass-panel p-16 bg-gradient-to-br from-primary/5 via-background to-accent/5 border-primary/10 flex flex-col lg:flex-row items-center gap-12 relative overflow-hidden group">
-           <div className="bg-primary p-8 rounded-3xl shadow-lg animate-float shrink-0 border border-white/10 group-hover:rotate-6 transition-transform">
-              <Sparkles className="w-12 h-12 text-black stroke-[2]" />
-           </div>
-           <div className="text-center lg:text-left">
-              <h3 className="text-4xl md:text-5xl font-serif font-bold mb-4 tracking-tighter">Awaken Your <span className="text-primary italic font-medium">Inner Chronicler</span></h3>
-              <p className="text-muted-foreground text-lg mb-8 leading-relaxed max-w-4xl font-medium opacity-60 italic">
-                Every journey adds to your <span className="text-foreground underline decoration-primary/30 underline-offset-4">Divine Archivist XP</span>.
-              </p>
-              <Link href="/explore">
-                 <Button className="rounded-xl h-14 px-10 text-sm font-bold uppercase tracking-[0.2em] shadow-lg shadow-primary/10 bg-primary text-black hover:bg-white transition-all">
-                   Unveil Regions
-                 </Button>
-              </Link>
-           </div>
-        </Card>
+      <div className="lg:col-span-12 mt-8">
+        <motion.div
+          whileHover={{ scale: 1.01 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Card className="premium-glass p-20 bg-gradient-to-br from-primary/10 via-background to-accent/10 border-white/5 rounded-[4rem] flex flex-col lg:flex-row items-center gap-16 relative overflow-hidden group shadow-2xl">
+             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
+             <motion.div 
+               animate={{ 
+                 y: [0, -15, 0],
+                 rotate: [0, 5, -5, 0]
+               }}
+               transition={{ 
+                 repeat: Infinity, 
+                 duration: 6,
+                 ease: "easeInOut"
+               }}
+               className="bg-primary p-12 rounded-[3rem] shadow-[0_0_50px_rgba(253,185,49,0.3)] shrink-0 border border-white/20 relative z-10"
+             >
+                <Sparkles className="w-16 h-16 text-black stroke-[2.5]" />
+             </motion.div>
+             <div className="text-center lg:text-left relative z-10">
+                <h3 className="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-tighter leading-none">Awaken Your <span className="text-gradient-gold animate-text-gradient italic font-medium">Inner Chronicler</span></h3>
+                <p className="text-muted-foreground text-xl mb-12 leading-relaxed max-w-4xl font-medium opacity-60 italic">
+                  Every journey adds to your <span className="text-foreground underline decoration-primary/30 underline-offset-8">Divine Archivist XP</span>. The ancients await your discovery.
+                </p>
+                <Link href="/explore">
+                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                     <Button className="rounded-[1.5rem] h-16 px-12 text-sm font-bold uppercase tracking-[0.3em] shadow-[0_0_30px_rgba(253,185,49,0.2)] bg-primary text-black hover:bg-white hover:text-black transition-all duration-500">
+                       Unveil Sacred Regions
+                     </Button>
+                   </motion.div>
+                </Link>
+             </div>
+          </Card>
+        </motion.div>
       </div>
     </div>
   );

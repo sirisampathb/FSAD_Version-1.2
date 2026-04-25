@@ -65,8 +65,8 @@ export default function Home() {
                <div className="h-px w-12 bg-primary/40" />
             </div>
             
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[1.1] text-white">
-              The <span className="text-primary italic font-medium">Soul</span> of Antiquity
+            <h1 className="font-serif text-5xl md:text-7xl lg:text-9xl font-bold tracking-tight mb-8 leading-[1.05] text-white">
+              The <span className="text-gradient-gold animate-text-gradient italic font-medium">Soul</span> of Antiquity
             </h1>
             
             <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
@@ -80,7 +80,7 @@ export default function Home() {
                 </Button>
               </Link>
               <Link href="/explore">
-                <Button size="lg" variant="outline" className="rounded-full h-16 px-12 text-sm font-bold uppercase tracking-[0.2em] border-white/20 text-white hover:bg-white/10 glass-panel backdrop-blur-3xl transition-all">
+                <Button size="lg" variant="outline" className="rounded-full h-16 px-12 text-sm font-bold uppercase tracking-[0.2em] border-white/20 text-white hover:bg-white/10 premium-glass transition-all">
                   State Archives
                 </Button>
               </Link>
@@ -237,8 +237,8 @@ export default function Home() {
                   className="lg:col-span-2 bento-card p-12 bg-card/60"
                 >
                   <div className="flex items-center gap-4 mb-8">
-                    <div className="bg-primary/20 p-2 rounded-full">
-                      <Gem className="w-6 h-6 text-primary" />
+                    <div className="font-serif text-3xl font-bold mb-6 text-foreground tracking-tighter">
+                      Bharat <span className="text-gradient-gold animate-text-gradient italic">Heritage</span>
                     </div>
                     <h2 className="text-3xl font-serif font-bold">Your <span className="text-primary">Heritage Path</span></h2>
                   </div>
