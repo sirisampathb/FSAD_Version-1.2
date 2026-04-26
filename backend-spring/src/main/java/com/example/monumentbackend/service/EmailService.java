@@ -25,8 +25,9 @@ public class EmailService {
             mailSender.send(message);
             System.out.println("OTP Email successfully sent to " + toEmail + " from " + fromEmail);
         } catch (Exception e) {
+            e.printStackTrace(); // Log full stack trace
             System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
-            throw new RuntimeException("Failed to send OTP email. Please check SMTP configuration.");
+            throw new RuntimeException("Failed to send OTP email. Error: " + e.getMessage());
         }
     }
 }
