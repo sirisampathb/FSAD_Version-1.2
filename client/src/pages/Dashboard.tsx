@@ -27,7 +27,9 @@ import { Badge } from "@/components/ui/badge";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { AddMonumentDialog } from "@/components/AddMonumentDialog";
 import { resolveImageUrl } from "@/lib/queryClient";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { Clock } from "@/components/Clock";
+
 
 const translations: Record<string, any> = {
   en: {
@@ -95,20 +97,13 @@ const translations: Record<string, any> = {
 export default function Dashboard() {
   const { user } = useAuth();
   const [lang, setLang] = useState(localStorage.getItem("lang") || "en");
-  const [time, setTime] = useState(new Date());
   const t = translations[lang] || translations.en;
 
-  useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const getGreeting = () => {
-    const hour = time.getHours();
-    if (hour < 12) return t.greeting[0];
-    if (hour < 17) return t.greeting[1];
-    return t.greeting[2];
+  const changeLang = (l: string) => {
+    setLang(l);
+    localStorage.setItem("lang", l);
   };
+
 
   const changeLang = (l: string) => {
     setLang(l);
@@ -175,20 +170,16 @@ export default function Dashboard() {
                </div>
             </div>
             <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground tracking-tight leading-none mb-4">
-              {getGreeting()}, <br />
+              Welcome, <br />
               <span className="text-primary italic font-medium">{user.username}</span>
             </h1>
             <div className="flex items-center gap-6 mt-6">
-               <div className="bg-card px-4 py-2 rounded-xl border border-border flex items-center gap-3 shadow-sm">
-                 <History className="w-4 h-4 text-primary" />
-                 <span className="text-lg font-serif font-bold tracking-widest text-foreground">
-                   {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                 </span>
-               </div>
+               <Clock />
                <p className="text-muted-foreground text-sm font-medium opacity-60">
                  "Architectural chronicles of Bharat."
                </p>
             </div>
+
           </motion.div>
           
           <motion.div 
@@ -239,12 +230,13 @@ function AdminView({ t }: { t: any }) {
     }
   };
 
-  const statCards = [
+  const statCards = useMemo(() => [
     { title: "Citizens", value: "12,482", icon: Users, color: "text-blue-400", bg: "bg-blue-400/10" },
     { title: "Archives", value: monuments?.length || 0, icon: Building2, color: "text-primary", bg: "bg-primary/10" },
     { title: "Expeditions", value: "842", icon: Compass, color: "text-emerald-400", bg: "bg-emerald-400/10" },
     { title: "Echoes", value: "3.2K", icon: MessageSquare, color: "text-purple-400", bg: "bg-purple-400/10" },
-  ];
+  ], [monuments?.length]);
+
 
   return (
     <div className="space-y-12">
@@ -482,13 +474,14 @@ function EnthusiastView({ t }: { t: any }) {
 }
 
 function DistributionChart({ monuments }: { monuments: any[] | undefined }) {
-  const chartData = (monuments || []).reduce((acc: any[], current) => {
+  const chartData = useMemo(() => (monuments || []).reduce((acc: any[], current) => {
     const style = current.style || "Other";
     const existing = acc.find(a => a.name === style);
     if (existing) existing.value += 1;
     else acc.push({ name: style, value: 1 });
     return acc;
-  }, []);
+  }, []), [monuments]);
+
 
   return (
     <ResponsiveContainer width="100%" height="100%">

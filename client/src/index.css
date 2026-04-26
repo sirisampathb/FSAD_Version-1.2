@@ -39,10 +39,11 @@
 
   /* Custom Animations */
   --animate-shimmer: shimmer 2s infinite;
-  --animate-float: float 10s ease-in-out infinite;
-  --animate-pulse-rose: pulse-rose 4s infinite;
-  --animate-blob: blob 7s infinite alternate;
-  --animate-aurora: aurora 20s infinite linear;
+  --animate-float: float 15s ease-in-out infinite;
+  --animate-pulse-rose: pulse-rose 6s infinite;
+  --animate-blob: blob 12s infinite alternate;
+  --animate-aurora: aurora 30s infinite linear;
+
   --animate-text-gradient: textGradient 4s linear infinite;
 
   @keyframes shimmer {
@@ -141,8 +142,9 @@
 
 /* Advanced Utilities */
 .glass-panel {
-  @apply bg-background/60 backdrop-blur-md border border-white/10 dark:border-white/5 shadow-xl;
+  @apply bg-background/60 backdrop-blur-sm border border-white/10 dark:border-white/5 shadow-lg;
 }
+
 
 .text-gradient-rose {
   @apply bg-clip-text text-transparent bg-gradient-to-br from-[#FFB7B2] via-[#E29578] to-[#FFDDD2];
@@ -160,8 +162,9 @@
 }
 
 .premium-glass {
-  @apply bg-background/40 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
+  @apply bg-background/40 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)];
 }
+
 
 .rose-glow-border {
   @apply relative;
@@ -191,12 +194,14 @@
 }
 
 .bento-card {
-  @apply relative overflow-hidden rounded-[2.5rem] border border-border/40 bg-card/40 backdrop-blur-lg transition-all duration-700 hover:shadow-xl hover:border-primary/50 hover:-translate-y-1;
+  @apply relative overflow-hidden rounded-[2.5rem] border border-border/40 bg-card/60 backdrop-blur-md transition-all duration-500 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1;
 }
 
+
 .premium-card {
-  @apply relative overflow-hidden rounded-[3.5rem] border border-white/10 bg-gradient-to-br from-white/10 to-white/[0.01] backdrop-blur-lg shadow-2xl transition-all duration-700 hover:border-primary/40;
+  @apply relative overflow-hidden rounded-[3.5rem] border border-white/10 bg-gradient-to-br from-white/10 to-white/[0.01] backdrop-blur-md shadow-xl transition-all duration-500 hover:border-primary/40;
 }
+
 
 .noise-overlay {
   position: relative;
@@ -225,8 +230,9 @@
 }
 
 .blob {
-  @apply absolute rounded-full mix-blend-multiply filter blur-[80px] opacity-10 animate-blob;
+  @apply absolute rounded-full mix-blend-multiply filter blur-[40px] opacity-10 animate-blob;
 }
+
 
 .delay-2000 { animation-delay: 2s; }
 .delay-4000 { animation-delay: 4s; }

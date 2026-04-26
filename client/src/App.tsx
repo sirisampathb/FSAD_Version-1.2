@@ -7,14 +7,17 @@ import NotFound from "@/pages/not-found";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/lib/auth";
+import { lazy, Suspense } from "react";
 
-// Pages
-import Home from "@/pages/Home";
-import MonumentDetail from "@/pages/MonumentDetail";
-import Dashboard from "@/pages/Dashboard";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
-import StateExplorer from "@/pages/StateExplorer";
+
+// Lazy Loaded Pages
+const Home = lazy(() => import("@/pages/Home"));
+const MonumentDetail = lazy(() => import("@/pages/MonumentDetail"));
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const Login = lazy(() => import("@/pages/Login"));
+const Register = lazy(() => import("@/pages/Register"));
+const StateExplorer = lazy(() => import("@/pages/StateExplorer"));
+
 
 import { Chatbot } from "@/components/Chatbot";
 
@@ -23,16 +26,19 @@ function Router() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-grow">
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/explore" component={StateExplorer} />
-          <Route path="/monument/:id" component={MonumentDetail} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route component={NotFound} />
-        </Switch>
+        <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>}>
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/explore" component={StateExplorer} />
+            <Route path="/monument/:id" component={MonumentDetail} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
       </main>
+
       <Footer />
     </div>
   );

@@ -140,8 +140,10 @@ export default function Home() {
                     <img 
                       src={resolveImageUrl(monument.image)} 
                       alt={monument.name}
+                      loading="lazy"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                     />
+
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
                     
                     {monument.unesco && (
