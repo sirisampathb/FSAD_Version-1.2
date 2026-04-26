@@ -105,10 +105,6 @@ export default function Dashboard() {
   };
 
 
-  const changeLang = (l: string) => {
-    setLang(l);
-    localStorage.setItem("lang", l);
-  };
 
   if (!user) {
     return (
