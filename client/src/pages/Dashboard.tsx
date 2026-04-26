@@ -134,11 +134,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background pt-16 pb-24 overflow-hidden relative">
-      {/* Subtle Background Blobs */}
-      <div className="blob-container">
-        <div className="blob w-[600px] h-[600px] bg-primary/5 top-[-10%] left-[-10%] delay-0" />
-        <div className="blob w-[500px] h-[500px] bg-blue-500/5 bottom-[-10%] right-[-10%] delay-2000" />
-      </div>
+      {/* Simplified Background */}
+      <div className="absolute inset-0 bg-secondary/20 pointer-events-none" />
+
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Simplified Header */}
@@ -281,20 +279,27 @@ function AdminView({ t }: { t: any }) {
             <p className="text-[10px] font-black text-primary uppercase tracking-widest opacity-40 mt-1">Latest Insights</p>
           </CardHeader>
           <div className="space-y-10">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="flex gap-6 items-start group/item">
-                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 shadow-2xl group-hover/item:border-primary/50 transition-colors">
-                   <History className="w-5 h-5 text-primary/60" />
+            {(!monuments || monuments.length === 0) ? (
+               <div className="py-10 text-center text-muted-foreground opacity-40 italic text-sm">
+                 Waiting for the first echo...
+               </div>
+            ) : (
+              [1, 2, 3].map(i => (
+                <div key={i} className="flex gap-6 items-start group/item">
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 shadow-2xl group-hover/item:border-primary/50 transition-colors">
+                     <History className="w-5 h-5 text-primary/60" />
+                  </div>
+                  <div>
+                     <p className="text-foreground text-base leading-relaxed">
+                       <span className="font-black text-primary">Sage_Archivist</span> unlocked the vault of <span className="italic font-serif">Hawa Mahal</span>.
+                     </p>
+                     <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-2 opacity-30">{i * 14} Minutes Ago</p>
+                  </div>
                 </div>
-                <div>
-                   <p className="text-foreground text-base leading-relaxed">
-                     <span className="font-black text-primary">Sage_Archivist</span> unlocked the vault of <span className="italic font-serif">Hawa Mahal</span>.
-                   </p>
-                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-2 opacity-30">{i * 14} Minutes Ago</p>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
+
           <Button variant="ghost" className="w-full mt-12 h-14 rounded-2xl border border-white/5 hover:bg-primary/10 hover:text-primary font-black uppercase tracking-[0.3em] text-[10px] transition-all duration-500 group/btn overflow-hidden relative">
             <span className="relative z-10">Access Full Logs</span>
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
@@ -317,42 +322,50 @@ function AdminView({ t }: { t: any }) {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-          {monuments?.map((m, i) => (
-            <motion.div 
-              key={m.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              whileHover={{ y: -8 }}
-              className="bg-card p-4 rounded-3xl border border-border group hover:border-primary/40 transition-all duration-300 shadow-sm"
-            >
-              <div className="aspect-[4/5] rounded-[1.5rem] overflow-hidden mb-8 relative">
-                <img src={resolveImageUrl(m.image)} alt={m.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-                <div className="absolute bottom-5 left-5 right-5 flex justify-between items-end">
-                   <div className="flex items-center gap-2">
-                     <Map className="w-4 h-4 text-primary" />
-                     <span className="text-[10px] font-black text-white uppercase tracking-widest">{m.location}</span>
-                   </div>
+          {(!monuments || monuments.length === 0) ? (
+            <div className="col-span-full py-20 text-center bg-white/5 rounded-3xl border border-dashed border-white/10">
+              <Sparkles className="w-12 h-12 text-primary/20 mx-auto mb-4" />
+              <p className="text-muted-foreground italic">No monuments found in the Imperial Vault.</p>
+            </div>
+          ) : (
+            monuments.map((m, i) => (
+              <motion.div 
+                key={m.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ y: -8 }}
+                className="bg-card p-4 rounded-3xl border border-border group hover:border-primary/40 transition-all duration-300 shadow-sm"
+              >
+                <div className="aspect-[4/5] rounded-[1.5rem] overflow-hidden mb-8 relative">
+                  <img src={resolveImageUrl(m.image)} alt={m.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                  <div className="absolute bottom-5 left-5 right-5 flex justify-between items-end">
+                     <div className="flex items-center gap-2">
+                       <Map className="w-4 h-4 text-primary" />
+                       <span className="text-[10px] font-black text-white uppercase tracking-widest">{m.location}</span>
+                     </div>
+                  </div>
                 </div>
-              </div>
-              <h4 className="text-2xl font-serif font-bold mb-8 tracking-tight group-hover:text-primary transition-colors">{m.name}</h4>
-              <div className="flex gap-4">
-                <AddMonumentDialog initialData={m}>
-                   <Button variant="secondary" className="flex-grow rounded-xl h-12 text-[10px] font-black uppercase tracking-widest bg-white/5 border border-white/10 hover:bg-primary hover:text-black transition-all">
-                     <Edit2 className="w-4 h-4 mr-2" /> Edit
-                   </Button>
-                </AddMonumentDialog>
-                <Button 
-                  onClick={() => handleDelete(m.id, m.name)}
-                  variant="ghost" 
-                  size="icon" 
-                  className="w-12 h-12 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 border border-white/5"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
-            </motion.div>
-          ))}
+                <h4 className="text-2xl font-serif font-bold mb-8 tracking-tight group-hover:text-primary transition-colors">{m.name}</h4>
+                <div className="flex gap-4">
+                  <AddMonumentDialog initialData={m}>
+                     <Button variant="secondary" className="flex-grow rounded-xl h-12 text-[10px] font-black uppercase tracking-widest bg-white/5 border border-white/10 hover:bg-primary hover:text-black transition-all">
+                       <Edit2 className="w-4 h-4 mr-2" /> Edit
+                     </Button>
+                  </AddMonumentDialog>
+                  <Button 
+                    onClick={() => handleDelete(m.id, m.name)}
+                    variant="ghost" 
+                    size="icon" 
+                    className="w-12 h-12 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 border border-white/5"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </motion.div>
+            ))
+          )}
+
         </div>
       </Card>
     </div>

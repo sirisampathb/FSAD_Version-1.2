@@ -33,8 +33,14 @@ public class MonumentController {
         return monumentService.getMonumentById(id);
     }
 
+    @PatchMapping("/{id}")
+    public MonumentDTO update(@PathVariable String id, @RequestBody CreateMonumentRequest request) {
+        return monumentService.updateMonument(id, request);
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         monumentService.deleteMonument(id);
     }
+
 }

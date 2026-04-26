@@ -54,6 +54,25 @@ public class MonumentService {
         monumentRepository.deleteById(id);
     }
 
+    public MonumentDTO updateMonument(String id, CreateMonumentRequest request) {
+        Monument m = monumentRepository.findById(id).orElseThrow();
+        
+        m.setName(request.getName());
+        m.setLocation(request.getLocation());
+        m.setBuiltYear(request.getBuiltYear());
+        m.setDynasty(request.getDynasty());
+        m.setStyle(request.getStyle());
+        m.setUnesco(request.getUnesco() != null ? request.getUnesco() : false);
+        m.setImage(request.getImage());
+        m.setDescription(request.getDescription());
+        m.setTimeline(request.getTimeline());
+        m.setFunFacts(request.getFunFacts());
+
+        Monument saved = monumentRepository.save(m);
+        return mapToDTO(saved);
+    }
+
+
     private MonumentDTO mapToDTO(Monument m) {
         List<MonumentDTO.TimelineEventDTO> timelineEvents = null;
         if (m.getTimeline() != null) {
