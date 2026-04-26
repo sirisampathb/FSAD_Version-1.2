@@ -137,9 +137,11 @@ public class AuthService {
         return new AuthResponse(user.getAuthToken(), dto);
     }
 
-    public Optional<User> getUserByToken(String token) {
-        return userRepository.findByAuthToken(token);
+    public Optional<UserDTO> getUserDTOByToken(String token) {
+        return userRepository.findByAuthToken(token)
+                .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getRole()));
     }
+
 
     public void logout(String token) {
         logger.debug("Logout request for token: {}", token.substring(0, Math.min(8, token.length())) + "...");

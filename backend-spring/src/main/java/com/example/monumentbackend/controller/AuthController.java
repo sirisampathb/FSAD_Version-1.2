@@ -57,13 +57,14 @@ public class AuthController {
         }
 
         String token = authorization.substring(7);
-        var userOpt = authService.getUserByToken(token);
+        var userDTOOpt = authService.getUserDTOByToken(token);
 
-        if (userOpt.isPresent()) {
-            return ResponseEntity.ok(userOpt.get());
+        if (userDTOOpt.isPresent()) {
+            return ResponseEntity.ok(userDTOOpt.get());
         } else {
-            return ResponseEntity.status(401).body("Unauthorized");
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         }
+
     }
 
     @PostMapping("/logout")
