@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { STATE_DATA } from "@/lib/data";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Utensils, Info, ChevronRight, Sparkles, Calendar, Clock, Compass, Lock, ArrowRight, BookmarkPlus } from "lucide-react";
+import { MapPin, Utensils, Info, ChevronRight, Sparkles, Calendar, Clock, Compass, Lock, ArrowRight, BookmarkPlus, Music, Play, Pause, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
@@ -16,6 +16,7 @@ export default function StateExplorer() {
   const [, setLocation] = useLocation();
   const [isPlanning, setIsPlanning] = useState(false);
   const [activeMonument, setActiveMonument] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -174,7 +175,7 @@ export default function StateExplorer() {
                   </Card>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid md:grid-cols-3 gap-8 mt-8">
                   {/* Planning/Seasonal Card */}
                   <Card className="premium-card p-6 border-primary/10 bg-gradient-to-br from-card/60 to-primary/5 shadow-md relative overflow-hidden group">
                     <div className="absolute -bottom-20 -right-20 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />
@@ -208,6 +209,35 @@ export default function StateExplorer() {
                           {tag}
                         </Badge>
                       ))}
+                    </div>
+                  </Card>
+
+                  {/* Heritage Soundscape Card */}
+                  <Card className="premium-card p-6 border-emerald-500/10 bg-gradient-to-br from-card/60 to-emerald-500/5 shadow-md relative overflow-hidden group flex flex-col">
+                    <div className="absolute -top-20 -right-20 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:bg-emerald-500/20 transition-colors" />
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="bg-emerald-500/20 p-3 rounded-xl text-emerald-400 border border-emerald-500/30 group-hover:scale-110 transition-transform">
+                        <Music className="w-6 h-6" />
+                      </div>
+                      <h3 className="text-xl font-serif font-bold tracking-tight">Soundscape</h3>
+                    </div>
+                    <div className="flex-grow flex flex-col justify-center items-center text-center">
+                       <div className="w-full flex items-center justify-center gap-1 mb-6 h-8">
+                         {[...Array(12)].map((_, i) => (
+                           <motion.div 
+                             key={i} 
+                             animate={isPlaying ? { height: ["20%", "100%", "40%", "80%", "30%"] } : { height: "20%" }}
+                             transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.1 }}
+                             className="w-1.5 bg-emerald-500/60 rounded-full"
+                           />
+                         ))}
+                       </div>
+                       <Button onClick={() => setIsPlaying(!isPlaying)} variant="outline" className="rounded-full w-12 h-12 p-0 border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10">
+                         {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
+                       </Button>
+                       <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-4">
+                         {isPlaying ? `Playing ${selectedState.name} Ambient` : "Listen to State Tunes"}
+                       </p>
                     </div>
                   </Card>
                 </div>
