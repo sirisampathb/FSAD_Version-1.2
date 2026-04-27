@@ -7,17 +7,27 @@ import { MapPin, Utensils, Info, ChevronRight, Sparkles, Calendar, Clock, Compas
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
-import { cn } from "@/lib/utils";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+const EXACT_MONUMENT_IMAGES: Record<string, string> = {
+  "Taj Mahal": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800",
+  "Agra Fort": "https://images.unsplash.com/photo-1584982633000-8d5f30e01490?auto=format&fit=crop&q=80&w=800",
+  "Fatehpur Sikri": "https://images.unsplash.com/photo-1564507004663-b6dfb3c824d5?auto=format&fit=crop&q=80&w=800",
+  "Qutub Minar": "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&q=80&w=800",
+  "Red Fort": "https://images.unsplash.com/photo-1582650058863-71abec8ba793?auto=format&fit=crop&q=80&w=800",
+  "Humayun's Tomb": "https://images.unsplash.com/photo-1563820246231-1e96a2d9818e?auto=format&fit=crop&q=80&w=800",
+  "Hawa Mahal": "https://images.unsplash.com/photo-1514222709107-a180c68d72b4?auto=format&fit=crop&q=80&w=800",
+  "Amer Fort": "https://images.unsplash.com/photo-1599661559902-601eab4043dc?auto=format&fit=crop&q=80&w=800",
+  "Mehrangarh Fort": "https://images.unsplash.com/photo-1566896208882-e9c522cb8fb8?auto=format&fit=crop&q=80&w=800",
+  "Gateway of India": "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&q=80&w=800",
+  "Ajanta & Ellora Caves": "https://images.unsplash.com/photo-1620501869894-315ec0b77b10?auto=format&fit=crop&q=80&w=800",
+  "Hampi Ruins": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800",
+  "Mysore Palace": "https://images.unsplash.com/photo-1621831788755-d143c7b67ae2?auto=format&fit=crop&q=80&w=800",
+  "Charminar (Historical Tie)": "https://images.unsplash.com/photo-1601004838634-118d098e9b6a?auto=format&fit=crop&q=80&w=800",
+  "Tirupati Temple": "https://images.unsplash.com/photo-1554902844-3d7ec103a8de?auto=format&fit=crop&q=80&w=800",
+  "Golconda Fort": "https://images.unsplash.com/photo-1596792375528-7ea1c8a1eef1?auto=format&fit=crop&q=80&w=800",
+  "Somnath Temple": "https://images.unsplash.com/photo-1622345041766-3d2371900118?auto=format&fit=crop&q=80&w=800"
+};
 
-const MONUMENT_IMAGES = [
-  "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800",
-  "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&q=80&w=800",
-  "https://images.unsplash.com/photo-1514222709107-a180c68d72b4?auto=format&fit=crop&q=80&w=800",
-  "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&q=80&w=800",
-  "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800",
-  "https://images.unsplash.com/photo-1621831788755-d143c7b67ae2?auto=format&fit=crop&q=80&w=800"
-];
+const DEFAULT_MONUMENT_IMAGE = "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&q=80&w=800";
 
 const FOOD_IMAGES = [
   "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&q=80&w=400",
@@ -58,7 +68,7 @@ export default function StateExplorer() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
-          style={{ backgroundImage: `url('${MONUMENT_IMAGES[selectedState.name.length % MONUMENT_IMAGES.length]}')` }}
+          style={{ backgroundImage: `url('${EXACT_MONUMENT_IMAGES[selectedState.monuments[0]] || DEFAULT_MONUMENT_IMAGE}')` }}
         />
         <motion.div 
           key={selectedState.id + "-bg"}
@@ -164,7 +174,7 @@ export default function StateExplorer() {
                             className="flex items-center gap-4 p-3 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer group/item"
                           >
                             <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-white/10 group-hover/item:border-primary transition-colors shadow-lg">
-                               <img src={MONUMENT_IMAGES[i % MONUMENT_IMAGES.length]} alt={m} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
+                               <img src={EXACT_MONUMENT_IMAGES[m] || DEFAULT_MONUMENT_IMAGE} alt={m} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
                             </div>
                             <span className="text-foreground text-sm font-bold tracking-tight opacity-90 group-hover/item:text-primary transition-colors">{m}</span>
                           </motion.li>
@@ -393,7 +403,7 @@ export default function StateExplorer() {
               <div className="relative h-64 sm:h-80 w-full overflow-hidden">
                 <div className="absolute inset-0 bg-black/20 z-10" />
                 <img 
-                  src={MONUMENT_IMAGES[activeMonument.length % MONUMENT_IMAGES.length]} 
+                  src={EXACT_MONUMENT_IMAGES[activeMonument] || DEFAULT_MONUMENT_IMAGE} 
                   alt={activeMonument}
                   className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
                 />
