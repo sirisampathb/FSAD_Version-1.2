@@ -10,6 +10,22 @@ import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
+const MONUMENT_IMAGES = [
+  "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800",
+  "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&q=80&w=800",
+  "https://images.unsplash.com/photo-1514222709107-a180c68d72b4?auto=format&fit=crop&q=80&w=800",
+  "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&q=80&w=800",
+  "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800",
+  "https://images.unsplash.com/photo-1621831788755-d143c7b67ae2?auto=format&fit=crop&q=80&w=800"
+];
+
+const FOOD_IMAGES = [
+  "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&q=80&w=400",
+  "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&q=80&w=400",
+  "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=400",
+  "https://images.unsplash.com/photo-1631452180519-c014fe946bc0?auto=format&fit=crop&q=80&w=400"
+];
+
 export default function StateExplorer() {
   const [selectedState, setSelectedState] = useState(STATE_DATA[0]);
   const { user, loading } = useAuth();
@@ -42,7 +58,7 @@ export default function StateExplorer() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
-          style={{ backgroundImage: `url('https://source.unsplash.com/1600x900/?${encodeURIComponent(selectedState.name + ' heritage landscape india')}')` }}
+          style={{ backgroundImage: `url('${MONUMENT_IMAGES[selectedState.name.length % MONUMENT_IMAGES.length]}')` }}
         />
         <motion.div 
           key={selectedState.id + "-bg"}
@@ -137,7 +153,7 @@ export default function StateExplorer() {
                         </div>
                         <h2 className="text-2xl font-serif font-bold tracking-tight">Monumental <br />Legends</h2>
                       </div>
-                      <ul className="space-y-6">
+                      <ul className="space-y-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                         {selectedState.monuments.map((m: string, i: number) => (
                           <motion.li 
                             key={m}
@@ -148,7 +164,7 @@ export default function StateExplorer() {
                             className="flex items-center gap-4 p-3 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer group/item"
                           >
                             <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-white/10 group-hover/item:border-primary transition-colors shadow-lg">
-                               <img src={`https://source.unsplash.com/100x100/?${encodeURIComponent(m + ' monument india')}`} alt={m} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
+                               <img src={MONUMENT_IMAGES[i % MONUMENT_IMAGES.length]} alt={m} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
                             </div>
                             <span className="text-foreground text-sm font-bold tracking-tight opacity-90 group-hover/item:text-primary transition-colors">{m}</span>
                           </motion.li>
@@ -167,7 +183,7 @@ export default function StateExplorer() {
                         </div>
                         <h2 className="text-2xl font-serif font-bold tracking-tight">Culinary <br />Spirit</h2>
                       </div>
-                      <ul className="space-y-6">
+                      <ul className="space-y-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                         {selectedState.foods.map((food: string, i: number) => (
                           <motion.li 
                             key={food}
@@ -178,7 +194,7 @@ export default function StateExplorer() {
                           >
                             <div className="flex items-center gap-4">
                               <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-white/10 group-hover/item:border-accent transition-colors shadow-lg">
-                                 <img src={`https://source.unsplash.com/100x100/?${encodeURIComponent(food + ' indian food')}`} alt={food} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
+                                 <img src={FOOD_IMAGES[i % FOOD_IMAGES.length]} alt={food} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
                               </div>
                               <span className="text-foreground text-base font-bold tracking-tight opacity-90">{food}</span>
                             </div>
@@ -377,7 +393,7 @@ export default function StateExplorer() {
               <div className="relative h-64 sm:h-80 w-full overflow-hidden">
                 <div className="absolute inset-0 bg-black/20 z-10" />
                 <img 
-                  src={`https://source.unsplash.com/800x600/?${encodeURIComponent(activeMonument + ' monument india')}`} 
+                  src={MONUMENT_IMAGES[activeMonument.length % MONUMENT_IMAGES.length]} 
                   alt={activeMonument}
                   className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
                 />
