@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { STATE_DATA } from "@/lib/data";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,10 +12,24 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 
 export default function StateExplorer() {
   const [selectedState, setSelectedState] = useState(STATE_DATA[0]);
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [, setLocation] = useLocation();
   const [isPlanning, setIsPlanning] = useState(false);
   const [activeMonument, setActiveMonument] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      setLocation("/login");
+    }
+  }, [user, loading, setLocation]);
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background mesh-gradient">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pb-32 mesh-gradient noise-overlay overflow-hidden">
