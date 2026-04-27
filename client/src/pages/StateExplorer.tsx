@@ -325,7 +325,7 @@ export default function StateExplorer() {
       </div>
 
       {/* Monument Detail Modal */}
-      <Dialog open={!!activeMonument} onOpenChange={() => setActiveMonument(null)}>
+      <Dialog open={!!activeMonument} onOpenChange={(isOpen) => { if (!isOpen) setActiveMonument(null) }}>
         <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden bg-background border-white/10">
           {activeMonument && (
             <>
