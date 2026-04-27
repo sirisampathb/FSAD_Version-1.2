@@ -56,8 +56,8 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-16">
-          {(['/', '/explore', user ? '/dashboard' : null].filter((path): path is string => Boolean(path))).map((path) => (
-            <Link key={path!} href={path!}>
+          {(user ? ['/', '/explore', '/dashboard'] : []).map((path) => (
+            <Link key={path} href={path}>
               <motion.span
                 whileHover={{ y: -2 }}
                 className={`text-[10px] font-black uppercase tracking-[0.4em] hover:text-primary transition-all cursor-pointer relative group py-2 ${location === path
