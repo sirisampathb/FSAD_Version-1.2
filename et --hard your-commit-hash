@@ -1,0 +1,95 @@
+[33m1ff62d1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m fix: aggressively override output directory to .next
+[33ma4423c4[m fix: remove dist/public from nested vercel.json
+[33ma6d7755[m fix: comprehensive deployment fixes for vercel, next.js, and tailwind
+[33m7592db5[m fix: correct vercel configuration for nextjs
+[33m122d3e9[m feat: create Login and Register pages with password and OTP authentication support
+[33mf735c60[m fix: resolve tailwind build error, add leaflet types, and cleanup ide warnings
+[33m7dd3a32[m Fix module resolution and postcss config
+[33m0080abc[m Ignore server directory and skip type-check during build
+[33maa84d20[m Fix next.config.js: convert to ES module syntax
+[33m3a89fb1[m Migrate to Next.js, fix SSR/SEO bugs, and add heritage map
+[33mf0ca17a[m General project health check: Fix CORS PATCH mismatch and secure /me endpoint
+[33mdf2326a[m Fix performance lag, add dashboard empty states, and implement missing update function
+[33m552b46b[m Fix duplicate declaration in Dashboard.tsx to resolve Vercel build error
+[33m15d637b[m Optimize performance: code splitting, isolated clock, and reduced CSS overhead
+[33m20a2331[m Fix email configuration and improve error logging for OTP
+[33ma1a0c22[m style: finalize layout for original hero image with zero white gaps
+[33ma3b2c42[m style: finalize hero clarity by removing noise and lightening overlay
+[33m351423c[m fix: reveal actual backend errors and finalize OTP flow
+[33m46dfe19[m fix(backend): expand exception handling to provide specific OTP error messages
+[33mf4bdb86[m fix(backend): use configured email as sender to prevent SMTP rejection
+[33m3fa3b76[m fix: resolve JSX syntax error in Home.tsx
+[33m0db0517[m style: adjust Home page text colors for high visibility on white theme
+[33mbff024f[m fix: resolve CSS syntax error in index.css causing build failure
+[33mbbdfb4a[m style: switch to minimal white gallery theme with improved readability
+[33mc9a2b0d[m fix: pass translation props to dashboard sub-views
+[33m93e0343[m fix: restore user authentication in dashboard
+[33m80870d1[m feat: implement multi-language support and divine clock features
+[33m5ae9020[m feat: enhance dashboard buttons with shimmer effects and rose-gold interactions
+[33m32614f5[m style: transition theme to premium Midnight Indigo & Rose Gold aesthetic
+[33m0e7bd44[m fix: register custom animations in tailwind theme to resolve build failure
+[33m9ab58d8[m feat: overhaul dashboard with mesmerizing dynamic background and bento grid
+[33m7f38f67[m feat: overhaul dashboard with mesmerizing dynamic background and bento grid
+[33m749c703[m fix: resolve syntax errors in StateExplorer list items
+[33m8fb8ebd[m style: significantly tighten StateExplorer UI and scale down elements
+[33mf382f0f[m style: refine typography and scale down fonts in StateExplorer
+[33m381b1e3[m design: overhaul dashboard and UI with premium SaaS aesthetic
+[33m08cfb12[m feat: migrate authentication to email OTP
+[33m5efe273[m fix: resolved schema conflict and backend warnings
+[33m88e7d6c[m + (Stage All Changes)
+[33m7b2ad2f[m fix: resolve schema merge conflicts, restore missing Dashboard imports, and fix Java backend warnings
+[33me0e0add[m Update project files
+[33mf793e95[m fix: Add loading states, error handling, and detailed logging to dashboard
+[33mae8c8f6[m fix: rename passwordHash to password and add comprehensive logging
+[33m5cec16a[m Add Asset-Manager as regular files
+[33mf690285[m Remove Asset-Manager submodule
+[33m50945d8[m Update Asset-Manager submodule reference
+[33ma936439[m Change password_hash column to password in User entity
+[33mb469e57[m Merge branch 'main' of https://github.com/sirisampathb/FSAD_Version-1.2
+[33m6ddab16[m Updated Asset-Manager submodule and client files
+[33m808f7ec[m fix: resolve Vercel build errors, fix API TS types, and clean up logs
+[33me67a11d[m fix: resolve Vercel build errors and balance JSX tags
+[33m41c2a37[m feat: implement role-based features and fix auth mapping discrepancies
+[33m292f116[m feat: implement role-based features and fix auth mapping discrepancies
+[33m49cf9e7[m Updated project files
+[33m12dc53d[m Fix Vercel deployment by optimizing build process
+[33m86f6ac9[m Update submodule changes
+[33m531b083[m Refine UI with classical typography
+[33m30f8278[m initial commit
+[33m72b32d4[m https://github.com/sirisampathb/FSAD_Version-1.2
+[33m1b55f3b[m Enhance chatbot and state explorer with full Indian states and trip planning
+[33m69a1d1f[m fix: final 400 error fix and add spectacular bento dashboard, cinematic login, and state-wise heritage explorer
+[33m56cdfea[m feat: implement OTP login UI and enhanced heritage chatbot
+[33me2c2281[m fix: force Hibernate to use exact @Column annotation names to fix password_hash mismatch
+[33mcf38306[m fix: use Vercel proxy to bypass CORS - route /api/* to Render backend
+[33mb588bc6[m fix: use CorsFilter and explicit headers for better CORS reliability
+[33m87c76f3[m fix: refine CORS configuration for Vercel deployment
+[33m193ad21[m fix: point to production backend in production mode
+[33m8d5bd09[m chore: deployment readiness - allow Node v24 and implement dynamic API URL
+[33m37308b2[m fix: synchronize database entities and point frontend to local backend
+[33me11488d[m feat: add heritage search, chatbot, analytics dashboard and clean up gitignore
+[33mdd6e6c3[m Implement bulletproof CORS config using allowedOriginPatterns
+[33ma38a44a[m Remove offending @CrossOrigin annotations in Java controllers
+[33m60a1cd6[m Implement manual CORS headers and add debug endpoint
+[33meac79d2[m Configure Spring Boot CORS for Vercel deployment
+[33m09fb116[m Implement robust and flexible CORS policy for Vercel->Render
+[33m200f324[m Configure CORS whitelist for Vercel deployment
+[33mcd481a0[m Remove Vercel API directory and add debug logs for Render targeting
+[33m0ed503a[m Fix login issues, Vercel routing, and API targeting
+[33medb2f42[m feat: stabilize backends, implement full CRUD, and integrate Supabase persistence
+[33m5bf0c81[m chore: align CORS, fix Spring Boot startup, and update build configuration
+[33m2375726[m Fix backend errors and align CORS config
+[33me30425d[m Fix persistent Render build error: add CORS and enhanced diagnostics
+[33me48c5de[m Fix final 'Failed to Fetch' on Render: use relative API paths and fix Express routing
+[33mf2b9703[m Fix backend logs: remove import.meta to silence warning in bundled CJS
+[33m1a80c55[m Fix Render build error: add .npmrc for legacy peer deps and move build tools to dependencies
+[33me867923[m Fix backend issues: implement token verification for persistent login
+[33mccbc18a[m Fix backend errors: add missing Auth routes and update User schema with role
+[33mf98ca9a[m Enable Vercel Serverless Functions and fix API routing
+[33m03f5aca[m Resolve ERESOLVE build error on Vercel with legacy-peer-deps
+[33mc189617[m Fix Vercel Node version to 20 and add explicit build configuration
+[33m498cd15[m Add vercel.json to fix deployment configuration
+[33m2c675d3[m Add recent changes
+[33m05416e2[m Add dynamic navigation and content for Indian heritage exploration
+[33mcb38018[m Extracted stack files
+[33m646fc69[m Initial commit
