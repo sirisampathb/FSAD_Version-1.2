@@ -25,8 +25,8 @@ const EXACT_MONUMENT_IMAGES: Record<string, string> = {
   "Hampi Ruins": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800",
   "Mysore Palace": "https://images.unsplash.com/photo-1621831788755-d143c7b67ae2?auto=format&fit=crop&q=80&w=800",
   "Charminar (Historical Tie)": "https://images.unsplash.com/photo-1601004838634-118d098e9b6a?auto=format&fit=crop&q=80&w=800",
-  "Tirupati Temple": "https://images.unsplash.com/photo-1554902844-3d7ec103a8de?auto=format&fit=crop&q=80&w=800",
-  "Golconda Fort": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1S185C6gUp1q2TAt_RqFGEfRtcR4hR96__w&s",
+  "Tirupati Temple": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Tirumala_090615.jpg",
+  "Golconda Fort": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFhUuQnoRgPBUvevaoYT3sfhztxUgWg3ZmlRyvYi3scfJ39XNagTh1V2ibIbDy8WNCIoWhRQmrkIsXiiQcVl79hgzRC8WSVGCJMci0B8SlDymQo0PQ_4iY75du3z9WAN9F3-uGX=s1360-w1360-h1020-rw",
   "Somnath Temple": "https://images.unsplash.com/photo-1622345041766-3d2371900118?auto=format&fit=crop&q=80&w=800"
 };
 

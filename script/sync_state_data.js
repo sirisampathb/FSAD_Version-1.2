@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const DATA_FILE = path.join(__dirname, '../client/src/lib/data.ts');
 const MONUMENTS_API = 'http://localhost:8080/api/monuments';
-const STATES_API = 'http://localhost:8080/api/states';
+const EXPLORE_API = 'http://localhost:8080/api/explore';
 
 const EXACT_MONUMENT_IMAGES = {
     "Taj Mahal": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800",
@@ -45,10 +45,11 @@ async function syncToDatabase() {
         for (const state of stateData) {
             console.log(`\n🌍 Syncing State: ${state.name}`);
             
-            // 1. Sync State Info
-            const statePayload = {
-                name: state.name,
+            // 1. Sync Explore Info
+            const explorePayload = {
+                stateName: state.name,
                 description: state.description,
+                image: EXACT_MONUMENT_IMAGES[state.monuments?.[0] || ""] || DEFAULT_IMAGE,
                 bestTimeToVisit: state.bestTimeToVisit,
                 color: state.color,
                 highlights: state.highlights,
@@ -56,10 +57,10 @@ async function syncToDatabase() {
             };
 
             try {
-                await axios.post(STATES_API, statePayload);
-                console.log(`   ✅ State Sync Successful`);
+                await axios.post(EXPLORE_API, explorePayload);
+                console.log(`   ✅ Explore Data Sync Successful`);
             } catch (err) {
-                console.log(`   ℹ️ State might already exist or failed: ${err.message}`);
+                console.log(`   ℹ️ Explore Data might already exist or failed: ${err.message}`);
             }
 
             // 2. Sync Monuments for this State
