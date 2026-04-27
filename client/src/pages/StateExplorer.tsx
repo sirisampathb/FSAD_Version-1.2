@@ -8,12 +8,14 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export default function StateExplorer() {
   const [selectedState, setSelectedState] = useState(STATE_DATA[0]);
   const { user } = useAuth();
   const [, setLocation] = useLocation();
   const [isPlanning, setIsPlanning] = useState(false);
+  const [activeMonument, setActiveMonument] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-background pb-32 mesh-gradient noise-overlay overflow-hidden">
@@ -116,13 +118,14 @@ export default function StateExplorer() {
                         {selectedState.monuments.map((m: string, i: number) => (
                           <motion.li 
                             key={m}
+                            onClick={() => setActiveMonument(m)}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: i * 0.1 }}
-                            className="flex items-center gap-4 p-3 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-default group/item"
+                            className="flex items-center gap-4 p-3 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer group/item"
                           >
-                            <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(253,185,49,0.5)]" />
-                            <span className="text-foreground text-sm font-bold tracking-tight opacity-90">{m}</span>
+                            <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(253,185,49,0.5)] group-hover/item:scale-150 transition-transform" />
+                            <span className="text-foreground text-sm font-bold tracking-tight opacity-90 group-hover/item:text-primary transition-colors">{m}</span>
                           </motion.li>
                         ))}
                       </ul>
@@ -306,6 +309,61 @@ export default function StateExplorer() {
           </div>
         </div>
       </div>
+
+      {/* Monument Detail Modal */}
+      <Dialog open={!!activeMonument} onOpenChange={() => setActiveMonument(null)}>
+        <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden bg-background border-white/10">
+          {activeMonument && (
+            <>
+              <div className="relative h-64 sm:h-80 w-full overflow-hidden">
+                <div className="absolute inset-0 bg-black/20 z-10" />
+                <img 
+                  src={`https://source.unsplash.com/800x600/?${encodeURIComponent(activeMonument + ' monument india')}`} 
+                  alt={activeMonument}
+                  className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
+                />
+                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-background to-transparent h-32 z-10" />
+                <Badge className="absolute top-4 left-4 z-20 bg-primary text-black font-black uppercase tracking-widest text-[10px]">
+                  {selectedState.name} Heritage
+                </Badge>
+              </div>
+              <div className="p-8 pt-2 relative z-20">
+                <DialogHeader>
+                  <DialogTitle className="text-3xl font-serif font-bold tracking-tight mb-2 flex items-center gap-3">
+                    {activeMonument}
+                    <Sparkles className="w-5 h-5 text-primary" />
+                  </DialogTitle>
+                  <DialogDescription className="text-base text-muted-foreground">
+                    Experience the grandeur of {activeMonument}, a shining symbol of India's glorious past located in the heart of {selectedState.name}.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="mt-8 grid grid-cols-2 gap-4">
+                  <div className="bg-white/5 p-4 rounded-2xl border border-white/5 flex items-center gap-4">
+                    <MapPin className="w-8 h-8 text-primary p-1.5 bg-primary/10 rounded-lg" />
+                    <div>
+                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Location</p>
+                      <p className="font-semibold text-sm">{selectedState.name}</p>
+                    </div>
+                  </div>
+                  <div className="bg-white/5 p-4 rounded-2xl border border-white/5 flex items-center gap-4">
+                    <Clock className="w-8 h-8 text-accent p-1.5 bg-accent/10 rounded-lg" />
+                    <div>
+                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Era</p>
+                      <p className="font-semibold text-sm">Ancient India</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-8 flex justify-end gap-4">
+                   <Button variant="outline" onClick={() => setActiveMonument(null)} className="rounded-xl border-white/10 hover:bg-white/5 font-bold">Close</Button>
+                   <Button className="rounded-xl bg-primary text-black hover:bg-white font-bold uppercase tracking-widest text-xs gap-2">
+                     <BookmarkPlus className="w-4 h-4" /> Save to Wishlist
+                   </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
