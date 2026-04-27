@@ -37,11 +37,19 @@ export default function StateExplorer() {
       {/* Animated Hero Header */}
       <section className="relative h-[35vh] flex items-center justify-center overflow-hidden">
         <motion.div 
-          key={selectedState.id + "-bg"}
+          key={selectedState.id + "-img"}
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5 }}
-          className={cn("absolute inset-0 bg-gradient-to-br opacity-30 transition-colors duration-1000", selectedState.color)} 
+          className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
+          style={{ backgroundImage: `url('https://source.unsplash.com/1600x900/?${encodeURIComponent(selectedState.name + ' heritage landscape india')}')` }}
+        />
+        <motion.div 
+          key={selectedState.id + "-bg"}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
+          className={cn("absolute inset-0 bg-gradient-to-br opacity-50 transition-colors duration-1000", selectedState.color)} 
         />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
@@ -139,7 +147,9 @@ export default function StateExplorer() {
                             transition={{ delay: i * 0.1 }}
                             className="flex items-center gap-4 p-3 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer group/item"
                           >
-                            <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(253,185,49,0.5)] group-hover/item:scale-150 transition-transform" />
+                            <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-white/10 group-hover/item:border-primary transition-colors shadow-lg">
+                               <img src={`https://source.unsplash.com/100x100/?${encodeURIComponent(m + ' monument india')}`} alt={m} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
+                            </div>
                             <span className="text-foreground text-sm font-bold tracking-tight opacity-90 group-hover/item:text-primary transition-colors">{m}</span>
                           </motion.li>
                         ))}
@@ -166,7 +176,12 @@ export default function StateExplorer() {
                             transition={{ delay: i * 0.1 }}
                             className="flex items-center justify-between p-5 rounded-3xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-default group/item"
                           >
-                            <span className="text-foreground text-base font-bold tracking-tight opacity-90">{food}</span>
+                            <div className="flex items-center gap-4">
+                              <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-white/10 group-hover/item:border-accent transition-colors shadow-lg">
+                                 <img src={`https://source.unsplash.com/100x100/?${encodeURIComponent(food + ' indian food')}`} alt={food} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
+                              </div>
+                              <span className="text-foreground text-base font-bold tracking-tight opacity-90">{food}</span>
+                            </div>
                             <Sparkles className="w-5 h-5 text-accent opacity-0 group-hover/item:opacity-100 transition-opacity animate-pulse" />
                           </motion.li>
                         ))}
