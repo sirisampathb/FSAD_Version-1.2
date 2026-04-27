@@ -26,7 +26,7 @@ const EXACT_MONUMENT_IMAGES: Record<string, string> = {
   "Mysore Palace": "https://images.unsplash.com/photo-1621831788755-d143c7b67ae2?auto=format&fit=crop&q=80&w=800",
   "Charminar (Historical Tie)": "https://images.unsplash.com/photo-1601004838634-118d098e9b6a?auto=format&fit=crop&q=80&w=800",
   "Tirupati Temple": "https://images.unsplash.com/photo-1554902844-3d7ec103a8de?auto=format&fit=crop&q=80&w=800",
-  "Golconda Fort": "https://images.unsplash.com/photo-1596792375528-7ea1c8a1eef1?auto=format&fit=crop&q=80&w=800",
+  "Golconda Fort": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1S185C6gUp1q2TAt_RqFGEfRtcR4hR96__w&s",
   "Somnath Temple": "https://images.unsplash.com/photo-1622345041766-3d2371900118?auto=format&fit=crop&q=80&w=800"
 };
 
@@ -65,7 +65,7 @@ export default function StateExplorer() {
     <div className="min-h-screen bg-background pb-32 mesh-gradient noise-overlay overflow-hidden">
       {/* Animated Hero Header */}
       <section className="relative h-[35vh] flex items-center justify-center overflow-hidden">
-        <motion.div 
+        <motion.div
           key={selectedState.id + "-img"}
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -73,12 +73,12 @@ export default function StateExplorer() {
           className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
           style={{ backgroundImage: `url('${EXACT_MONUMENT_IMAGES[selectedState.monuments?.[0] || ""] || DEFAULT_MONUMENT_IMAGE}')` }}
         />
-        <motion.div 
+        <motion.div
           key={selectedState.id + "-bg"}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
-          className={cn("absolute inset-0 bg-gradient-to-br opacity-50 transition-colors duration-1000", selectedState.color)} 
+          className={cn("absolute inset-0 bg-gradient-to-br opacity-50 transition-colors duration-1000", selectedState.color)}
         />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
@@ -94,11 +94,11 @@ export default function StateExplorer() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="flex items-center justify-center gap-4 mb-8">
-               <div className="h-px w-12 bg-primary/40" />
-               <Badge variant="outline" className="px-6 py-2 text-primary border-primary/30 uppercase tracking-[0.4em] bg-primary/10 text-[10px] font-black rounded-full shadow-2xl">
-                 Regional Chronicles
-               </Badge>
-               <div className="h-px w-12 bg-primary/40" />
+              <div className="h-px w-12 bg-primary/40" />
+              <Badge variant="outline" className="px-6 py-2 text-primary border-primary/30 uppercase tracking-[0.4em] bg-primary/10 text-[10px] font-black rounded-full shadow-2xl">
+                Regional Chronicles
+              </Badge>
+              <div className="h-px w-12 bg-primary/40" />
             </div>
             <h1 className="text-4xl md:text-6xl font-serif font-bold text-foreground mb-4 shadow-sm">
               Explore <span className="text-gradient-rose italic font-light lowercase">{selectedState.name}</span>
@@ -112,7 +112,7 @@ export default function StateExplorer() {
 
       <div className="container mx-auto px-6 -mt-16 relative z-20">
         <div className="grid lg:grid-cols-4 gap-8">
-          
+
           {/* State List Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             <div className="flex items-center justify-between px-4">
@@ -168,7 +168,7 @@ export default function StateExplorer() {
                       </div>
                       <ul className="space-y-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                         {selectedState.monuments?.map((m: string, i: number) => (
-                          <motion.li 
+                          <motion.li
                             key={m}
                             onClick={() => setActiveMonument(m)}
                             initial={{ opacity: 0, x: -20 }}
@@ -177,7 +177,7 @@ export default function StateExplorer() {
                             className="flex items-center gap-4 p-3 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all cursor-pointer group/item"
                           >
                             <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-white/10 group-hover/item:border-primary transition-colors shadow-lg">
-                               <img src={EXACT_MONUMENT_IMAGES[m] || DEFAULT_MONUMENT_IMAGE} alt={m} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
+                              <img src={EXACT_MONUMENT_IMAGES[m] || DEFAULT_MONUMENT_IMAGE} alt={m} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
                             </div>
                             <span className="text-foreground text-sm font-bold tracking-tight opacity-90 group-hover/item:text-primary transition-colors">{m}</span>
                           </motion.li>
@@ -198,7 +198,7 @@ export default function StateExplorer() {
                       </div>
                       <ul className="space-y-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                         {selectedState.foods?.map((food: string, i: number) => (
-                          <motion.li 
+                          <motion.li
                             key={food}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -207,7 +207,7 @@ export default function StateExplorer() {
                           >
                             <div className="flex items-center gap-4">
                               <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-white/10 group-hover/item:border-accent transition-colors shadow-lg">
-                                 <img src={FOOD_IMAGES[i % FOOD_IMAGES.length]} alt={food} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
+                                <img src={FOOD_IMAGES[i % FOOD_IMAGES.length]} alt={food} className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700" />
                               </div>
                               <span className="text-foreground text-base font-bold tracking-tight opacity-90">{food}</span>
                             </div>
@@ -266,22 +266,22 @@ export default function StateExplorer() {
                       <h3 className="text-xl font-serif font-bold tracking-tight">Soundscape</h3>
                     </div>
                     <div className="flex-grow flex flex-col justify-center items-center text-center">
-                       <div className="w-full flex items-center justify-center gap-1 mb-6 h-8">
-                         {[...Array(12)].map((_, i) => (
-                           <motion.div 
-                             key={i} 
-                             animate={isPlaying ? { height: ["20%", "100%", "40%", "80%", "30%"] } : { height: "20%" }}
-                             transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.1 }}
-                             className="w-1.5 bg-emerald-500/60 rounded-full"
-                           />
-                         ))}
-                       </div>
-                       <Button onClick={() => setIsPlaying(!isPlaying)} variant="outline" className="rounded-full w-12 h-12 p-0 border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10">
-                         {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
-                       </Button>
-                       <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-4">
-                         {isPlaying ? `Playing ${selectedState.name} Ambient` : "Listen to State Tunes"}
-                       </p>
+                      <div className="w-full flex items-center justify-center gap-1 mb-6 h-8">
+                        {[...Array(12)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            animate={isPlaying ? { height: ["20%", "100%", "40%", "80%", "30%"] } : { height: "20%" }}
+                            transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.1 }}
+                            className="w-1.5 bg-emerald-500/60 rounded-full"
+                          />
+                        ))}
+                      </div>
+                      <Button onClick={() => setIsPlaying(!isPlaying)} variant="outline" className="rounded-full w-12 h-12 p-0 border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10">
+                        {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
+                      </Button>
+                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-4">
+                        {isPlaying ? `Playing ${selectedState.name} Ambient` : "Listen to State Tunes"}
+                      </p>
                     </div>
                   </Card>
                 </div>
@@ -298,7 +298,7 @@ export default function StateExplorer() {
             >
               <Card className="premium-card p-6 bg-gradient-to-br from-primary/10 via-background/40 to-accent/10 border-primary/30 shadow-lg relative overflow-hidden group flex flex-col justify-center">
                 <div className="absolute -top-20 -right-20 w-[300px] h-[300px] bg-primary/10 rounded-full blur-3xl animate-pulse-rose pointer-events-none" />
-                
+
                 <div className="relative z-10">
                   {!isPlanning ? (
                     <div className="flex flex-col sm:flex-row gap-6 items-center">
@@ -312,7 +312,7 @@ export default function StateExplorer() {
                         <p className="text-muted-foreground text-sm leading-relaxed max-w-md mb-6 font-medium opacity-80">
                           Unveil the hidden trails of <span className="text-foreground font-black italic">{selectedState.name}</span> with our AI Chronicler.
                         </p>
-                        
+
                         {!user ? (
                           <div className="inline-flex flex-col items-center sm:items-start gap-4">
                             <Button onClick={() => setLocation("/login")} className="rounded-xl bg-primary text-black hover:bg-white h-12 px-6 text-sm font-black uppercase tracking-widest transition-all">
@@ -320,19 +320,19 @@ export default function StateExplorer() {
                             </Button>
                           </div>
                         ) : (
-                          <Button 
+                          <Button
                             onClick={() => setIsPlanning(true)}
                             className="rounded-xl h-12 px-6 text-sm font-black uppercase tracking-widest bg-primary text-black hover:bg-white transition-all duration-700 w-full sm:w-auto"
                           >
-                             <span className="relative z-10 flex items-center gap-2">
-                               Invoke Planner <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                             </span>
+                            <span className="relative z-10 flex items-center gap-2">
+                              Invoke Planner <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </span>
                           </Button>
                         )}
                       </div>
                     </div>
                   ) : (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       className="space-y-8"
@@ -366,30 +366,30 @@ export default function StateExplorer() {
                 <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] bg-accent/10 rounded-full blur-3xl animate-float pointer-events-none" />
                 <div className="relative z-10 space-y-6">
                   <div className="flex items-center gap-4 border-b border-white/5 pb-6">
-                     <div className="w-12 h-12 bg-white/5 p-3 rounded-xl shadow-md flex items-center justify-center text-primary border border-white/10">
-                        <BookmarkPlus className="w-6 h-6" />
-                     </div>
-                     <div>
-                       <h3 className="text-xl font-serif font-bold tracking-tight">Your Saved Journeys</h3>
-                       <p className="text-xs text-muted-foreground opacity-80 mt-1">Access your bookmarked monuments & reviews</p>
-                     </div>
+                    <div className="w-12 h-12 bg-white/5 p-3 rounded-xl shadow-md flex items-center justify-center text-primary border border-white/10">
+                      <BookmarkPlus className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-serif font-bold tracking-tight">Your Saved Journeys</h3>
+                      <p className="text-xs text-muted-foreground opacity-80 mt-1">Access your bookmarked monuments & reviews</p>
+                    </div>
                   </div>
-                  
+
                   <div className="space-y-3">
-                     <Button variant="outline" className="w-full justify-between h-12 rounded-xl border-white/10 hover:bg-white/5 hover:text-primary transition-colors">
-                       <span className="font-bold tracking-wide text-sm">View Wishlist</span>
-                       <ArrowRight className="w-4 h-4" />
-                     </Button>
-                     <Button variant="outline" className="w-full justify-between h-12 rounded-xl border-white/10 hover:bg-white/5 hover:text-primary transition-colors">
-                       <span className="font-bold tracking-wide text-sm">My Reviews</span>
-                       <ArrowRight className="w-4 h-4" />
-                     </Button>
-                     {user?.role === 'admin' && (
-                       <Button onClick={() => setLocation("/admin")} variant="secondary" className="w-full justify-between h-12 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 transition-colors mt-2">
-                         <span className="font-bold tracking-wide text-sm uppercase text-[10px]">Analytics Dashboard</span>
-                         <Sparkles className="w-4 h-4" />
-                       </Button>
-                     )}
+                    <Button variant="outline" className="w-full justify-between h-12 rounded-xl border-white/10 hover:bg-white/5 hover:text-primary transition-colors">
+                      <span className="font-bold tracking-wide text-sm">View Wishlist</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                    <Button variant="outline" className="w-full justify-between h-12 rounded-xl border-white/10 hover:bg-white/5 hover:text-primary transition-colors">
+                      <span className="font-bold tracking-wide text-sm">My Reviews</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                    {user?.role === 'admin' && (
+                      <Button onClick={() => setLocation("/admin")} variant="secondary" className="w-full justify-between h-12 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 transition-colors mt-2">
+                        <span className="font-bold tracking-wide text-sm uppercase text-[10px]">Analytics Dashboard</span>
+                        <Sparkles className="w-4 h-4" />
+                      </Button>
+                    )}
                   </div>
                 </div>
               </Card>
@@ -405,8 +405,8 @@ export default function StateExplorer() {
             <>
               <div className="relative h-64 sm:h-80 w-full overflow-hidden">
                 <div className="absolute inset-0 bg-black/20 z-10" />
-                <img 
-                  src={EXACT_MONUMENT_IMAGES[activeMonument || ""] || DEFAULT_MONUMENT_IMAGE} 
+                <img
+                  src={EXACT_MONUMENT_IMAGES[activeMonument || ""] || DEFAULT_MONUMENT_IMAGE}
                   alt={activeMonument || "Monument"}
                   className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
                 />
@@ -442,10 +442,10 @@ export default function StateExplorer() {
                   </div>
                 </div>
                 <div className="mt-8 flex justify-end gap-4">
-                   <Button variant="outline" onClick={() => setActiveMonument(null)} className="rounded-xl border-white/10 hover:bg-white/5 font-bold">Close</Button>
-                   <Button className="rounded-xl bg-primary text-black hover:bg-white font-bold uppercase tracking-widest text-xs gap-2">
-                     <BookmarkPlus className="w-4 h-4" /> Save to Wishlist
-                   </Button>
+                  <Button variant="outline" onClick={() => setActiveMonument(null)} className="rounded-xl border-white/10 hover:bg-white/5 font-bold">Close</Button>
+                  <Button className="rounded-xl bg-primary text-black hover:bg-white font-bold uppercase tracking-widest text-xs gap-2">
+                    <BookmarkPlus className="w-4 h-4" /> Save to Wishlist
+                  </Button>
                 </div>
               </div>
             </>
