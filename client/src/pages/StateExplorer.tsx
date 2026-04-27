@@ -7,6 +7,9 @@ import { MapPin, Utensils, Info, ChevronRight, Sparkles, Calendar, Clock, Compas
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+
 const EXACT_MONUMENT_IMAGES: Record<string, string> = {
   "Taj Mahal": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800",
   "Agra Fort": "https://images.unsplash.com/photo-1584982633000-8d5f30e01490?auto=format&fit=crop&q=80&w=800",
@@ -68,7 +71,7 @@ export default function StateExplorer() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
-          style={{ backgroundImage: `url('${EXACT_MONUMENT_IMAGES[selectedState.monuments[0]] || DEFAULT_MONUMENT_IMAGE}')` }}
+          style={{ backgroundImage: `url('${EXACT_MONUMENT_IMAGES[selectedState.monuments?.[0] || ""] || DEFAULT_MONUMENT_IMAGE}')` }}
         />
         <motion.div 
           key={selectedState.id + "-bg"}
@@ -164,7 +167,7 @@ export default function StateExplorer() {
                         <h2 className="text-2xl font-serif font-bold tracking-tight">Monumental <br />Legends</h2>
                       </div>
                       <ul className="space-y-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                        {selectedState.monuments.map((m: string, i: number) => (
+                        {selectedState.monuments?.map((m: string, i: number) => (
                           <motion.li 
                             key={m}
                             onClick={() => setActiveMonument(m)}
@@ -194,7 +197,7 @@ export default function StateExplorer() {
                         <h2 className="text-2xl font-serif font-bold tracking-tight">Culinary <br />Spirit</h2>
                       </div>
                       <ul className="space-y-6 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                        {selectedState.foods.map((food: string, i: number) => (
+                        {selectedState.foods?.map((food: string, i: number) => (
                           <motion.li 
                             key={food}
                             initial={{ opacity: 0, x: -20 }}
@@ -396,15 +399,15 @@ export default function StateExplorer() {
       </div>
 
       {/* Monument Detail Modal */}
-      <Dialog open={!!activeMonument} onOpenChange={(isOpen) => { if (!isOpen) setActiveMonument(null) }}>
+      <Dialog open={!!activeMonument} onOpenChange={(isOpen: boolean) => { if (!isOpen) setActiveMonument(null) }}>
         <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden bg-background border-white/10">
           {activeMonument && (
             <>
               <div className="relative h-64 sm:h-80 w-full overflow-hidden">
                 <div className="absolute inset-0 bg-black/20 z-10" />
                 <img 
-                  src={EXACT_MONUMENT_IMAGES[activeMonument] || DEFAULT_MONUMENT_IMAGE} 
-                  alt={activeMonument}
+                  src={EXACT_MONUMENT_IMAGES[activeMonument || ""] || DEFAULT_MONUMENT_IMAGE} 
+                  alt={activeMonument || "Monument"}
                   className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
                 />
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-background to-transparent h-32 z-10" />
