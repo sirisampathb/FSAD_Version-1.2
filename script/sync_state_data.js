@@ -3,7 +3,8 @@ const path = require('path');
 const axios = require('axios');
 
 const DATA_FILE = path.join(__dirname, '../client/src/lib/data.ts');
-const API_URL = 'http://localhost:8080/api/monuments';
+const MONUMENTS_API = 'http://localhost:8080/api/monuments';
+const STATES_API = 'http://localhost:8080/api/states';
 
 const EXACT_MONUMENT_IMAGES = {
     "Taj Mahal": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800",
@@ -28,7 +29,7 @@ const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1506461883276-594a12b11
 
 async function syncToDatabase() {
     try {
-        console.log("📖 Reading STATE_DATA from client source...");
+        console.log("📖 Reading Explorer Data from client source...");
         const content = fs.readFileSync(DATA_FILE, 'utf8');
         
         const match = content.match(/export const STATE_DATA = (\[[\s\S]*?\]);/);
@@ -37,54 +38,63 @@ async function syncToDatabase() {
             return;
         }
 
-        // Eval is safe here because it's our own local file data
         const stateData = eval(match[1]);
         
-        let totalMonuments = 0;
-        let successfulInserts = 0;
-
-        console.log(`🚀 Found ${stateData.length} states. Beginning database injection...`);
+        console.log(`🚀 Found ${stateData.length} states. Beginning full data sync...`);
 
         for (const state of stateData) {
-            if (!state.monuments || state.monuments.length === 0) continue;
-
-            console.log(`\n▶ Processing ${state.name} (${state.monuments.length} monuments)...`);
+            console.log(`\n🌍 Syncing State: ${state.name}`);
             
-            for (const monumentName of state.monuments) {
-                totalMonuments++;
-                
-                const imageUrl = EXACT_MONUMENT_IMAGES[monumentName] || DEFAULT_IMAGE;
-                
-                const payload = {
-                    name: monumentName,
-                    location: state.name,
-                    builtYear: "Ancient Heritage", // Default since data.ts doesn't have exact years
-                    dynasty: "Indian Heritage",
-                    style: "Regional Architecture",
-                    unesco: state.highlights?.includes("UNESCO") || false,
-                    image: imageUrl,
-                    description: `A magnificent historical monument located in ${state.name}. ` + state.description,
-                    timeline: [],
-                    funFacts: state.highlights || []
-                };
+            // 1. Sync State Info
+            const statePayload = {
+                name: state.name,
+                description: state.description,
+                bestTimeToVisit: state.bestTimeToVisit,
+                color: state.color,
+                highlights: state.highlights,
+                foods: state.foods
+            };
 
-                try {
-                    await axios.post(API_URL, payload);
-                    successfulInserts++;
-                    console.log(`   ✅ Synced: ${monumentName}`);
-                } catch (err) {
-                    // Ignore 409 Conflict if monument already exists, otherwise log
-                    if (err.response && err.response.status === 409) {
-                        console.log(`   ⏭️ Skipped: ${monumentName} (Already exists)`);
-                    } else {
-                        console.error(`   ❌ Failed: ${monumentName} - ${err.message}`);
+            try {
+                await axios.post(STATES_API, statePayload);
+                console.log(`   ✅ State Sync Successful`);
+            } catch (err) {
+                console.log(`   ℹ️ State might already exist or failed: ${err.message}`);
+            }
+
+            // 2. Sync Monuments for this State
+            if (state.monuments && state.monuments.length > 0) {
+                for (const monumentName of state.monuments) {
+                    const imageUrl = EXACT_MONUMENT_IMAGES[monumentName] || DEFAULT_IMAGE;
+                    
+                    const monumentPayload = {
+                        name: monumentName,
+                        location: state.name,
+                        builtYear: "Ancient Heritage",
+                        dynasty: "Indian Heritage",
+                        style: "Regional Architecture",
+                        unesco: state.highlights?.includes("UNESCO") || false,
+                        image: imageUrl,
+                        description: `A magnificent historical monument located in ${state.name}. ` + state.description,
+                        timeline: [],
+                        funFacts: state.highlights || []
+                    };
+
+                    try {
+                        await axios.post(MONUMENTS_API, monumentPayload);
+                        console.log(`     ✅ Monument Synced: ${monumentName}`);
+                    } catch (err) {
+                        if (err.response && err.response.status === 409) {
+                            console.log(`     ⏭️ Monument Skipped: ${monumentName} (Already exists)`);
+                        } else {
+                            console.error(`     ❌ Monument Failed: ${monumentName} - ${err.message}`);
+                        }
                     }
                 }
             }
         }
 
-        console.log(`\n🎉 Sync Complete! Successfully pushed ${successfulInserts} out of ${totalMonuments} monuments to your Postgres Database!`);
-        console.log(`💡 You can now view all these authentic monuments in the Admin Dashboard or State Explorer!`);
+        console.log(`\n🎉 Full Sync Complete! All Explorer data has been pushed to your database.`);
         
     } catch (error) {
         console.error("Critical Error during sync:", error.message);
