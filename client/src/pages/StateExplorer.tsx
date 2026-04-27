@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { STATE_DATA } from "@/lib/data";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Utensils, Info, ChevronRight, Sparkles, Calendar, Clock, Compass, Lock, ArrowRight } from "lucide-react";
+import { MapPin, Utensils, Info, ChevronRight, Sparkles, Calendar, Clock, Compass, Lock, ArrowRight, BookmarkPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
