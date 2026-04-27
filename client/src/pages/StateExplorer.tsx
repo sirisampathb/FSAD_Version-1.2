@@ -159,16 +159,16 @@ export default function StateExplorer() {
 
                 <div className="grid md:grid-cols-2 gap-8">
                   {/* Planning/Seasonal Card */}
-                  <Card className="premium-card p-8 border-primary/10 bg-gradient-to-br from-card/60 to-primary/5 shadow-xl relative overflow-hidden group">
-                    <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />
+                  <Card className="premium-card p-6 border-primary/10 bg-gradient-to-br from-card/60 to-primary/5 shadow-md relative overflow-hidden group">
+                    <div className="absolute -bottom-20 -right-20 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />
                     <div className="flex items-center gap-4 mb-6">
                       <div className="bg-sky-500/20 p-3 rounded-xl text-sky-400 border border-sky-500/30">
                         <Calendar className="w-6 h-6" />
                       </div>
                       <h3 className="text-xl font-serif font-bold tracking-tight">Auspicious Seasons</h3>
                     </div>
-                    <p className="text-muted-foreground text-base mb-8 leading-relaxed font-medium opacity-80 italic">
-                      "Behold the glory of <strong className="text-foreground">{selectedState.name}</strong> from <span className="text-primary font-black underline decoration-primary/40 underline-offset-8 decoration-2">{selectedState.bestTimeToVisit}</span>, when the heavens align for the perfect pilgrimage."
+                    <p className="text-muted-foreground text-sm mb-6 leading-relaxed font-medium opacity-80 italic">
+                      "Behold the glory of <strong className="text-foreground">{selectedState.name}</strong> from <span className="text-primary font-black underline decoration-primary/40 underline-offset-4 decoration-2">{selectedState.bestTimeToVisit}</span>, when the heavens align for the perfect pilgrimage."
                     </p>
                     <div className="flex items-center gap-3 text-[10px] font-black text-sky-400 uppercase tracking-widest">
                       <Clock className="w-4 h-4 animate-pulse" />
@@ -177,8 +177,8 @@ export default function StateExplorer() {
                   </Card>
 
                   {/* Cultural Highlights Card */}
-                  <Card className="premium-card p-8 border-accent/10 bg-gradient-to-br from-card/60 to-accent/5 shadow-xl relative overflow-hidden group">
-                    <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-accent/10 rounded-full blur-3xl group-hover:bg-accent/20 transition-colors" />
+                  <Card className="premium-card p-6 border-accent/10 bg-gradient-to-br from-card/60 to-accent/5 shadow-md relative overflow-hidden group">
+                    <div className="absolute -bottom-20 -left-20 w-32 h-32 bg-accent/10 rounded-full blur-3xl group-hover:bg-accent/20 transition-colors" />
                     <div className="flex items-center gap-4 mb-6">
                       <div className="bg-orange-500/20 p-3 rounded-xl text-orange-400 border border-orange-500/30">
                         <Compass className="w-6 h-6" />
@@ -203,42 +203,38 @@ export default function StateExplorer() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true, margin: "-100px" }}
+              className="grid lg:grid-cols-2 gap-8"
             >
-              <Card className="premium-card p-10 bg-gradient-to-br from-primary/10 via-background/40 to-accent/10 border-primary/30 shadow-2xl relative overflow-hidden group">
-                <div className="absolute -top-20 -right-20 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-pulse-rose pointer-events-none" />
-                <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] bg-accent/5 rounded-full blur-3xl animate-float pointer-events-none" />
+              <Card className="premium-card p-6 bg-gradient-to-br from-primary/10 via-background/40 to-accent/10 border-primary/30 shadow-lg relative overflow-hidden group flex flex-col justify-center">
+                <div className="absolute -top-20 -right-20 w-[300px] h-[300px] bg-primary/10 rounded-full blur-3xl animate-pulse-rose pointer-events-none" />
                 
                 <div className="relative z-10">
                   {!isPlanning ? (
-                    <div className="flex flex-col lg:flex-row gap-16 items-center">
-                      <div className="shrink-0 relative">
-                        <div className="w-20 h-20 bg-primary p-5 rounded-2xl shadow-xl flex items-center justify-center text-black border border-white/20">
-                          <Sparkles className="w-10 h-10 stroke-[1.5]" />
+                    <div className="flex flex-col sm:flex-row gap-6 items-center">
+                      <div className="shrink-0">
+                        <div className="w-16 h-16 bg-primary p-4 rounded-2xl shadow-md flex items-center justify-center text-black border border-white/20">
+                          <Sparkles className="w-8 h-8 stroke-[1.5]" />
                         </div>
                       </div>
-                      <div className="text-center lg:text-left flex-grow">
-                        <h3 className="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tighter leading-none">Draft Your <br /><span className="text-gradient-rose italic">Sacred Itinerary</span></h3>
-                        <p className="text-muted-foreground text-base leading-relaxed max-w-2xl mb-8 font-medium opacity-80">
-                          Unveil the hidden trails of <span className="text-foreground font-black italic">{selectedState.name}</span>. Our AI Chronicler will weave a journey tailored to your soul's curiosity.
+                      <div className="text-center sm:text-left flex-grow">
+                        <h3 className="text-2xl md:text-3xl font-serif font-bold mb-2 tracking-tighter leading-none">Draft Your <br /><span className="text-gradient-rose italic">Sacred Itinerary</span></h3>
+                        <p className="text-muted-foreground text-sm leading-relaxed max-w-md mb-6 font-medium opacity-80">
+                          Unveil the hidden trails of <span className="text-foreground font-black italic">{selectedState.name}</span> with our AI Chronicler.
                         </p>
                         
                         {!user ? (
-                          <div className="inline-flex flex-col sm:flex-row items-center gap-8 bg-white/5 p-4 pl-8 rounded-[2.5rem] border border-white/10 backdrop-blur-3xl shadow-2xl">
-                            <span className="text-xs font-black uppercase tracking-[0.3em] flex items-center gap-4 text-primary">
-                              <Lock className="w-5 h-5" /> Identification Required
-                            </span>
-                            <Button onClick={() => setLocation("/login")} className="rounded-2xl bg-primary text-black hover:bg-white h-14 px-8 text-base font-black uppercase tracking-widest transition-all">
-                              Identify Now <ArrowRight className="w-5 h-5 ml-2" />
+                          <div className="inline-flex flex-col items-center sm:items-start gap-4">
+                            <Button onClick={() => setLocation("/login")} className="rounded-xl bg-primary text-black hover:bg-white h-12 px-6 text-sm font-black uppercase tracking-widest transition-all">
+                              Identify Now <ArrowRight className="w-4 h-4 ml-2" />
                             </Button>
                           </div>
                         ) : (
                           <Button 
                             onClick={() => setIsPlanning(true)}
-                            size="lg" 
-                            className="rounded-2xl h-16 px-10 text-base font-black uppercase tracking-widest bg-primary text-black hover:bg-white transition-all duration-700"
+                            className="rounded-xl h-12 px-6 text-sm font-black uppercase tracking-widest bg-primary text-black hover:bg-white transition-all duration-700 w-full sm:w-auto"
                           >
-                             <span className="relative z-10 flex items-center gap-3">
-                               Invoke the Planner <ChevronRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                             <span className="relative z-10 flex items-center gap-2">
+                               Invoke Planner <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                              </span>
                           </Button>
                         )}
@@ -248,46 +244,62 @@ export default function StateExplorer() {
                     <motion.div 
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="space-y-12"
+                      className="space-y-8"
                     >
-                      <div className="flex flex-col md:flex-row items-center justify-between gap-10 border-b border-white/10 pb-12">
+                      <div className="flex flex-col items-start justify-between gap-4 border-b border-white/10 pb-6">
                         <div>
-                          <h3 className="text-4xl font-serif font-bold tracking-tighter mb-4">Manifesting for <span className="text-primary italic">{selectedState.name}</span></h3>
-                          <p className="text-xs font-black text-primary uppercase tracking-[0.4em] opacity-60">Authorized: Imperial Chronicler {user?.username}</p>
+                          <h3 className="text-2xl font-serif font-bold tracking-tighter">Manifesting <span className="text-primary italic">{selectedState.name}</span></h3>
                         </div>
-                        <Button variant="ghost" onClick={() => setIsPlanning(false)} className="rounded-2xl h-14 border border-white/10 hover:bg-white/5 font-black uppercase tracking-widest text-[10px]">Abandon Intent</Button>
+                        <Button variant="ghost" onClick={() => setIsPlanning(false)} className="rounded-xl h-10 border border-white/10 hover:bg-white/5 font-black uppercase tracking-widest text-[10px]">Abandon</Button>
                       </div>
-                      <div className="grid md:grid-cols-3 gap-10">
-                        <div className="space-y-4">
-                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-primary px-4">Temporal Window</label>
-                          <div className="bg-white/5 p-6 rounded-[2rem] border border-white/10 backdrop-blur-3xl flex items-center gap-5 group cursor-pointer hover:border-primary/50 transition-all duration-500">
-                            <Calendar className="w-6 h-6 text-primary group-hover:scale-120 transition-transform" />
-                            <span className="text-sm font-bold uppercase tracking-widest opacity-80">Cycle Selection</span>
-                          </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-white/5 p-4 rounded-2xl border border-white/10 flex flex-col items-center text-center gap-2">
+                          <Calendar className="w-5 h-5 text-primary" />
+                          <span className="text-[10px] font-bold uppercase tracking-widest">Time</span>
                         </div>
-                        <div className="space-y-4">
-                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-primary px-4">Divine Focus</label>
-                          <div className="bg-white/5 p-6 rounded-[2rem] border border-white/10 backdrop-blur-3xl flex items-center gap-5 group cursor-pointer hover:border-primary/50 transition-all duration-500">
-                            <MapPin className="w-6 h-6 text-primary group-hover:scale-120 transition-transform" />
-                            <span className="text-sm font-bold uppercase tracking-widest opacity-80">Vaults & Spires</span>
-                          </div>
-                        </div>
-                        <div className="space-y-4">
-                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-primary px-4">Soul Pace</label>
-                          <div className="bg-white/5 p-6 rounded-[2rem] border border-white/10 backdrop-blur-3xl flex items-center gap-5 group cursor-pointer hover:border-primary/50 transition-all duration-500">
-                            <Clock className="w-6 h-6 text-primary group-hover:scale-120 transition-transform" />
-                            <span className="text-sm font-bold uppercase tracking-widest opacity-80">Eternal (3 Days)</span>
-                          </div>
+                        <div className="bg-white/5 p-4 rounded-2xl border border-white/10 flex flex-col items-center text-center gap-2">
+                          <MapPin className="w-5 h-5 text-primary" />
+                          <span className="text-[10px] font-bold uppercase tracking-widest">Focus</span>
                         </div>
                       </div>
-                      <Button className="w-full h-24 rounded-[3rem] text-2xl font-black uppercase tracking-[0.3em] shadow-[0_40px_80px_rgba(253,185,49,0.3)] bg-primary text-black hover:bg-white transition-all duration-1000 group relative overflow-hidden">
-                        <span className="relative z-10 flex items-center justify-center gap-6">
-                          Weave Destiny <Sparkles className="w-8 h-8 animate-pulse-rose" />
-                        </span>
-                        <div className="absolute inset-0 bg-white/20 translate-x-full group-hover:translate-x-0 transition-transform duration-1000" />
+                      <Button className="w-full h-14 rounded-2xl text-lg font-black uppercase tracking-[0.2em] bg-primary text-black hover:bg-white">
+                        Weave Destiny
                       </Button>
                     </motion.div>
                   )}
+                </div>
+              </Card>
+
+              {/* NEW FEATURES INTEGRATION CARD */}
+              <Card className="premium-card p-6 bg-gradient-to-br from-card to-accent/5 border-white/10 shadow-lg relative overflow-hidden group flex flex-col justify-center">
+                <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] bg-accent/10 rounded-full blur-3xl animate-float pointer-events-none" />
+                <div className="relative z-10 space-y-6">
+                  <div className="flex items-center gap-4 border-b border-white/5 pb-6">
+                     <div className="w-12 h-12 bg-white/5 p-3 rounded-xl shadow-md flex items-center justify-center text-primary border border-white/10">
+                        <BookmarkPlus className="w-6 h-6" />
+                     </div>
+                     <div>
+                       <h3 className="text-xl font-serif font-bold tracking-tight">Your Saved Journeys</h3>
+                       <p className="text-xs text-muted-foreground opacity-80 mt-1">Access your bookmarked monuments & reviews</p>
+                     </div>
+                  </div>
+                  
+                  <div className="space-y-3">
+                     <Button variant="outline" className="w-full justify-between h-12 rounded-xl border-white/10 hover:bg-white/5 hover:text-primary transition-colors">
+                       <span className="font-bold tracking-wide text-sm">View Wishlist</span>
+                       <ArrowRight className="w-4 h-4" />
+                     </Button>
+                     <Button variant="outline" className="w-full justify-between h-12 rounded-xl border-white/10 hover:bg-white/5 hover:text-primary transition-colors">
+                       <span className="font-bold tracking-wide text-sm">My Reviews</span>
+                       <ArrowRight className="w-4 h-4" />
+                     </Button>
+                     {user?.role === 'admin' && (
+                       <Button onClick={() => setLocation("/admin")} variant="secondary" className="w-full justify-between h-12 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20 transition-colors mt-2">
+                         <span className="font-bold tracking-wide text-sm uppercase text-[10px]">Analytics Dashboard</span>
+                         <Sparkles className="w-4 h-4" />
+                       </Button>
+                     )}
+                  </div>
                 </div>
               </Card>
             </motion.div>
