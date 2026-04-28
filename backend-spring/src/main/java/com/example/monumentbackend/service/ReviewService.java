@@ -44,7 +44,16 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<ReviewResponse> getReviewsForMonument(String monumentId) {
-        return reviewRepository.findByMonumentIdOrderByCreatedAtDesc(monumentId)
+        String resolvedId = monumentId;
+        
+        // Try to resolve name/slug to UUID if the provided ID isn't found or doesn't look like a UUID
+        if (monumentId.length() < 32) { // Crude check for non-UUID strings
+            resolvedId = monumentRepository.findByNameIgnoreCase(monumentId.replace("-", " "))
+                .map(Monument::getId)
+                .orElse(monumentId);
+        }
+        
+        return reviewRepository.findByMonumentIdOrderByCreatedAtDesc(resolvedId)
                 .stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
