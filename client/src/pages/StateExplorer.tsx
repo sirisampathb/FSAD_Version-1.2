@@ -9,13 +9,16 @@ import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Loader2 } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const EXACT_MONUMENT_IMAGES: Record<string, string> = {
-  "Taj Mahal": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Taj_Mahal%2C_Agra%2C_India_edit2.jpg",
-  "Agra Fort": "https://upload.wikimedia.org/wikipedia/commons/1/10/Agra_03-2016_10_Agra_Fort.jpg",
-  "Fatehpur Sikri": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Fatehpur_Sikri_India.jpg",
-  "Qutub Minar": "https://upload.wikimedia.org/wikipedia/commons/1/13/Qutub_Minar_Vertical2.jpg",
-  "Red Fort": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Lal_Qila_%28Red_Fort%29.jpg",
+  "Taj Mahal": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHUGLmSRkHiq8LIQMIYzac4xrax-vT0xwUveWLyY_BTIQbCLqgtXKcCMX25pdQ_vjk8COtJ7nDgYMNcw5J2OdU3LEiZFzMRK2vmhgEx9yeyIUhysj6R05JacEYbNUZ29jca7Do5=s1360-w1360-h1020-rw",
+  "Agra Fort": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo1JgKg0KjILyIZuypTtrWharVS5X_q9Mizw&s",
+  "Fatehpur Sikri": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTIj8cAY0SsOIyUR8cD2I0Ls0lLyHQ9N8i6MGWm2ZgtF8p1sUpp",
+  "Qutub Minar": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGr0Pt4o4TN-k4fRJCYZaIbmRvtfC6NO3E_Lm6hsM2bzfTDBFZRXpAG38AWK5pWXNwGUQOvz0rCk4-XKfUo1s1FJ5KUWIYv-hzHPk7SBgkvoWXGzrSBkHdWw2jX5FdWa6G84x_N=s1360-w1360-h1020-rw",
+  "Red Fort": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGDsA7iqdqLUy5NntZ4L3rU4vKFHKB-RxJTSji-j4EU12dIrJI9rb4oFAExTwcvY2jVOEzm94u24NFoiTqcs_bsn5g4RJcEA1hq7tFh6dejRaUvvxsnG2uKFarSSULHuXvtvZE=s1360-w1360-h1020-rw",
   "Humayun's Tomb": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Tomb_of_Humayun%2C_Delhi.jpg",
   "Hawa Mahal": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Hawa_Mahal_in_Jaipur.jpg",
   "Amer Fort": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Amer_Fort%2C_Jaipur.jpg",
@@ -46,6 +49,47 @@ export default function StateExplorer() {
   const [isPlanning, setIsPlanning] = useState(false);
   const [activeMonument, setActiveMonument] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [plannerDuration, setPlannerDuration] = useState("3");
+  const [plannerFocus, setPlannerFocus] = useState("balanced");
+  const [generatedPlan, setGeneratedPlan] = useState<{ day: number; activities: string[] }[] | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const generateItinerary = () => {
+    setIsGenerating(true);
+    setGeneratedPlan(null);
+
+    // Simulate AI generation
+    setTimeout(() => {
+      const days = parseInt(plannerDuration);
+      const plan = [];
+      const monuments = [...(selectedState.monuments || [])];
+      const foods = [...(selectedState.foods || [])];
+
+      for (let i = 1; i <= days; i++) {
+        const activities = [];
+        // Add a monument
+        if (monuments.length > 0) {
+          const mIdx = Math.floor(Math.random() * monuments.length);
+          activities.push(`Visit ${monuments.splice(mIdx, 1)[0]}`);
+        }
+        // Add a food experience
+        if (foods.length > 0) {
+          const fIdx = Math.floor(Math.random() * foods.length);
+          activities.push(`Taste authentic ${foods.splice(fIdx, 1)[0]}`);
+        }
+        // Add a general activity
+        if (selectedState.highlights && selectedState.highlights.length > 0) {
+          const hIdx = Math.floor(Math.random() * selectedState.highlights.length);
+          activities.push(`Explore ${selectedState.highlights[hIdx]}`);
+        }
+
+        plan.push({ day: i, activities });
+      }
+
+      setGeneratedPlan(plan);
+      setIsGenerating(false);
+    }, 1500);
+  };
 
   useEffect(() => {
     if (!loading && !user) {
@@ -337,25 +381,95 @@ export default function StateExplorer() {
                       animate={{ opacity: 1, scale: 1 }}
                       className="space-y-8"
                     >
-                      <div className="flex flex-col items-start justify-between gap-4 border-b border-white/10 pb-6">
+                      <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-6">
                         <div>
-                          <h3 className="text-2xl font-serif font-bold tracking-tighter">Manifesting <span className="text-primary italic">{selectedState.name}</span></h3>
+                          <h3 className="text-xl font-serif font-bold tracking-tighter">Manifesting <span className="text-primary italic">{selectedState.name}</span></h3>
                         </div>
-                        <Button variant="ghost" onClick={() => setIsPlanning(false)} className="rounded-xl h-10 border border-white/10 hover:bg-white/5 font-black uppercase tracking-widest text-[10px]">Abandon</Button>
+                        <Button variant="ghost" onClick={() => setIsPlanning(false)} className="rounded-xl h-8 border border-white/10 hover:bg-white/5 font-black uppercase tracking-widest text-[9px]">Abandon</Button>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-white/5 p-4 rounded-2xl border border-white/10 flex flex-col items-center text-center gap-2">
-                          <Calendar className="w-5 h-5 text-primary" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest">Time</span>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Duration</label>
+                          <Select value={plannerDuration} onValueChange={setPlannerDuration}>
+                            <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-12">
+                              <SelectValue placeholder="Days" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-background border-white/10">
+                              <SelectItem value="1">1 Day</SelectItem>
+                              <SelectItem value="2">2 Days</SelectItem>
+                              <SelectItem value="3">3 Days</SelectItem>
+                              <SelectItem value="5">5 Days</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
-                        <div className="bg-white/5 p-4 rounded-2xl border border-white/10 flex flex-col items-center text-center gap-2">
-                          <MapPin className="w-5 h-5 text-primary" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest">Focus</span>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Focus</label>
+                          <Select value={plannerFocus} onValueChange={setPlannerFocus}>
+                            <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-12">
+                              <SelectValue placeholder="Type" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-background border-white/10">
+                              <SelectItem value="balanced">Balanced</SelectItem>
+                              <SelectItem value="monuments">History</SelectItem>
+                              <SelectItem value="food">Culinary</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
                       </div>
-                      <Button className="w-full h-14 rounded-2xl text-lg font-black uppercase tracking-[0.2em] bg-primary text-black hover:bg-white">
-                        Weave Destiny
-                      </Button>
+
+                      {generatedPlan ? (
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="bg-primary/5 rounded-2xl border border-primary/20 p-4 space-y-4"
+                        >
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-sm font-bold tracking-tight text-primary uppercase">Your Sacred Trail</h4>
+                            <Badge variant="outline" className="text-[9px] border-primary/30 text-primary uppercase">Generated</Badge>
+                          </div>
+                          <ScrollArea className="h-[200px] pr-4">
+                            <div className="space-y-6">
+                              {generatedPlan.map((day) => (
+                                <div key={day.day} className="space-y-3 relative pl-4 border-l border-primary/30">
+                                  <div className="absolute -left-[5px] top-0 w-2.5 h-2.5 bg-primary rounded-full shadow-[0_0_10px_rgba(var(--primary),0.5)]" />
+                                  <span className="text-[10px] font-black text-primary uppercase tracking-widest">Day {day.day}</span>
+                                  <ul className="space-y-2">
+                                    {day.activities.map((act, idx) => (
+                                      <li key={idx} className="text-xs font-medium text-foreground/80 flex items-center gap-2">
+                                        <div className="w-1 h-1 bg-primary/40 rounded-full" />
+                                        {act}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              ))}
+                            </div>
+                          </ScrollArea>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setGeneratedPlan(null)}
+                            className="w-full text-[10px] uppercase tracking-widest font-bold text-muted-foreground hover:text-primary"
+                          >
+                            Reset Manifest
+                          </Button>
+                        </motion.div>
+                      ) : (
+                        <Button
+                          onClick={generateItinerary}
+                          disabled={isGenerating}
+                          className="w-full h-14 rounded-2xl text-lg font-black uppercase tracking-[0.2em] bg-primary text-black hover:bg-white disabled:opacity-50"
+                        >
+                          {isGenerating ? (
+                            <>
+                              <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                              Manifesting...
+                            </>
+                          ) : (
+                            "Weave Destiny"
+                          )}
+                        </Button>
+                      )}
                     </motion.div>
                   )}
                 </div>
