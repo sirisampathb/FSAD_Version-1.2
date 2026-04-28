@@ -17,6 +17,7 @@ const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Login = lazy(() => import("@/pages/Login"));
 const Register = lazy(() => import("@/pages/Register"));
 const StateExplorer = lazy(() => import("@/pages/StateExplorer"));
+const Admin = lazy(() => import("@/pages/Admin"));
 
 
 import { Chatbot } from "@/components/Chatbot";
@@ -34,6 +35,7 @@ function Router() {
             <Route path="/explore" component={StateExplorer} />
             <Route path="/monument/:id" component={MonumentDetail} />
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/admin" component={Admin} />
             <Route component={NotFound} />
           </Switch>
         </Suspense>
