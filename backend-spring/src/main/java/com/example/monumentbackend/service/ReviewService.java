@@ -27,8 +27,10 @@ public class ReviewService {
     public ReviewResponse addReview(String userId, ReviewRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        
         Monument monument = monumentRepository.findById(request.getMonumentId())
-                .orElseThrow(() -> new RuntimeException("Monument not found"));
+                .or(() -> monumentRepository.findByNameIgnoreCase(request.getMonumentId().replace("-", " ")))
+                .orElseThrow(() -> new RuntimeException("Monument not found: " + request.getMonumentId()));
 
         Review review = new Review();
         review.setUser(user);

@@ -30,8 +30,10 @@ public class SavedMonumentService {
         } else {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new RuntimeException("User not found"));
+            
             Monument monument = monumentRepository.findById(monumentId)
-                    .orElseThrow(() -> new RuntimeException("Monument not found"));
+                    .or(() -> monumentRepository.findByNameIgnoreCase(monumentId.replace("-", " ")))
+                    .orElseThrow(() -> new RuntimeException("Monument not found: " + monumentId));
 
             SavedMonument savedMonument = new SavedMonument();
             savedMonument.setUser(user);
