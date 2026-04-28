@@ -64,7 +64,20 @@ export default function StateExplorer() {
   const [reviewComment, setReviewComment] = useState("");
   const [viewingList, setViewingList] = useState<"wishlist" | "reviews" | null>(null);
 
-  const getMonumentId = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  const { data: allMonuments } = useQuery({
+    queryKey: ["monuments"],
+    queryFn: () => fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/monuments`).then(res => res.json())
+  });
+
+  const getMonumentId = (name: string) => {
+    const normalized = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    const match = allMonuments?.find((m: any) => 
+      m.name.toLowerCase() === name.toLowerCase() || 
+      m.name.toLowerCase().includes(name.toLowerCase())
+    );
+    return match?.id || normalized;
+  };
+  
   const activeMonumentId = activeMonument ? getMonumentId(activeMonument) : null;
 
   // Wishlist Logic
@@ -97,12 +110,22 @@ export default function StateExplorer() {
   });
 
   const addReviewMutation = useMutation({
-    mutationFn: () => addReview(activeMonumentId!, reviewRating, reviewComment),
+    mutationFn: () => {
+      if (!reviewComment.trim()) throw new Error("Comment cannot be empty");
+      return addReview(activeMonumentId!, reviewRating, reviewComment);
+    },
     onSuccess: () => {
       setReviewComment("");
       refetchReviews();
       toast({ title: "Review submitted successfully!" });
     },
+    onError: (error: any) => {
+      toast({ 
+        title: "Submission Failed", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    }
   });
 
   const generateItinerary = () => {
