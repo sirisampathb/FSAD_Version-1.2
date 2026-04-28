@@ -17,7 +17,7 @@ import {
 } from "recharts";
 import { 
   Users, 
-  Palace, 
+  Landmark, 
   MessageSquare, 
   TrendingUp, 
   ShieldCheck,
@@ -33,6 +33,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 
 const COLORS = ['#FFD700', '#C0C0C0', '#CD7F32', '#4169E1', '#8B0000', '#006400'];
