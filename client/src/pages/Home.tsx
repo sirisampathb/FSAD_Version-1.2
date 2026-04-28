@@ -22,6 +22,9 @@ import {
 } from "lucide-react";
 import { resolveImageUrl } from "@/lib/queryClient";
 import heroBg from "@/assets/images/hero-bg.png";
+import { useQuery } from "@tanstack/react-query";
+import { getSavedMonuments } from "@/lib/api";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
   const { data: monuments, isLoading } = useMonuments();
@@ -33,6 +36,30 @@ export default function Home() {
     m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     m.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  
+  const { data: savedMonuments } = useQuery({
+    queryKey: ["savedMonuments"],
+    queryFn: getSavedMonuments,
+    enabled: !!user,
+  });
+
+  const savedCount = savedMonuments?.length || 0;
+  const progressPercent = Math.min(Math.round((savedCount / 10) * 100), 100);
+  
+  const getRank = (count: number) => {
+    if (count >= 10) return "Legend";
+    if (count >= 5) return "Elder";
+    if (count >= 3) return "Nomad";
+    if (count >= 1) return "Explorer";
+    return "Seeker";
+  };
+
+  const badgeStatus = {
+    Explorer: savedCount >= 1,
+    Nomad: savedCount >= 3,
+    Scribe: savedCount >= 4, // Assuming writing reviews also adds to activity
+    Elder: savedCount >= 7,
+  };
 
   if (isLoading) return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   return (
@@ -249,35 +276,51 @@ export default function Home() {
                         <p className="text-muted-foreground font-medium">Continue your exploration where you left off. Every visit preserves a memory.</p>
                         <div className="space-y-2">
                           <div className="flex justify-between text-xs font-bold uppercase tracking-widest mb-2">
-                            <span>Civilization Rank: Seeker</span>
-                            <span className="text-primary">65%</span>
+                            <span>Civilization Rank: {getRank(savedCount)}</span>
+                            <span className="text-primary">{progressPercent}%</span>
                           </div>
                           <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
                             <motion.div 
                               initial={{ width: 0 }}
-                              whileInView={{ width: "65%" }}
+                              whileInView={{ width: `${progressPercent}%` }}
                               className="h-full bg-primary"
                             />
                           </div>
                         </div>
                         <Link href="/explore">
-                           <Button className="w-full h-14 rounded-2xl bg-primary text-black font-bold">Resuming Expedition</Button>
+                           <Button className="w-full h-14 rounded-2xl bg-primary text-black font-bold group">
+                             Resuming Expedition
+                             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                           </Button>
                         </Link>
                      </div>
                      
-                     <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-2 gap-4">
                         {[
-                          { icon: Award, label: "Explorer", color: "text-amber-400" },
-                          { icon: Tent, label: "Nomad", color: "text-emerald-400" },
-                          { icon: BookOpen, label: "Scribe", color: "text-blue-400" },
-                          { icon: History, label: "Elder", color: "text-purple-400" }
+                          { icon: Award, label: "Explorer", color: "text-amber-400", unlocked: badgeStatus.Explorer },
+                          { icon: Tent, label: "Nomad", color: "text-emerald-400", unlocked: badgeStatus.Nomad },
+                          { icon: BookOpen, label: "Scribe", color: "text-blue-400", unlocked: badgeStatus.Scribe },
+                          { icon: History, label: "Elder", color: "text-purple-400", unlocked: badgeStatus.Elder }
                         ].map((badge, i) => (
-                          <div key={i} className="flex flex-col items-center justify-center p-6 rounded-3xl bg-secondary/30 border border-border grayscale hover:grayscale-0 transition-all cursor-help group">
-                            <badge.icon className={`w-8 h-8 ${badge.color} mb-3 group-hover:scale-110 transition-transform`} />
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors">{badge.label}</span>
+                          <div 
+                            key={i} 
+                            title={badge.unlocked ? `${badge.label} Unlocked!` : `Save ${i === 0 ? 1 : i === 1 ? 3 : i === 2 ? 4 : 7} monuments to unlock`}
+                            className={cn(
+                              "flex flex-col items-center justify-center p-6 rounded-3xl bg-secondary/30 border transition-all cursor-help group",
+                              badge.unlocked ? "border-primary/40 grayscale-0 shadow-[0_0_20px_rgba(var(--primary),0.1)]" : "border-border grayscale opacity-50"
+                            )}
+                          >
+                            <badge.icon className={cn(
+                              "w-8 h-8 mb-3 transition-transform group-hover:scale-110",
+                              badge.unlocked ? badge.color : "text-muted-foreground"
+                            )} />
+                            <span className={cn(
+                              "text-[10px] font-bold uppercase tracking-widest transition-colors",
+                              badge.unlocked ? "text-foreground" : "text-muted-foreground"
+                            )}>{badge.label}</span>
                           </div>
                         ))}
-                     </div>
+                      </div>
                   </div>
                 </motion.div>
 
