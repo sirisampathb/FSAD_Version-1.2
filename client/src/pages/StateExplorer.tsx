@@ -11,26 +11,26 @@ import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const EXACT_MONUMENT_IMAGES: Record<string, string> = {
-  "Taj Mahal": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800",
-  "Agra Fort": "https://images.unsplash.com/photo-1584982633000-8d5f30e01490?auto=format&fit=crop&q=80&w=800",
-  "Fatehpur Sikri": "https://images.unsplash.com/photo-1564507004663-b6dfb3c824d5?auto=format&fit=crop&q=80&w=800",
-  "Qutub Minar": "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&q=80&w=800",
-  "Red Fort": "https://images.unsplash.com/photo-1582650058863-71abec8ba793?auto=format&fit=crop&q=80&w=800",
-  "Humayun's Tomb": "https://images.unsplash.com/photo-1563820246231-1e96a2d9818e?auto=format&fit=crop&q=80&w=800",
-  "Hawa Mahal": "https://images.unsplash.com/photo-1514222709107-a180c68d72b4?auto=format&fit=crop&q=80&w=800",
-  "Amer Fort": "https://images.unsplash.com/photo-1599661559902-601eab4043dc?auto=format&fit=crop&q=80&w=800",
-  "Mehrangarh Fort": "https://images.unsplash.com/photo-1566896208882-e9c522cb8fb8?auto=format&fit=crop&q=80&w=800",
-  "Gateway of India": "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&q=80&w=800",
-  "Ajanta & Ellora Caves": "https://images.unsplash.com/photo-1620501869894-315ec0b77b10?auto=format&fit=crop&q=80&w=800",
-  "Hampi Ruins": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800",
-  "Mysore Palace": "https://images.unsplash.com/photo-1621831788755-d143c7b67ae2?auto=format&fit=crop&q=80&w=800",
-  "Charminar (Historical Tie)": "https://images.unsplash.com/photo-1601004838634-118d098e9b6a?auto=format&fit=crop&q=80&w=800",
+  "Taj Mahal": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Taj_Mahal%2C_Agra%2C_India_edit2.jpg",
+  "Agra Fort": "https://upload.wikimedia.org/wikipedia/commons/1/10/Agra_03-2016_10_Agra_Fort.jpg",
+  "Fatehpur Sikri": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Fatehpur_Sikri_India.jpg",
+  "Qutub Minar": "https://upload.wikimedia.org/wikipedia/commons/1/13/Qutub_Minar_Vertical2.jpg",
+  "Red Fort": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Lal_Qila_%28Red_Fort%29.jpg",
+  "Humayun's Tomb": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Tomb_of_Humayun%2C_Delhi.jpg",
+  "Hawa Mahal": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Hawa_Mahal_in_Jaipur.jpg",
+  "Amer Fort": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Amer_Fort%2C_Jaipur.jpg",
+  "Mehrangarh Fort": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Mehrangarh_Fort.jpg",
+  "Gateway of India": "https://upload.wikimedia.org/wikipedia/commons/5/5e/The_Gateway_of_India_%2C_Mumbai.jpg",
+  "Ajanta & Ellora Caves": "https://upload.wikimedia.org/wikipedia/commons/7/77/Ajanta_Caves_panorama_view.jpg",
+  "Hampi Ruins": "https://upload.wikimedia.org/wikipedia/commons/0/05/Virupaksha_Temple_Hampi.jpg",
+  "Mysore Palace": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Mysore_Palace_Morning.jpg",
+  "Charminar (Historical Tie)": "https://upload.wikimedia.org/wikipedia/commons/9/91/Charminar_Summer.jpg",
   "Tirupati Temple": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Tirumala_090615.jpg",
-  "Golconda Fort": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFhUuQnoRgPBUvevaoYT3sfhztxUgWg3ZmlRyvYi3scfJ39XNagTh1V2ibIbDy8WNCIoWhRQmrkIsXiiQcVl79hgzRC8WSVGCJMci0B8SlDymQo0PQ_4iY75du3z9WAN9F3-uGX=s1360-w1360-h1020-rw",
-  "Somnath Temple": "https://images.unsplash.com/photo-1622345041766-3d2371900118?auto=format&fit=crop&q=80&w=800"
+  "Golconda Fort": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Golconda_Fort%2C_Hyderabad%2C_Andhra_Pradesh%2C_India.JPG",
+  "Somnath Temple": "https://upload.wikimedia.org/wikipedia/commons/7/71/Somnath_Temple_Gujarat.jpg"
 };
 
-const DEFAULT_MONUMENT_IMAGE = "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&q=80&w=800";
+const DEFAULT_MONUMENT_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/d/d4/India_Gate_in_New_Delhi_03-2016.jpg";
 
 const FOOD_IMAGES = [
   "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&q=80&w=400",
