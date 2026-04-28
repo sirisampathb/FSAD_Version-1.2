@@ -57,6 +57,12 @@ public class SavedMonumentService {
 
     @Transactional(readOnly = true)
     public boolean isSaved(String userId, String monumentId) {
-        return savedMonumentRepository.existsByUserIdAndMonumentId(userId, monumentId);
+        String resolvedId = monumentId;
+        if (monumentId.length() < 32) {
+            resolvedId = monumentRepository.findByNameIgnoreCase(monumentId.replace("-", " "))
+                    .map(Monument::getId)
+                    .orElse(monumentId);
+        }
+        return savedMonumentRepository.existsByUserIdAndMonumentId(userId, resolvedId);
     }
 }
