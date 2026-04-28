@@ -32,10 +32,17 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const heroLink = user ? "/dashboard" : "/login";
 
-  const filteredMonuments = (monuments || []).filter(m => 
-    m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    m.location.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredMonuments = (monuments || []).filter(m => {
+    const matchesSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         m.location.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    // If no search query, show only featured monuments.
+    // If searching, show all matching monuments (including hidden ones).
+    if (searchQuery.trim() === "") {
+      return m.featured;
+    }
+    return matchesSearch;
+  });
   
   const { data: savedMonuments } = useQuery({
     queryKey: ["savedMonuments"],

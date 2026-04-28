@@ -13,6 +13,7 @@ export const MONUMENTS = [
     style: 'Indo-Islamic Architecture',
     unesco: true,
     image: tajMahalImg,
+    featured: true,
     description: 'An ivory-white marble mausoleum on the right bank of the river Yamuna, universally admired as a masterpiece of world heritage.',
     timeline: [
       { year: '1631', event: 'Construction began' },
@@ -35,6 +36,7 @@ export const MONUMENTS = [
     style: 'Indo-Islamic Architecture',
     unesco: true,
     image: qutubMinarImg,
+    featured: true,
     description: 'A 73-metre tall tapering tower of five storeys, with a 14.3 metres base diameter, built to celebrate Muslim dominance in Delhi after the defeat of the last Hindu ruler.',
     timeline: [
       { year: '1192', event: 'Foundation laid by Qutb-ud-din Aibak' },
@@ -55,6 +57,7 @@ export const MONUMENTS = [
     style: 'Dravidian Architecture',
     unesco: true,
     image: hampiImg,
+    featured: true,
     description: 'The spectacular ruins of the capital of the Vijayanagara Empire, featuring stunning temples, chariot structures, and ancient bazars.',
     timeline: [
       { year: '1336', event: 'Founded by Harihara I and Bukka Raya I' },
@@ -75,6 +78,7 @@ export const MONUMENTS = [
     style: 'Rajput Architecture',
     unesco: false,
     image: hawaMahalImg,
+    featured: true,
     description: 'The Palace of Winds, a five-storey exterior akin to a honeycomb with its 953 small windows called Jharokhas.',
     timeline: [
       { year: '1799', event: 'Built by Maharaja Sawai Pratap Singh' },
@@ -83,6 +87,106 @@ export const MONUMENTS = [
     funFacts: [
       'It has 953 small windows called Jharokhas.',
       'It was built without a foundation and leans at an 87-degree angle.'
+    ]
+  },
+  {
+    id: 'konark-sun-temple',
+    name: 'Konark Sun Temple',
+    location: 'Konark, Odisha',
+    builtYear: '1250',
+    dynasty: 'Eastern Ganga Dynasty',
+    style: 'Kalinga Architecture',
+    unesco: true,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/4/47/Konark_Sun_Temple_2023.jpg',
+    featured: false,
+    description: 'A 13th-century Sun Temple shaped like a gigantic chariot with 24 carved stone wheels pulled by seven horses.',
+    timeline: [
+      { year: '1250', event: 'Construction by King Narasimhadeva I' },
+      { year: '1984', event: 'UNESCO World Heritage Status' }
+    ],
+    funFacts: [
+      'The wheels are sundials that can calculate time to a minute.',
+      'It was called the "Black Pagoda" by European sailors.'
+    ]
+  },
+  {
+    id: 'victoria-memorial',
+    name: 'Victoria Memorial',
+    location: 'Kolkata, West Bengal',
+    builtYear: '1921',
+    dynasty: 'British Raj',
+    style: 'Indo-Saracenic Architecture',
+    unesco: false,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/7/72/Victoria_Memorial_Kolkata_view.jpg',
+    featured: false,
+    description: 'A large marble building in Kolkata, built between 1906 and 1921. It is dedicated to the memory of Queen Victoria.',
+    timeline: [
+      { year: '1906', event: 'Foundation stone laid' },
+      { year: '1921', event: 'Opened to the public' }
+    ],
+    funFacts: [
+      'It is made of Makrana marble, same as the Taj Mahal.',
+      'The Angel of Victory stands atop the central dome.'
+    ]
+  },
+  {
+    id: 'khajuraho',
+    name: 'Khajuraho Group of Monuments',
+    location: 'Chhatarpur, Madhya Pradesh',
+    builtYear: '950-1050',
+    dynasty: 'Chandela Dynasty',
+    style: 'Nagara Architecture',
+    unesco: true,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Kandariya_Mahadeva_Temple_Khajuraho_India.jpg',
+    featured: false,
+    description: 'A group of Hindu and Jain temples famous for their Nagara-style architectural symbolism and erotic sculptures.',
+    timeline: [
+      { year: '950', event: 'Temple construction begins' },
+      { year: '1838', event: 'Rediscovered by Captain T.S. Burt' }
+    ],
+    funFacts: [
+      'Only 25 of the original 85 temples remain today.',
+      'The temples are made of sandstone without using mortar.'
+    ]
+  },
+  {
+    id: 'sanchi-stupa',
+    name: 'Buddhist Monuments at Sanchi',
+    location: 'Sanchi, Madhya Pradesh',
+    builtYear: '3rd Century BCE',
+    dynasty: 'Mauryan Empire',
+    style: 'Buddhist Architecture',
+    unesco: true,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/The_Great_Stupa_Sanchi_Madhya_Pradesh.jpg',
+    featured: false,
+    description: 'One of the oldest stone structures in India, originally commissioned by Emperor Ashoka over the relics of the Buddha.',
+    timeline: [
+      { year: '3rd Century BCE', event: 'Commissioned by Ashoka' },
+      { year: '1818', event: 'Rediscovered by General Taylor' }
+    ],
+    funFacts: [
+      'It is featured on the back of the ₹200 banknote.',
+      'The four gateways represent Love, Peace, Trust, and Courage.'
+    ]
+  },
+  {
+    id: 'mysore-palace',
+    name: 'Mysore Palace',
+    location: 'Mysore, Karnataka',
+    builtYear: '1912',
+    dynasty: 'Wadiyar Dynasty',
+    style: 'Indo-Saracenic Architecture',
+    unesco: false,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/b/be/Mysore_Palace_Morning_Full_View.jpg',
+    featured: false,
+    description: 'A historical palace and a royal residence at Mysore. It is the official residence of the Wadiyar dynasty.',
+    timeline: [
+      { year: '1897', event: 'Old wooden palace burnt down' },
+      { year: '1912', event: 'New palace completed' }
+    ],
+    funFacts: [
+      'It is illuminated by 97,000 light bulbs during Dasara.',
+      'It is the second most visited monument in India after Taj Mahal.'
     ]
   }
 ];

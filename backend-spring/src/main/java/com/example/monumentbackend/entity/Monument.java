@@ -38,6 +38,9 @@ public class Monument {
     @Column(nullable = false)
     private Boolean unesco = false;
 
+    @Column(nullable = false)
+    private Boolean featured = true;
+
     @Column
     private String image;
 
