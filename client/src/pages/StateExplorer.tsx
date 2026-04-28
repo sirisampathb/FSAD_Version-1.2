@@ -10,8 +10,13 @@ import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2 } from "lucide-react";
+import { Loader2, Star, Trash2, Heart } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
+import { addReview, getReviews, toggleSaveMonument, checkIsSaved, getSavedMonuments } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 
 const EXACT_MONUMENT_IMAGES: Record<string, string> = {
   "Taj Mahal": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHUGLmSRkHiq8LIQMIYzac4xrax-vT0xwUveWLyY_BTIQbCLqgtXKcCMX25pdQ_vjk8COtJ7nDgYMNcw5J2OdU3LEiZFzMRK2vmhgEx9yeyIUhysj6R05JacEYbNUZ29jca7Do5=s1360-w1360-h1020-rw",
@@ -53,6 +58,52 @@ export default function StateExplorer() {
   const [plannerFocus, setPlannerFocus] = useState("balanced");
   const [generatedPlan, setGeneratedPlan] = useState<{ day: number; activities: string[] }[] | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const { toast } = useToast();
+  
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState("");
+  const [viewingList, setViewingList] = useState<"wishlist" | "reviews" | null>(null);
+
+  const getMonumentId = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  const activeMonumentId = activeMonument ? getMonumentId(activeMonument) : null;
+
+  // Wishlist Logic
+  const { data: isSaved, refetch: refetchSaved } = useQuery({
+    queryKey: ["isSaved", activeMonumentId],
+    queryFn: () => checkIsSaved(activeMonumentId!),
+    enabled: !!activeMonumentId,
+  });
+
+  const toggleWishlistMutation = useMutation({
+    mutationFn: () => toggleSaveMonument(activeMonumentId!),
+    onSuccess: () => {
+      refetchSaved();
+      queryClient.invalidateQueries({ queryKey: ["savedMonuments"] });
+      toast({ title: isSaved ? "Removed from Wishlist" : "Added to Wishlist" });
+    },
+  });
+
+  const { data: savedMonuments } = useQuery({
+    queryKey: ["savedMonuments"],
+    queryFn: getSavedMonuments,
+    enabled: viewingList === "wishlist",
+  });
+
+  // Reviews Logic
+  const { data: reviews, refetch: refetchReviews } = useQuery({
+    queryKey: ["reviews", activeMonumentId],
+    queryFn: () => getReviews(activeMonumentId!),
+    enabled: !!activeMonumentId,
+  });
+
+  const addReviewMutation = useMutation({
+    mutationFn: () => addReview(activeMonumentId!, reviewRating, reviewComment),
+    onSuccess: () => {
+      setReviewComment("");
+      refetchReviews();
+      toast({ title: "Review submitted successfully!" });
+    },
+  });
 
   const generateItinerary = () => {
     setIsGenerating(true);
@@ -490,11 +541,11 @@ export default function StateExplorer() {
                   </div>
 
                   <div className="space-y-3">
-                    <Button variant="outline" className="w-full justify-between h-12 rounded-xl border-white/10 hover:bg-white/5 hover:text-primary transition-colors">
+                    <Button onClick={() => setViewingList("wishlist")} variant="outline" className="w-full justify-between h-12 rounded-xl border-white/10 hover:bg-white/5 hover:text-primary transition-colors">
                       <span className="font-bold tracking-wide text-sm">View Wishlist</span>
                       <ArrowRight className="w-4 h-4" />
                     </Button>
-                    <Button variant="outline" className="w-full justify-between h-12 rounded-xl border-white/10 hover:bg-white/5 hover:text-primary transition-colors">
+                    <Button onClick={() => setViewingList("reviews")} variant="outline" className="w-full justify-between h-12 rounded-xl border-white/10 hover:bg-white/5 hover:text-primary transition-colors">
                       <span className="font-bold tracking-wide text-sm">My Reviews</span>
                       <ArrowRight className="w-4 h-4" />
                     </Button>
@@ -557,13 +608,140 @@ export default function StateExplorer() {
                 </div>
                 <div className="mt-8 flex justify-end gap-4">
                   <Button variant="outline" onClick={() => setActiveMonument(null)} className="rounded-xl border-white/10 hover:bg-white/5 font-bold">Close</Button>
-                  <Button className="rounded-xl bg-primary text-black hover:bg-white font-bold uppercase tracking-widest text-xs gap-2">
-                    <BookmarkPlus className="w-4 h-4" /> Save to Wishlist
+                  <Button 
+                    onClick={() => toggleWishlistMutation.mutate()}
+                    disabled={toggleWishlistMutation.isPending}
+                    className={cn(
+                      "rounded-xl font-bold uppercase tracking-widest text-xs gap-2 transition-all",
+                      isSaved ? "bg-red-500/20 text-red-500 hover:bg-red-500/30 border border-red-500/30" : "bg-primary text-black hover:bg-white"
+                    )}
+                  >
+                    {toggleWishlistMutation.isPending ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : isSaved ? (
+                      <><Trash2 className="w-4 h-4" /> Remove from Wishlist</>
+                    ) : (
+                      <><BookmarkPlus className="w-4 h-4" /> Save to Wishlist</>
+                    )}
                   </Button>
+                </div>
+
+                {/* Reviews Section */}
+                <div className="mt-12 pt-8 border-t border-white/10">
+                  <h4 className="text-xl font-serif font-bold mb-6 flex items-center gap-2">
+                    <Star className="w-5 h-5 text-primary fill-primary" />
+                    Explorer Chronicles
+                  </h4>
+                  
+                  {/* Add Review */}
+                  <div className="bg-white/5 p-6 rounded-2xl border border-white/5 mb-8 space-y-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          onClick={() => setReviewRating(star)}
+                          className={cn(
+                            "transition-transform hover:scale-125",
+                            star <= reviewRating ? "text-primary" : "text-muted-foreground opacity-30"
+                          )}
+                        >
+                          <Star className={cn("w-5 h-5", star <= reviewRating && "fill-primary")} />
+                        </button>
+                      ))}
+                    </div>
+                    <Textarea 
+                      placeholder="Share your pilgrimage experience..."
+                      value={reviewComment}
+                      onChange={(e) => setReviewComment(e.target.value)}
+                      className="bg-background border-white/10 rounded-xl resize-none min-h-[100px]"
+                    />
+                    <Button 
+                      onClick={() => addReviewMutation.mutate()}
+                      disabled={addReviewMutation.isPending || !reviewComment.trim()}
+                      className="w-full bg-primary/10 text-primary hover:bg-primary hover:text-black font-black uppercase tracking-widest text-[10px] h-10 rounded-xl"
+                    >
+                      {addReviewMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Publish Chronicle"}
+                    </Button>
+                  </div>
+
+                  {/* Reviews List */}
+                  <ScrollArea className="h-[300px] pr-4">
+                    <div className="space-y-6">
+                      {reviews && reviews.length > 0 ? (
+                        reviews.map((review) => (
+                          <div key={review.id} className="space-y-2 pb-6 border-b border-white/5 last:border-0">
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold text-sm text-primary">@{review.username}</span>
+                              <div className="flex gap-0.5">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star key={i} className={cn("w-3 h-3", i < review.rating ? "text-primary fill-primary" : "text-muted-foreground opacity-20")} />
+                                ))}
+                              </div>
+                            </div>
+                            <p className="text-sm text-muted-foreground leading-relaxed italic">"{review.comment}"</p>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center py-8 text-muted-foreground opacity-50 italic text-sm">
+                          No chronicles shared yet. Be the first to tell the tale.
+                        </div>
+                      )}
+                    </div>
+                  </ScrollArea>
                 </div>
               </div>
             </>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Global Wishlist/Reviews List Dialog */}
+      <Dialog open={!!viewingList} onOpenChange={() => setViewingList(null)}>
+        <DialogContent className="sm:max-w-[500px] bg-background border-white/10 p-8">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-serif font-bold flex items-center gap-3">
+              {viewingList === "wishlist" ? (
+                <><Heart className="w-6 h-6 text-red-500 fill-red-500" /> Sacred Wishlist</>
+              ) : (
+                <><Star className="w-6 h-6 text-primary fill-primary" /> My Chronicles</>
+              )}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <ScrollArea className="h-[400px] mt-6 pr-4">
+            <div className="space-y-4">
+              {viewingList === "wishlist" ? (
+                savedMonuments && savedMonuments.length > 0 ? (
+                  savedMonuments.map((item) => (
+                    <div key={item.monumentId} className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 group hover:border-primary/30 transition-all">
+                      <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-white/10">
+                        <img src={item.image || DEFAULT_MONUMENT_IMAGE} alt={item.monumentName} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-grow">
+                        <h5 className="font-bold text-foreground group-hover:text-primary transition-colors">{item.monumentName}</h5>
+                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-black">Sacred Site</p>
+                      </div>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => {
+                          setActiveMonument(item.monumentName);
+                          setViewingList(null);
+                        }}
+                        className="rounded-full hover:bg-primary/20"
+                      >
+                        <ArrowRight className="w-4 h-4 text-primary" />
+                      </Button>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-12 opacity-50 italic">Your wishlist is an empty scroll.</div>
+                )
+              ) : (
+                <div className="text-center py-12 opacity-50 italic">Feature manifesting soon: Personal chronicle history.</div>
+              )}
+            </div>
+          </ScrollArea>
         </DialogContent>
       </Dialog>
     </div>

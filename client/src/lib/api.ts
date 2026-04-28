@@ -64,4 +64,46 @@ export async function updateMonument(id: string, monument: Partial<InsertMonumen
 
 export async function deleteMonument(id: string): Promise<void> {
   await apiRequest("DELETE", `/api/monuments/${id}`);
+}
+
+// Review API
+export type Review = {
+  id: number;
+  userId: string;
+  username: string;
+  monumentId: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+};
+
+export async function addReview(monumentId: string, rating: number, comment: string): Promise<Review> {
+  const res = await apiRequest("POST", "/api/reviews", { monumentId, rating, comment });
+  return res.json();
+}
+
+export async function getReviews(monumentId: string): Promise<Review[]> {
+  const res = await apiRequest("GET", `/api/reviews/monument/${monumentId}`);
+  return res.json();
+}
+
+// Saved Monument (Wishlist) API
+export type SavedMonument = {
+  monumentId: string;
+  monumentName: string;
+  image: string;
+};
+
+export async function toggleSaveMonument(monumentId: string): Promise<void> {
+  await apiRequest("POST", `/api/saved-monuments/${monumentId}`);
+}
+
+export async function getSavedMonuments(): Promise<SavedMonument[]> {
+  const res = await apiRequest("GET", "/api/saved-monuments");
+  return res.json();
+}
+
+export async function checkIsSaved(monumentId: string): Promise<boolean> {
+  const res = await apiRequest("GET", `/api/saved-monuments/${monumentId}/check`);
+  return res.json();
 }
