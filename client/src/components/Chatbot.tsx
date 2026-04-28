@@ -14,32 +14,16 @@ type Message = {
   timestamp: string;
 };
 
+import { STATE_DATA, MONUMENTS } from "@/lib/data";
+
 const QUICK_CHIPS = [
   "UNESCO Sites",
   "Taj Mahal",
-  "Ancient Temples",
-  "Mughal History",
   "Rajasthan Forts",
   "Hampi",
+  "Indian Foods",
+  "Best time to visit",
 ];
-
-const MONUMENT_DATA: Record<string, string> = {
-  "taj mahal": "The Taj Mahal is an ivory-white marble mausoleum in Agra, built by Shah Jahan in memory of his wife Mumtaz Mahal. It's a UNESCO World Heritage site and one of the New 7 Wonders of the World.",
-  "hampi": "Hampi is a UNESCO World Heritage site in Karnataka, famous for the ruins of the Vijayanagara Empire (14th century). Highlights include the Virupaksha Temple and the Stone Chariot.",
-  "qutub minar": "The Qutub Minar in Delhi is the world's tallest brick minaret, standing at 72.5 meters. It was started by Qutb-ud-din Aibak in 1192.",
-  "red fort": "The Red Fort (Lal Qila) in Delhi was the main residence of Mughal Emperors for nearly 200 years. It was built by Shah Jahan in 1639 using red sandstone.",
-  "ajanta": "The Ajanta Caves in Maharashtra contain 30 rock-cut Buddhist cave monuments dating from the 2nd century BC to about 480 AD. They feature masterpieces of Buddhist religious art.",
-  "ellora": "Ellora is a UNESCO World Heritage site in Maharashtra, featuring one of the largest rock-cut monastery-temple cave complexes in the world, with Hindu, Buddhist, and Jain monuments.",
-  "konark": "The Konark Sun Temple in Odisha (13th century) is designed as a colossal chariot for the Sun God Surya, with 12 pairs of exquisitely carved stone wheels.",
-  "khajuraho": "The Khajuraho Group of Monuments in Madhya Pradesh are famous for their Nagara-style architectural symbolism and erotic sculptures. They were built by the Chandela dynasty.",
-  "unesco": "India has over 40 UNESCO World Heritage Sites! Some of the most famous include the Taj Mahal, Hampi, Sun Temple Konark, Kaziranga National Park, and the Hill Forts of Rajasthan.",
-  "rajasthan": "Rajasthan is known for its majestic forts like Amer Fort, Mehrangarh Fort, and Jaisalmer Fort. These structures represent the valor and heritage of the Rajputs.",
-  "mughal": "Mughal architecture flourished in India under emperors like Akbar and Shah Jahan. Major examples include the Taj Mahal, Fatehpur Sikri, Agra Fort, and Humayun's Tomb.",
-  "temples": "Indian ancient temples like Shore Temple (Mahabalipuram), Meenakshi Temple (Madurai), and Brihadisvara Temple (Thanjavur) are marvels of Dravidian and Nagara architecture.",
-  "mysore palace": "The Mysore Palace is a historical palace and a royal residence at Mysore in Karnataka. It is one of the most visited monuments in India after the Taj Mahal.",
-  "sanchi stupa": "The Great Stupa at Sanchi is one of the oldest stone structures in India, commissioned by Emperor Ashoka in the 3rd century BCE.",
-  "hawa mahal": "The Hawa Mahal or 'Palace of Winds' in Jaipur was built in 1799 by Maharaja Sawai Pratap Singh. Its unique five-story exterior is akin to the honeycomb of a beehive.",
-};
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -111,15 +95,36 @@ export function Chatbot() {
   const getBotResponse = (query: string): string => {
     const q = query.toLowerCase();
     
-    for (const [key, value] of Object.entries(MONUMENT_DATA)) {
-      if (q.includes(key)) return value;
+    // Search in MONUMENTS
+    const monument = MONUMENTS.find(m => 
+      q.includes(m.name.toLowerCase()) || q.includes(m.id.replace(/-/g, " "))
+    );
+    if (monument) {
+      return `${monument.name} (${monument.location}) was built in ${monument.builtYear} by the ${monument.dynasty}. It is a prime example of ${monument.style}. ${monument.description}`;
+    }
+
+    // Search in STATE_DATA
+    const state = STATE_DATA.find(s => q.includes(s.name.toLowerCase()) || q.includes(s.id));
+    if (state) {
+      return `${state.name} is famous for its rich heritage! Notable monuments include ${state.monuments.slice(0, 3).join(", ")}. Don't forget to try the local food: ${state.foods.slice(0, 3).join(", ")}. Best time to visit is ${state.bestTime}.`;
+    }
+
+    // Keyword searches
+    if (q.includes("food") || q.includes("eat") || q.includes("cuisine")) {
+      const allFoods = STATE_DATA.flatMap(s => s.foods).slice(0, 10);
+      return `Indian cuisine is diverse! You must try ${allFoods.join(", ")}. Each state has its own unique flavor.`;
+    }
+
+    if (q.includes("unesco")) {
+      const unescoSites = MONUMENTS.filter(m => m.unesco).map(m => m.name).slice(0, 8);
+      return `India has many UNESCO World Heritage Sites, including: ${unescoSites.join(", ")}. These sites represent our universal architectural and cultural value.`;
     }
 
     if (q.includes("help") || q.includes("what can you do")) {
-      return "I can provide historical facts, locations, and UNESCO details for over 20 major Indian monuments. Try asking about 'Hampi' or 'Rajasthan Forts'!";
+      return "I'm your Heritage AI! Ask me about specific monuments (like Taj Mahal), Indian states (like Rajasthan), or even local cuisines. I can give you historical facts and travel tips!";
     }
 
-    return "That's a great question! I'm constantly learning about India's 5,000 years of heritage. Could you ask about a specific monument like the Taj Mahal, Qutub Minar, or Ajanta Caves?";
+    return "That's fascinating! India's heritage spans over 5,000 years. Could you ask about a specific state like 'Karnataka' or a monument like the 'Konark Sun Temple'?";
   };
 
   return (
