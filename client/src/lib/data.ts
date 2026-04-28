@@ -178,7 +178,7 @@ export const MONUMENTS = [
     style: 'Indo-Saracenic Architecture',
     unesco: false,
     image: 'https://upload.wikimedia.org/wikipedia/commons/b/be/Mysore_Palace_Morning_Full_View.jpg',
-    featured: false,
+    featured: true,
     description: 'A historical palace and a royal residence at Mysore. It is the official residence of the Wadiyar dynasty.',
     timeline: [
       { year: '1897', event: 'Old wooden palace burnt down' },
@@ -187,6 +187,126 @@ export const MONUMENTS = [
     funFacts: [
       'It is illuminated by 97,000 light bulbs during Dasara.',
       'It is the second most visited monument in India after Taj Mahal.'
+    ]
+  },
+  {
+    id: 'golden-temple',
+    name: 'Harmandir Sahib (Golden Temple)',
+    location: 'Amritsar, Punjab',
+    builtYear: '1577',
+    dynasty: 'Sikh Empire',
+    style: 'Sikh Architecture',
+    unesco: false,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Golden_Temple_Amritsar_2023.jpg',
+    featured: true,
+    description: 'The preeminent spiritual site of Sikhism, famous for its gold-plated dome and the pool of nectar.',
+    timeline: [
+      { year: '1577', event: 'Excavation of the holy tank' },
+      { year: '1604', event: 'Completion of the temple' }
+    ],
+    funFacts: [
+      'The kitchen serves free food to over 100,000 people daily.',
+      'Over 750kg of pure gold was used to cover the upper floors.'
+    ]
+  },
+  {
+    id: 'meenakshi-temple',
+    name: 'Meenakshi Amman Temple',
+    location: 'Madurai, Tamil Nadu',
+    builtYear: '1623',
+    dynasty: 'Pandyan Dynasty',
+    style: 'Dravidian Architecture',
+    unesco: false,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Madurai_Meenakshi_Amman_Temple_Gopuram.jpg',
+    featured: true,
+    description: 'A historic Hindu temple located on the southern bank of the Vaigai River, famous for its massive gopurams.',
+    timeline: [
+      { year: '1190', event: 'Current structure foundation' },
+      { year: '1623', event: 'Major expansion by Nayaks' }
+    ],
+    funFacts: [
+      'It has 14 gopurams (gateway towers).',
+      'The "Hall of Thousand Pillars" actually has 985 pillars.'
+    ]
+  },
+  {
+    id: 'charminar',
+    name: 'Charminar',
+    location: 'Hyderabad, Telangana',
+    builtYear: '1591',
+    dynasty: 'Qutb Shahi Dynasty',
+    style: 'Indo-Islamic Architecture',
+    unesco: false,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/9/91/Charminar_Summer.jpg',
+    featured: true,
+    description: 'A mosque and monument located in Hyderabad, known for its four grand arches and minarets.',
+    timeline: [
+      { year: '1591', event: 'Built to commemorate the end of a plague' },
+      { year: '2010', event: 'UNESCO tentative list' }
+    ],
+    funFacts: [
+      'There is a secret tunnel connecting Charminar to Golconda Fort.',
+      'It was built at the center of the original city grid.'
+    ]
+  },
+  {
+    id: 'india-gate',
+    name: 'India Gate',
+    location: 'New Delhi',
+    builtYear: '1931',
+    dynasty: 'British Raj',
+    style: 'Triumphal Arch',
+    unesco: false,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/d/d4/India_Gate_in_New_Delhi_03-2016.jpg',
+    featured: true,
+    description: 'A war memorial dedicated to the soldiers of the British Indian Army who died in the First World War.',
+    timeline: [
+      { year: '1921', event: 'Foundation stone laid' },
+      { year: '1971', event: 'Amar Jawan Jyoti added' }
+    ],
+    funFacts: [
+      'It was designed by Sir Edwin Lutyens.',
+      'The names of 13,300 soldiers are inscribed on the gate.'
+    ]
+  },
+  {
+    id: 'ajanta-ellora',
+    name: 'Ajanta & Ellora Caves',
+    location: 'Sambhajinagar, Maharashtra',
+    builtYear: '2nd Century BCE',
+    dynasty: 'Vakataka & Rashtrakuta',
+    style: 'Rock-cut Architecture',
+    unesco: true,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/7/77/Ajanta_Caves_panorama_view.jpg',
+    featured: true,
+    description: 'A series of rock-cut Buddhist, Hindu, and Jain cave monuments representing masterpieces of religious art.',
+    timeline: [
+      { year: '2nd BCE', event: 'Ajanta construction begins' },
+      { year: '8th CE', event: 'Kailasa Temple at Ellora built' }
+    ],
+    funFacts: [
+      'Kailasa Temple is the largest monolithic structure in the world.',
+      'They were carved top-down from a single basalt cliff.'
+    ]
+  },
+  {
+    id: 'gateway-of-india',
+    name: 'Gateway of India',
+    location: 'Mumbai, Maharashtra',
+    builtYear: '1924',
+    dynasty: 'British Raj',
+    style: 'Indo-Saracenic Architecture',
+    unesco: false,
+    image: 'https://upload.wikimedia.org/wikipedia/commons/5/5e/The_Gateway_of_India_%2C_Mumbai.jpg',
+    featured: true,
+    description: 'An arch-monument built in the early 20th century to commemorate the landing of King George V.',
+    timeline: [
+      { year: '1911', event: 'Foundation laid' },
+      { year: '1924', event: 'Completed and inaugurated' }
+    ],
+    funFacts: [
+      'It is often called the "Taj Mahal of Mumbai".',
+      'It was the ceremonial entrance for British governors.'
     ]
   }
 ];
