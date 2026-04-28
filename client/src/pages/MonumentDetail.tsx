@@ -5,12 +5,27 @@ import { MapPin, Calendar, Compass, Share2, BookmarkPlus, PlayCircle, Eye, Spark
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { resolveImageUrl } from "@/lib/queryClient";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Loader2, ExternalLink } from "lucide-react";
 
 export default function MonumentDetail() {
   const { id } = useParams();
   const { data: monument, isLoading, error } = useMonument(id!);
+  const [immersiveMode, setImmersiveMode] = useState<"360" | "audio" | null>(null);
+  const [isLaunching, setIsLaunching] = useState(false);
 
-  if (isLoading) return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+  const handleLaunch360 = () => {
+    setIsLaunching(true);
+    setImmersiveMode("360");
+    setTimeout(() => setIsLaunching(false), 2000);
+  };
+
+  const handlePlayAudio = () => {
+    setImmersiveMode("audio");
+  };
+
+  if (isLoading) return <div className="flex justify-center items-center min-h-screen text-primary font-black uppercase tracking-[0.3em]"><Loader2 className="w-8 h-8 animate-spin mr-3" /> Manifesting...</div>;
   if (error || !monument) return <div className="flex justify-center items-center min-h-screen">Not Found</div>;
 
   return (
@@ -70,21 +85,84 @@ export default function MonumentDetail() {
             <section className="space-y-6">
               <h2 className="text-3xl font-serif font-bold text-foreground">Immersive Experience</h2>
               <div className="grid sm:grid-cols-2 gap-6">
-                <div className="group relative rounded-2xl overflow-hidden bg-card border border-border aspect-video flex items-center justify-center cursor-pointer hover:border-primary transition-colors">
-                  <div className="absolute inset-0 bg-black/5 group-hover:bg-black/20 transition-colors" />
+                <div 
+                  onClick={handleLaunch360}
+                  className="group relative rounded-3xl overflow-hidden bg-card border border-border aspect-video flex items-center justify-center cursor-pointer hover:border-primary transition-all duration-500 shadow-lg hover:shadow-primary/10"
+                >
+                  <div className="absolute inset-0 bg-black/5 group-hover:bg-primary/5 transition-colors" />
                   <div className="text-center z-10">
-                    <Eye className="w-12 h-12 text-primary mx-auto mb-3" />
-                    <span className="font-semibold text-foreground">Launch 360° Tour</span>
+                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-black transition-all duration-500">
+                      <Eye className="w-8 h-8" />
+                    </div>
+                    <span className="font-bold uppercase tracking-widest text-xs text-foreground/80 group-hover:text-foreground">Launch 360° Tour</span>
                   </div>
                 </div>
-                <div className="group relative rounded-2xl overflow-hidden bg-card border border-border aspect-video flex items-center justify-center cursor-pointer hover:border-primary transition-colors">
+                <div 
+                  onClick={handlePlayAudio}
+                  className="group relative rounded-3xl overflow-hidden bg-card border border-border aspect-video flex items-center justify-center cursor-pointer hover:border-primary transition-all duration-500 shadow-lg hover:shadow-primary/10"
+                >
                   <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors" />
                   <div className="text-center z-10">
-                    <PlayCircle className="w-12 h-12 text-primary mx-auto mb-3" />
-                    <span className="font-semibold text-foreground">Play Audio Guide</span>
+                    <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-500 text-black">
+                      <PlayCircle className="w-8 h-8" />
+                    </div>
+                    <span className="font-bold uppercase tracking-widest text-xs text-foreground/80 group-hover:text-foreground">Play Audio Guide</span>
                   </div>
                 </div>
               </div>
+
+              {/* Immersive Modal */}
+              <Dialog open={!!immersiveMode} onOpenChange={() => setImmersiveMode(null)}>
+                <DialogContent className="sm:max-w-[800px] bg-background border-white/10 p-0 overflow-hidden">
+                  <div className="relative aspect-video w-full bg-black flex items-center justify-center">
+                    {immersiveMode === "360" ? (
+                      isLaunching ? (
+                        <div className="text-center space-y-4">
+                          <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto" />
+                          <p className="text-primary font-black uppercase tracking-[0.3em] text-sm">Syncing Spatial Archive...</p>
+                        </div>
+                      ) : (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center bg-gradient-to-b from-primary/20 to-black">
+                          <Compass className="w-20 h-20 text-primary mb-8 animate-pulse" />
+                          <h3 className="text-3xl font-serif font-bold mb-4">360° Vision Active</h3>
+                          <p className="text-muted-foreground max-w-md mb-8 leading-relaxed">
+                            The spatial reconstruction of <span className="text-primary font-bold">{monument.name}</span> is ready for exploration.
+                          </p>
+                          <Button size="lg" className="rounded-xl bg-primary text-black font-black uppercase tracking-widest px-8">
+                             Enter the Realm <ExternalLink className="w-4 h-4 ml-2" />
+                          </Button>
+                        </div>
+                      )
+                    ) : (
+                      <div className="p-12 w-full text-center space-y-8">
+                        <div className="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center mx-auto relative">
+                           <div className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-20" />
+                           <Music className="w-10 h-10 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="text-2xl font-serif font-bold mb-2">Heritage Soundscape</h3>
+                          <p className="text-muted-foreground text-sm">Chanted Chronicles of the {monument.dynasty}</p>
+                        </div>
+                        <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                           <motion.div 
+                             initial={{ width: 0 }}
+                             animate={{ width: "45%" }}
+                             transition={{ duration: 10, repeat: Infinity }}
+                             className="h-full bg-primary"
+                           />
+                        </div>
+                        <div className="flex items-center justify-center gap-6">
+                           <Button variant="ghost" className="text-muted-foreground">Previous</Button>
+                           <Button className="w-16 h-16 rounded-full bg-primary text-black">
+                              <Pause className="w-8 h-8" />
+                           </Button>
+                           <Button variant="ghost" className="text-muted-foreground">Next</Button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </section>
           </div>
 
