@@ -1,5 +1,8 @@
 import { useParams } from "wouter";
 import { useMonument } from "@/hooks/useMonuments";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { checkIsSaved, toggleSaveMonument } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { 
@@ -32,6 +35,26 @@ export default function MonumentDetail() {
   const { data: monument, isLoading, error } = useMonument(id!);
   const [immersiveMode, setImmersiveMode] = useState<"360" | "audio" | null>(null);
   const [isLaunching, setIsLaunching] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const { data: isSaved, refetch: refetchSaved } = useQuery({
+    queryKey: ["isSaved", id],
+    queryFn: () => checkIsSaved(id!),
+    enabled: !!id,
+  });
+
+  const toggleWishlistMutation = useMutation({
+    mutationFn: () => toggleSaveMonument(id!),
+    onSuccess: () => {
+      refetchSaved();
+      queryClient.invalidateQueries({ queryKey: ["savedMonuments"] });
+      toast({ 
+        title: isSaved ? "Removed from Wishlist" : "Saved to Timeline",
+        description: isSaved ? `${monument?.name} removed.` : `${monument?.name} is now in your sacred journey.`
+      });
+    },
+  });
 
   const handleLaunch360 = () => {
     setIsLaunching(true);
@@ -83,8 +106,24 @@ export default function MonumentDetail() {
 
       <div className="container mx-auto px-4 mt-8">
         <div className="flex justify-end gap-4 mb-12">
-          <Button variant="outline" className="gap-2"><Share2 className="w-4 h-4" /> Share</Button>
-          <Button variant="default" className="gap-2"><BookmarkPlus className="w-4 h-4" /> Save to Timeline</Button>
+          <Button variant="outline" className="gap-2 border-white/10 hover:bg-white/5"><Share2 className="w-4 h-4" /> Share</Button>
+          <Button 
+            variant={isSaved ? "secondary" : "default"} 
+            onClick={() => toggleWishlistMutation.mutate()}
+            disabled={toggleWishlistMutation.isPending}
+            className={cn(
+              "gap-2 font-bold transition-all",
+              isSaved ? "bg-red-500/20 text-red-500 hover:bg-red-500/30" : "bg-primary text-black hover:scale-105"
+            )}
+          >
+            {toggleWishlistMutation.isPending ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : isSaved ? (
+              <><Trash2 className="w-4 h-4" /> Remove from Timeline</>
+            ) : (
+              <><BookmarkPlus className="w-4 h-4" /> Save to Timeline</>
+            )}
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
