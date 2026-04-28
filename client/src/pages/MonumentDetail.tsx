@@ -1,13 +1,31 @@
 import { useParams } from "wouter";
 import { useMonument } from "@/hooks/useMonuments";
 import { motion } from "framer-motion";
-import { MapPin, Calendar, Compass, Share2, BookmarkPlus, PlayCircle, Eye, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { 
+  Dialog, 
+  DialogContent 
+} from "@/components/ui/dialog";
+import { 
+  MapPin, 
+  Calendar, 
+  Compass, 
+  Share2, 
+  BookmarkPlus, 
+  PlayCircle, 
+  Eye, 
+  Sparkles,
+  Loader2,
+  ExternalLink,
+  Music,
+  Pause,
+  History as HistoryIcon,
+  Crown,
+  Info
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { resolveImageUrl } from "@/lib/queryClient";
-import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Loader2, ExternalLink } from "lucide-react";
 
 export default function MonumentDetail() {
   const { id } = useParams();
