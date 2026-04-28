@@ -43,7 +43,7 @@ export default function Admin() {
 
   const { data: stats, isLoading } = useQuery({
     queryKey: ["adminStats"],
-    queryFn: () => fetch("/api/analytics/dashboard").then(res => res.json())
+    queryFn: () => fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/analytics/dashboard`).then(res => res.json())
   });
 
   if (isLoading) {
